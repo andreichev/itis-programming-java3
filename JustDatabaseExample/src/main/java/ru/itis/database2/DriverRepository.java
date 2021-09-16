@@ -1,4 +1,4 @@
-package ru.itis;
+package ru.itis.database2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,17 +8,21 @@ import java.util.List;
 import java.util.Optional;
 
 // DATA ACCESS OBJECT
-public class DriversDao implements CrudRepository<Driver, Long> {
+public class DriverRepository implements CrudRepository<Driver, Long> {
 
-    private Connection connection;
+    private final Connection connection;
 
-    public DriversDao(Connection connection) {
+    private final static String SQL_SELECT_ALL = "select * from driver;";
+    private final static String SQL_INSERT = "insert into driver (first_name, last_name, age) VALUES (?, ?, ?);";
+    private final static String SQL_SELECT_BY_ID = "select * from driver where id = ?;";
+
+    public DriverRepository(Connection connection) {
         this.connection = connection;
     }
 
     public Optional<Driver> findById(Long id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from driver where id = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID);
             preparedStatement.setLong(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -46,10 +50,23 @@ public class DriversDao implements CrudRepository<Driver, Long> {
         return null;
     }
 
-    // TODO: - реализовать
     @Override
-    public Optional<Driver> save(Driver item) {
-        return Optional.empty();
+    public Driver save(Driver item) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_INSERT, new String[]{"id"});
+            statement.setString(1, item.getFirstName());
+            statement.setString(2, item.getLastName());
+            statement.setInt(3, item.getAge());
+            statement.executeUpdate();
+            // TODO: - Получить id с запроса
+            // Long id = resultSet.getLong("id");
+            // item.setId(id);
+
+            return item;
+        } catch (SQLException throwables) {
+            System.out.println("SQL Exception: " + throwables.getLocalizedMessage());
+        }
+        return null;
     }
 
     // TODO: - реализовать

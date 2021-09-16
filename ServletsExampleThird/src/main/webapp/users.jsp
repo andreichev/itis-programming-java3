@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.itis.servletsexamplesecond.model.User" %><%--
+<%@ page import="com.itis.servletsexamplethird.model.User" %><%--
   Created by IntelliJ IDEA.
   User: admin
   Date: 9/15/21
