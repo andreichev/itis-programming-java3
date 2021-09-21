@@ -24,8 +24,8 @@ public class Main {
         }
 
         Driver driver = Driver.builder()
-                .firstName("OOO")
-                .lastName("AAAA")
+                .firstName("Ivan")
+                .lastName("Kulikov")
                 .age(50)
                 .build();
 

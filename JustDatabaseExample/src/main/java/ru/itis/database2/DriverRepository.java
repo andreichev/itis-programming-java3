@@ -1,9 +1,6 @@
 package ru.itis.database2;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +34,8 @@ public class DriverRepository implements CrudRepository<Driver, Long> {
                     .age(resultSet.getInt("age"))
                     .build();
             return Optional.of(driver);
-        } catch (SQLException throwables) {
-            System.out.println("SQL Exception: " + throwables.getLocalizedMessage());
+        } catch (SQLException throwable) {
+            System.out.println("SQL Exception: " + throwable.getLocalizedMessage());
         }
 
         return Optional.empty();
@@ -53,27 +50,27 @@ public class DriverRepository implements CrudRepository<Driver, Long> {
     @Override
     public Driver save(Driver item) {
         try {
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT, new String[]{"id"});
+            PreparedStatement statement = connection.prepareStatement(
+                    SQL_INSERT,  new String[] {"id"}
+            );
             statement.setString(1, item.getFirstName());
             statement.setString(2, item.getLastName());
             statement.setInt(3, item.getAge());
-            statement.executeUpdate();
-            // TODO: - Получить id с запроса
-            // Long id = resultSet.getLong("id");
-            // item.setId(id);
-
+            int affectedRows = statement.executeUpdate();
+            System.out.println(affectedRows + " rows affected");
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys.next();
+            item.setId(generatedKeys.getLong(1));
             return item;
-        } catch (SQLException throwables) {
-            System.out.println("SQL Exception: " + throwables.getLocalizedMessage());
+        } catch (SQLException throwable) {
+            System.out.println("SQL Exception: " + throwable.getLocalizedMessage());
         }
-        return null;
+        return item;
     }
 
     // TODO: - реализовать
     @Override
-    public Optional<Driver> update(Long id, Driver item) {
-        return Optional.empty();
-    }
+    public void update(Long id, Driver item) {}
 
     // TODO: - реализовать
     @Override

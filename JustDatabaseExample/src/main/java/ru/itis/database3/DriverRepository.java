@@ -7,10 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,9 +58,7 @@ public class DriverRepository implements CrudRepository<Driver, Long> {
 
     // TODO: - реализовать
     @Override
-    public Optional<Driver> update(Long id, Driver item) {
-        return Optional.empty();
-    }
+    public void update(Long id, Driver item) {}
 
     // TODO: - реализовать
     @Override
