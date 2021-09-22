@@ -1,8 +1,7 @@
 package com.itis.servletsexamplethird.listeners;
 
-import com.itis.servletsexamplethird.model.User;
-import com.itis.servletsexamplethird.repository.UsersDao;
-import com.itis.servletsexamplethird.repository.base.CrudRepository;
+import com.itis.servletsexamplethird.repository.UsersRepository;
+import com.itis.servletsexamplethird.repository.jdbciml.UsersDaoJdbcImpl;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.servlet.ServletContext;
@@ -14,7 +13,7 @@ import javax.servlet.annotation.WebListener;
 public class CustomContextListener implements ServletContextListener {
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "123123";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/drivers";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/breakthrough";
     private static final String DB_DRIVER = "org.postgresql.Driver";
 
     @Override
@@ -27,9 +26,8 @@ public class CustomContextListener implements ServletContextListener {
         dataSource.setPassword(DB_PASSWORD);
         dataSource.setUrl(DB_URL);
 
-        CrudRepository<User, Long> usersRepository = new UsersDao(dataSource);
+        UsersRepository usersRepository = new UsersDaoJdbcImpl(dataSource);
 
-        servletContext.setAttribute("Message", "Hello");
         servletContext.setAttribute("usersRepository", usersRepository);
     }
 

@@ -1,7 +1,7 @@
-package com.itis.servletsexamplethird.repository;
+package com.itis.servletsexamplethird.repository.jdbciml;
 
 import com.itis.servletsexamplethird.model.User;
-import com.itis.servletsexamplethird.repository.base.CrudRepository;
+import com.itis.servletsexamplethird.repository.UsersRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
-public class UsersDao implements CrudRepository<User, Long> {
+public class UsersDaoJdbcImpl implements UsersRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final static String SQL_SELECT_ALL = "select * from users;";
@@ -27,7 +27,7 @@ public class UsersDao implements CrudRepository<User, Long> {
             .age(row.getInt("age"))
             .build();
 
-    public UsersDao(DataSource dataSource) {
+    public UsersDaoJdbcImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -60,9 +60,7 @@ public class UsersDao implements CrudRepository<User, Long> {
 
     // TODO: - реализовать
     @Override
-    public Optional<User> update(Long id, User item) {
-        return Optional.empty();
-    }
+    public void update(Long id, User item) {}
 
     // TODO: - реализовать
     @Override

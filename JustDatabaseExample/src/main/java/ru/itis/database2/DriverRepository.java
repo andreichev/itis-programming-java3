@@ -1,6 +1,7 @@
 package ru.itis.database2;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +42,26 @@ public class DriverRepository implements CrudRepository<Driver, Long> {
         return Optional.empty();
     }
 
-    // TODO: - реализовать
     @Override
     public List<Driver> findAll() {
-        return null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Driver> result = new ArrayList<>();
+            while(resultSet.next()) {
+                Driver driver = Driver.builder()
+                        .id(resultSet.getLong("id"))
+                        .firstName(resultSet.getString("first_name"))
+                        .lastName(resultSet.getString("last_name"))
+                        .age(resultSet.getInt("age"))
+                        .build();
+                result.add(driver);
+            }
+            return result;
+        } catch (SQLException throwable) {
+            System.out.println("SQL Exception: " + throwable.getLocalizedMessage());
+        }
+        return new ArrayList<>();
     }
 
     @Override
