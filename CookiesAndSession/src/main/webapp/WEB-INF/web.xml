@@ -22,6 +22,42 @@
 
 <web-app>
 
+    <servlet>
+        <servlet-name>freemarker</servlet-name>
+        <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
+
+        <!--
+          Init-param documentation:
+          https://freemarker.apache.org/docs/api/freemarker/ext/servlet/FreemarkerServlet.html
+        -->
+        <init-param>
+            <param-name>TemplatePath</param-name>
+            <param-value>/view</param-value>
+        </init-param>
+        <init-param>
+            <param-name>default_encoding</param-name>
+            <!-- The encoding of the template files: -->
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>output_encoding</param-name>
+            <!-- The encoding of the template output; Note that you must set
+                 "ResponseCharacterEncodring" to "fromTemplate" for this to work! -->
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>locale</param-name>
+            <!-- Influences number and date/time formatting, etc. -->
+            <param-value>ru_RU</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>freemarker</servlet-name>
+        <url-pattern>*.ftl</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>2</session-timeout>    <!-- 2 minutes -->
     </session-config>

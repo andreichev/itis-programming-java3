@@ -14,7 +14,8 @@ public class ReadCookieServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Optional<Cookie> optionalCookie = Arrays.stream(
-                request.getCookies())
+                request.getCookies() == null ?
+                        new Cookie[] {} : request.getCookies())
                 .filter(item -> item.getName().equals("Message"))
                 .findFirst();
         String message = optionalCookie.isPresent() ?

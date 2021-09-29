@@ -1,5 +1,6 @@
 package com.itis.servletsexample.sessionexample;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +12,13 @@ import java.io.IOException;
 public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("User") != null) {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        if (request.getSession(true).getAttribute("User") != null) {
             String username = (String) request.getSession().getAttribute("User");
-            request.setAttribute("User", username);
-            request.getRequestDispatcher("jsp/profile.jsp").forward(request, response);
+            System.out.println("USER: " + username);
+            request.setAttribute("userName", username);
+            request.getRequestDispatcher("profile.ftl").forward(request, response);
         } else {
             response.sendRedirect("/sign-in");
         }

@@ -13,16 +13,19 @@ public class SignIn extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("jsp/signIn.jsp").forward(request, response);
+        request.getRequestDispatcher("signIn.ftl").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         if(password.equals(correctPassword)) {
-            request.getSession().setAttribute("User", username);
+            request.getSession(true).setAttribute("User", username);
             response.sendRedirect("/profile");
         } else {
             response.sendRedirect("/sign-in");
