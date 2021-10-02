@@ -22,46 +22,43 @@
 
 <web-app>
 
-<!--    <welcome-file-list>-->
-<!--        <welcome-file>/hello</welcome-file>-->
-<!--    </welcome-file-list>-->
+    <servlet>
+        <servlet-name>freemarker</servlet-name>
+        <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
 
-    <!-- General description of your web application -->
+        <!--
+          Init-param documentation:
+          https://freemarker.apache.org/docs/api/freemarker/ext/servlet/FreemarkerServlet.html
+        -->
+        <init-param>
+            <param-name>TemplatePath</param-name>
+            <param-value>/view</param-value>
+        </init-param>
+        <init-param>
+            <param-name>default_encoding</param-name>
+            <!-- The encoding of the template files: -->
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>output_encoding</param-name>
+            <!-- The encoding of the template output; Note that you must set
+                 "ResponseCharacterEncodring" to "fromTemplate" for this to work! -->
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>locale</param-name>
+            <!-- Influences number and date/time formatting, etc. -->
+            <param-value>ru_RU</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-    <display-name>My Web Application</display-name>
-    <description>
-        This is version X.X of an application to perform
-        a wild and wonderful task, based on servlets and
-        JSP pages.  It was written by Dave Developer
-        (dave@mycompany.com), who should be contacted for
-        more information.
-    </description>
-
-
-    <!-- Context initialization parameters that define shared
-         String constants used within your application, which
-         can be customized by the system administrator who is
-         installing your application.  The values actually
-         assigned to these parameters can be retrieved in a
-         servlet or JSP page by calling:
-
-             String value =
-               getServletContext().getInitParameter("name");
-
-         where "name" matches the <param-name> element of
-         one of these initialization parameters.
-
-         You can define any number of context initialization
-         parameters, including zero.
-    -->
-
-    <context-param>
-        <param-name>Message</param-name>
-        <param-value>Hello</param-value>
-    </context-param>
+    <servlet-mapping>
+        <servlet-name>freemarker</servlet-name>
+        <url-pattern>*.ftl</url-pattern>
+    </servlet-mapping>
 
 
-z
     <session-config>
         <session-timeout>30</session-timeout>    <!-- 30 minutes -->
     </session-config>

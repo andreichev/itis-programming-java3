@@ -31,13 +31,10 @@ public class FilesUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Part part = request.getPart("file");
-
         FileInfo fileInfo = filesService.saveFileToStorage(part.getInputStream(),
                 part.getSubmittedFileName(),
                 part.getContentType(),
                 part.getSize());
-
         response.sendRedirect("/files/" + fileInfo.getId());
     }
-
 }

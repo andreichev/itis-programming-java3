@@ -25,18 +25,17 @@ public class FilesServiceImpl implements FilesService {
     }
 
     @Override
-    public FileInfo saveFileToStorage(InputStream file, String originalFileName, String contentType, Long size) {
-        FileInfo fileInfo = FileInfo.builder()
-                .originalFileName(originalFileName)
-                .storageFileName(UUID.randomUUID().toString())
-                .size(size)
-                .type(contentType)
-                .build();
-
+    public FileInfo saveFileToStorage(InputStream inputStream, String originalFileName, String contentType, Long size) {
+        FileInfo fileInfo = new FileInfo(
+                null,
+                originalFileName,
+                UUID.randomUUID().toString(),
+                size,
+                contentType
+        );
         try {
-            Files.copy(file, Paths.get(path + fileInfo.getStorageFileName() + "." + fileInfo.getType().split("/")[1]));
+            Files.copy(inputStream, Paths.get(path + fileInfo.getStorageFileName() + "." + fileInfo.getType().split("/")[1]));
             fileInfo = filesRepository.save(fileInfo);
-
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }

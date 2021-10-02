@@ -1,6 +1,5 @@
 package com.itis.servletsexample.sessionexample;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
