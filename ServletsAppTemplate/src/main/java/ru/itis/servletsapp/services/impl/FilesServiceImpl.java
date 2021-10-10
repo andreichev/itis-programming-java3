@@ -1,10 +1,9 @@
-package com.itis.servletsexample4.services.impl;
+package ru.itis.servletsapp.services.impl;
 
-import com.itis.servletsexample4.dao.FilesRepository;
-import com.itis.servletsexample4.exceptions.FileSizeException;
-import com.itis.servletsexample4.exceptions.NotFoundException;
-import com.itis.servletsexample4.model.FileInfo;
-import com.itis.servletsexample4.services.FilesService;
+import ru.itis.servletsapp.dao.FilesRepository;
+import ru.itis.servletsapp.exceptions.NotFoundException;
+import ru.itis.servletsapp.model.FileInfo;
+import ru.itis.servletsapp.services.FilesService;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,9 +26,6 @@ public class FilesServiceImpl implements FilesService {
 
     @Override
     public FileInfo saveFileToStorage(InputStream inputStream, String originalFileName, String contentType, Long size) {
-        if(size > 10000) {
-            throw new FileSizeException("File is too large");
-        }
         FileInfo fileInfo = new FileInfo(
                 null,
                 originalFileName,
@@ -48,9 +44,9 @@ public class FilesServiceImpl implements FilesService {
     }
 
     @Override
-    public void readFileFromStorage(Long fileId, OutputStream outputStream) {
-        FileInfo fileInfo = filesRepository.findById(fileId)
-                .orElseThrow(() -> new NotFoundException("File not found"));
+    public void writeFileFromStorage(Long fileId, OutputStream outputStream) {
+        Optional<FileInfo> optionalFileInfo = filesRepository.findById(fileId);
+        FileInfo fileInfo = optionalFileInfo.orElseThrow(() -> new NotFoundException("File not found"));
 
         File file = new File(path + fileInfo.getStorageFileName() + "." + fileInfo.getType().split("/")[1]);
         try {

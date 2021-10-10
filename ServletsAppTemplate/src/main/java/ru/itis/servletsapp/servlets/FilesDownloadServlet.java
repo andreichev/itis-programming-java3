@@ -1,8 +1,8 @@
-package com.itis.servletsexample4.servlets;
+package ru.itis.servletsapp.servlets;
 
-import com.itis.servletsexample4.exceptions.NotFoundException;
-import com.itis.servletsexample4.model.FileInfo;
-import com.itis.servletsexample4.services.FilesService;
+import ru.itis.servletsapp.exceptions.NotFoundException;
+import ru.itis.servletsapp.model.FileInfo;
+import ru.itis.servletsapp.services.FilesService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -38,7 +38,7 @@ public class FilesDownloadServlet extends HttpServlet {
             response.setContentType(fileInfo.getType());
             response.setContentLength(fileInfo.getSize().intValue());
             response.setHeader("Content-Disposition", "filename=\"" + fileInfo.getOriginalFileName() + "\"");
-            filesService.readFileFromStorage(fileId, response.getOutputStream());
+            filesService.writeFileFromStorage(fileId, response.getOutputStream());
             response.flushBuffer();
         } catch (NotFoundException e) {
             response.setStatus(404);

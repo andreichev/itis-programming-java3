@@ -1,8 +1,7 @@
-package com.itis.servletsexample4.servlets;
+package ru.itis.servletsapp.servlets;
 
-import com.itis.servletsexample4.exceptions.FileSizeException;
-import com.itis.servletsexample4.model.FileInfo;
-import com.itis.servletsexample4.services.FilesService;
+import ru.itis.servletsapp.model.FileInfo;
+import ru.itis.servletsapp.services.FilesService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -26,23 +25,16 @@ public class FilesUploadServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("html/fileUpload.html").forward(request, response);
+        request.getRequestDispatcher("fileUpload.ftl").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Part part = request.getPart("file");
-        FileInfo fileInfo;
-        try {
-            fileInfo = filesService.saveFileToStorage(part.getInputStream(),
-                    part.getSubmittedFileName(),
-                    part.getContentType(),
-                    part.getSize());
-        } catch (FileSizeException e) {
-            response.setStatus(400);
-            response.getWriter().println(e.getMessage());
-            return;
-        }
+        FileInfo fileInfo = filesService.saveFileToStorage(part.getInputStream(),
+                part.getSubmittedFileName(),
+                part.getContentType(),
+                part.getSize());
         response.sendRedirect("/files/" + fileInfo.getId());
     }
 }
