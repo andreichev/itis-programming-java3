@@ -11,15 +11,18 @@ import java.io.IOException;
 public class AuthenticationFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        ServletContext servletContext = filterConfig.getServletContext();
-    }
+    public void init(FilterConfig filterConfig) {}
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // преобразуем запросы к нужному виду
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        if(request.getRequestURI().startsWith("/resources")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // берем сессию у запроса
         // берем только существующую, если сессии не было - то вернет null
@@ -29,8 +32,8 @@ public class AuthenticationFilter implements Filter {
         // существует ли сессия вообще?
         boolean sessionExists = session != null;
         // идет ли запрос на страницу входа или регистрации?
-        boolean isRequestOnAuthPage = request.getRequestURI().equals("/signIn") ||
-                request.getRequestURI().equals("/signUp");
+        boolean isRequestOnAuthPage = request.getRequestURI().equals("/sign-in") ||
+                request.getRequestURI().equals("/sign-up");
 
         // если сессия есть
         if (sessionExists) {
@@ -48,7 +51,7 @@ public class AuthenticationFilter implements Filter {
             response.sendRedirect("/profile");
         } else {
             // если пользователь не аутенцицицирован и запрашивает другие страницы
-            response.sendRedirect("/signIn");
+            response.sendRedirect("/sign-in");
         }
     }
 

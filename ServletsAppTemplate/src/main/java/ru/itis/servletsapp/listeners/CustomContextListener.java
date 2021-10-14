@@ -2,9 +2,15 @@ package ru.itis.servletsapp.listeners;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.itis.servletsapp.dao.FilesRepository;
+import ru.itis.servletsapp.dao.UsersRepository;
 import ru.itis.servletsapp.dao.impl.FilesRepositoryImpl;
+import ru.itis.servletsapp.dao.impl.UsersRepositoryImpl;
 import ru.itis.servletsapp.services.FilesService;
-import ru.itis.servletsapp.services.impl.FilesServiceImpl;
+import ru.itis.servletsapp.services.PasswordEncoder;
+import ru.itis.servletsapp.services.SignInService;
+import ru.itis.servletsapp.services.SignUpService;
+import ru.itis.servletsapp.services.impl.*;
+import ru.itis.servletsapp.services.validation.Validator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -30,9 +36,16 @@ public class CustomContextListener implements ServletContextListener {
 
         FilesRepository filesRepository = new FilesRepositoryImpl(dataSource);
         FilesService filesService = new FilesServiceImpl(filesRepository);
+        UsersRepository usersRepository = new UsersRepositoryImpl(dataSource);
+        PasswordEncoder passwordEncoder = new PasswordEncoderImpl();
+        SignInService signInService = new SignInServiceImpl(usersRepository, passwordEncoder);
+        Validator validator = new ValidatorImpl(usersRepository);
+        SignUpService signUpService = new SignUpServiceImpl(usersRepository, passwordEncoder, validator);
 
         servletContext.setAttribute("filesRepository", filesRepository);
         servletContext.setAttribute("filesService", filesService);
+        servletContext.setAttribute("signInService", signInService);
+        servletContext.setAttribute("signUpService", signUpService);
     }
 
     @Override

@@ -17,6 +17,11 @@ public enum ErrorEntity {
     USER_NOT_FOUND(404,"Пользователь не найден"),
     INCORRECT_PASSWORD(460, "Неверный пароль"),
 
+    // Регистрация
+    EMAIL_ALREADY_EXISTS(460,"Email уже занят"),
+    INVALID_EMAIL(461,"Email не правильный"),
+    PASSWORD_TOO_SIMPLE(462,"Пароль слишком простой"),
+
     // Выгрузка картинки
     ONLY_IMAGES_AVAILABLE_TO_UPLOAD(460, "Выгружать можно только картинки"),
     ;

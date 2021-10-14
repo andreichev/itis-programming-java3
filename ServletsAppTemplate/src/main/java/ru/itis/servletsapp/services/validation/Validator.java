@@ -2,8 +2,8 @@ package ru.itis.servletsapp.services.validation;
 
 import ru.itis.servletsapp.dto.UserForm;
 
-import java.util.Set;
+import java.util.Optional;
 
 public interface Validator {
-    Set<ErrorEntity> validate(UserForm form);
+    Optional<ErrorEntity> validateRegistration(UserForm form);
 }

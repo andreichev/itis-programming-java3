@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/signIn")
+@WebServlet("/sign-in")
 public class SignInServlet extends HttpServlet {
     private SignInService signInService;
 
@@ -23,7 +23,6 @@ public class SignInServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         ServletContext context = config.getServletContext();
         this.signInService = (SignInService) context.getAttribute("signInService");
-
     }
 
     @Override
@@ -33,6 +32,12 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        UserForm form = new UserForm(
+//                request.getParameter("email"),
+//                null, null,
+//                request.getParameter("password"),
+//                null
+//        );
         UserForm form = UserForm.builder()
                 .email(request.getParameter("email"))
                 .password(request.getParameter("password"))
@@ -42,7 +47,7 @@ public class SignInServlet extends HttpServlet {
         try {
             userDto = signInService.signIn(form);
         } catch (ValidationException e) {
-            response.sendRedirect("/signIn");
+            response.sendRedirect("/sign-in");
             return;
         }
         HttpSession session = request.getSession(true);
