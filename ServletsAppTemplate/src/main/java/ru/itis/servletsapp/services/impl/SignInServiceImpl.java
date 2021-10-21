@@ -1,8 +1,8 @@
 package ru.itis.servletsapp.services.impl;
 
 import ru.itis.servletsapp.dao.UsersRepository;
-import ru.itis.servletsapp.dto.out.UserDto;
-import ru.itis.servletsapp.dto.in.UserForm;
+import ru.itis.servletsapp.dto.UserDto;
+import ru.itis.servletsapp.dto.UserForm;
 import ru.itis.servletsapp.exceptions.ValidationException;
 import ru.itis.servletsapp.model.User;
 import ru.itis.servletsapp.services.PasswordEncoder;
@@ -25,7 +25,6 @@ public class SignInServiceImpl implements SignInService {
         if (passwordEncoder.matches(userForm.getPassword(), user.getHashPassword()) == false) {
             throw new ValidationException(ErrorEntity.INCORRECT_PASSWORD);
         }
-        System.out.println(user.getAvatarId());
         return UserDto.from(user);
     }
 }

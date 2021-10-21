@@ -1,6 +1,6 @@
 package ru.itis.servletsapp.servlets;
 
-import ru.itis.servletsapp.dto.in.UserForm;
+import ru.itis.servletsapp.dto.UserForm;
 import ru.itis.servletsapp.exceptions.ValidationException;
 import ru.itis.servletsapp.services.SignUpService;
 import ru.itis.servletsapp.services.validation.ErrorEntity;

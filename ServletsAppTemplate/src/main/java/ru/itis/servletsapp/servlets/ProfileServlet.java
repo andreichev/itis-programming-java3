@@ -1,6 +1,6 @@
 package ru.itis.servletsapp.servlets;
 
-import ru.itis.servletsapp.dto.out.UserDto;
+import ru.itis.servletsapp.dto.UserDto;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

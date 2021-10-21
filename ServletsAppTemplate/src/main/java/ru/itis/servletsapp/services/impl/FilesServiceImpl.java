@@ -2,7 +2,7 @@ package ru.itis.servletsapp.services.impl;
 
 import ru.itis.servletsapp.dao.FilesRepository;
 import ru.itis.servletsapp.dao.UsersRepository;
-import ru.itis.servletsapp.dto.out.UserDto;
+import ru.itis.servletsapp.dto.UserDto;
 import ru.itis.servletsapp.exceptions.NotFoundException;
 import ru.itis.servletsapp.model.FileInfo;
 import ru.itis.servletsapp.services.FilesService;

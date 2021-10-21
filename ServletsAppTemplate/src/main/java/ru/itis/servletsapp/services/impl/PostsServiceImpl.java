@@ -1,7 +1,7 @@
 package ru.itis.servletsapp.services.impl;
 
 import ru.itis.servletsapp.dao.PostsRepository;
-import ru.itis.servletsapp.dto.out.PostDto;
+import ru.itis.servletsapp.dto.PostDto;
 import ru.itis.servletsapp.model.Post;
 import ru.itis.servletsapp.model.User;
 import ru.itis.servletsapp.services.PostsService;

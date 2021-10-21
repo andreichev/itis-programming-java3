@@ -1,7 +1,7 @@
 package ru.itis.servletsapp.servlets;
 
-import ru.itis.servletsapp.dto.out.PostDto;
-import ru.itis.servletsapp.dto.out.UserDto;
+import ru.itis.servletsapp.dto.PostDto;
+import ru.itis.servletsapp.dto.UserDto;
 import ru.itis.servletsapp.services.PostsService;
 
 import javax.servlet.ServletConfig;
@@ -10,11 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @WebServlet("/add-post")
 public class AddPostServlet extends HttpServlet {

@@ -1,7 +1,7 @@
 package ru.itis.servletsapp.services.impl;
 
 import ru.itis.servletsapp.dao.UsersRepository;
-import ru.itis.servletsapp.dto.in.UserForm;
+import ru.itis.servletsapp.dto.UserForm;
 import ru.itis.servletsapp.services.validation.ErrorEntity;
 import ru.itis.servletsapp.services.validation.Validator;
 
