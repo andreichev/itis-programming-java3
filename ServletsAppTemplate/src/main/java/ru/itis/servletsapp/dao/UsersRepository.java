@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface UsersRepository extends CrudRepository<User, Long> {
     Optional<User> findByEmail(String email);
+    void updateAvatarForUser(Long userId, Long fileId);
 }

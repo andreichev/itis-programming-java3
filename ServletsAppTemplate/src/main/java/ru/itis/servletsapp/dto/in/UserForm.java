@@ -1,4 +1,4 @@
-package ru.itis.servletsapp.dto;
+package ru.itis.servletsapp.dto.in;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

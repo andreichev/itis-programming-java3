@@ -1,6 +1,6 @@
 package ru.itis.servletsapp.services;
 
-import ru.itis.servletsapp.dto.UserForm;
+import ru.itis.servletsapp.dto.in.UserForm;
 
 public interface SignUpService {
     void signUp(UserForm form);

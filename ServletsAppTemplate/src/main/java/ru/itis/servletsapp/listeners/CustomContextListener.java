@@ -2,13 +2,12 @@ package ru.itis.servletsapp.listeners;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.itis.servletsapp.dao.FilesRepository;
+import ru.itis.servletsapp.dao.PostsRepository;
 import ru.itis.servletsapp.dao.UsersRepository;
 import ru.itis.servletsapp.dao.impl.FilesRepositoryImpl;
+import ru.itis.servletsapp.dao.impl.PostsRepositoryImpl;
 import ru.itis.servletsapp.dao.impl.UsersRepositoryImpl;
-import ru.itis.servletsapp.services.FilesService;
-import ru.itis.servletsapp.services.PasswordEncoder;
-import ru.itis.servletsapp.services.SignInService;
-import ru.itis.servletsapp.services.SignUpService;
+import ru.itis.servletsapp.services.*;
 import ru.itis.servletsapp.services.impl.*;
 import ru.itis.servletsapp.services.validation.Validator;
 
@@ -35,17 +34,19 @@ public class CustomContextListener implements ServletContextListener {
         dataSource.setUrl(DB_URL);
 
         FilesRepository filesRepository = new FilesRepositoryImpl(dataSource);
-        FilesService filesService = new FilesServiceImpl(filesRepository);
         UsersRepository usersRepository = new UsersRepositoryImpl(dataSource);
+        FilesService filesService = new FilesServiceImpl(filesRepository, usersRepository);
         PasswordEncoder passwordEncoder = new PasswordEncoderImpl();
         SignInService signInService = new SignInServiceImpl(usersRepository, passwordEncoder);
         Validator validator = new ValidatorImpl(usersRepository);
         SignUpService signUpService = new SignUpServiceImpl(usersRepository, passwordEncoder, validator);
+        PostsRepository postsRepository = new PostsRepositoryImpl(dataSource);
+        PostsService postsService = new PostsServiceImpl(postsRepository);
 
-        servletContext.setAttribute("filesRepository", filesRepository);
         servletContext.setAttribute("filesService", filesService);
         servletContext.setAttribute("signInService", signInService);
         servletContext.setAttribute("signUpService", signUpService);
+        servletContext.setAttribute("postsService", postsService);
     }
 
     @Override

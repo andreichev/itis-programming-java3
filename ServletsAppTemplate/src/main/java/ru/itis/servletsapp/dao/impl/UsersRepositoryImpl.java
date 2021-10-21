@@ -19,6 +19,7 @@ public class UsersRepositoryImpl implements UsersRepository {
     private final static String SQL_INSERT = "insert into users(first_name, last_name, age, password_hash, email, avatar_id) " +
             "values (?, ?, ?, ?, ?, ?)";
     private final static String SQL_UPDATE = "update users set first_name = ?, last_name = ?, age = ?, password_hash = ?, email = ?, avatar_id = ? where id = ?";
+    private final static String SQL_UPDATE_AVATAR = "update users set avatar_id = ? where id = ?";
     private final static String SQL_SELECT_BY_ID = "select * from users where id = ?";
     private final static String SQL_SELECT_BY_EMAIL = "select * from users where email = ?";
     private final static String SQL_SELECT_ALL = "select * from users";
@@ -31,7 +32,7 @@ public class UsersRepositoryImpl implements UsersRepository {
                     .age(row.getInt("age"))
                     .hashPassword(row.getString("password_hash"))
                     .email(row.getString("email"))
-                    .avatarId(row.getLong("avatar_id"))
+                    .avatarId(row.getLong("avatar_id") == 0 ? null : row.getLong("avatar_id"))
                     .build();
 
     private final JdbcTemplate jdbcTemplate;
@@ -47,6 +48,13 @@ public class UsersRepositoryImpl implements UsersRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void updateAvatarForUser(Long userId, Long fileId) {
+        jdbcTemplate.update(SQL_UPDATE_AVATAR,
+                fileId, userId
+        );
     }
 
     @Override

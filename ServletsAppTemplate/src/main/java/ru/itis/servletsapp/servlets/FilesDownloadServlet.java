@@ -38,7 +38,7 @@ public class FilesDownloadServlet extends HttpServlet {
             response.setContentType(fileInfo.getType());
             response.setContentLength(fileInfo.getSize().intValue());
             response.setHeader("Content-Disposition", "filename=\"" + fileInfo.getOriginalFileName() + "\"");
-            filesService.writeFileFromStorage(fileId, response.getOutputStream());
+            filesService.readFileFromStorage(fileId, response.getOutputStream());
             response.flushBuffer();
         } catch (NotFoundException e) {
             response.setStatus(404);

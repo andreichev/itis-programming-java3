@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -17,4 +19,5 @@ public class User {
     private String email;
     private Integer age;
     private Long avatarId;
+    private List<Post> posts;
 }

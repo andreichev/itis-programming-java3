@@ -27,7 +27,15 @@
     <img class="avatar" alt="IMAGE" src="/no-avatar.png" />
 </#if>
 
-<div class="name">${user.userName}</div>
+<div class="name">${user.firstName}</div>
+
+<form action="/add-post" method="post">
+    <label>
+        Enter post text:
+        <input type="text" name="content">
+    </label>
+    <input type="submit">
+</form>
 
 </body>
 </html>

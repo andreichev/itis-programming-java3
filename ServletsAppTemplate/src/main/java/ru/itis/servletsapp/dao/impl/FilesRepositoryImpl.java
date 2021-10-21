@@ -19,6 +19,7 @@ public class FilesRepositoryImpl implements FilesRepository {
             "values (?, ?, ?, ?)";
     private final static String SQL_UPDATE = "update file_info set storage_file_name = ?, original_file_name = ?, type = ?, size = ? where id = ?";
     private final static String SQL_SELECT_BY_ID = "select * from file_info where id = ?";
+    private final static String SQL_SELECT_ALL = "select * from file_info";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -26,7 +27,7 @@ public class FilesRepositoryImpl implements FilesRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    private RowMapper<FileInfo> fileRowMapper = (row, rowNumber) ->
+    private RowMapper<FileInfo> rowMapper = (row, rowNumber) ->
         FileInfo.builder()
                 .id(row.getLong("id"))
                 .originalFileName(row.getString("original_file_name"))
@@ -64,7 +65,7 @@ public class FilesRepositoryImpl implements FilesRepository {
     @Override
     public Optional<FileInfo> findById(Long id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, fileRowMapper, id));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, rowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -73,7 +74,7 @@ public class FilesRepositoryImpl implements FilesRepository {
     // TODO: Реализовать
     @Override
     public List<FileInfo> findAll() {
-        return null;
+        return jdbcTemplate.query(SQL_SELECT_ALL, rowMapper);
     }
 
     // TODO: Реализовать

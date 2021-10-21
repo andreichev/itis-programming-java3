@@ -1,6 +1,6 @@
 package ru.itis.servletsapp.servlets;
 
-import ru.itis.servletsapp.model.User;
+import ru.itis.servletsapp.dto.out.UserDto;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,8 @@ import java.io.IOException;
 public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // request.setAttribute("user", new User(null, "Ivan Ivanov", 6L));
+        UserDto userDto = (UserDto) request.getSession(true).getAttribute("user");
+        request.setAttribute("user", userDto);
         request.getRequestDispatcher("/profile.ftl").forward(request, response);
     }
 }

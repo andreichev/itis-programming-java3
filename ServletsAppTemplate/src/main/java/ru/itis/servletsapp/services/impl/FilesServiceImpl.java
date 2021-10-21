@@ -1,6 +1,8 @@
 package ru.itis.servletsapp.services.impl;
 
 import ru.itis.servletsapp.dao.FilesRepository;
+import ru.itis.servletsapp.dao.UsersRepository;
+import ru.itis.servletsapp.dto.out.UserDto;
 import ru.itis.servletsapp.exceptions.NotFoundException;
 import ru.itis.servletsapp.model.FileInfo;
 import ru.itis.servletsapp.services.FilesService;
@@ -19,13 +21,15 @@ public class FilesServiceImpl implements FilesService {
     String path = "/Users/admin/Documents/uploads/images/";
 
     private final FilesRepository filesRepository;
+    private final UsersRepository usersRepository;
 
-    public FilesServiceImpl(FilesRepository filesRepository) {
+    public FilesServiceImpl(FilesRepository filesRepository, UsersRepository usersRepository) {
         this.filesRepository = filesRepository;
+        this.usersRepository = usersRepository;
     }
 
     @Override
-    public FileInfo saveFileToStorage(InputStream inputStream, String originalFileName, String contentType, Long size) {
+    public FileInfo saveFileToStorage(UserDto user, InputStream inputStream, String originalFileName, String contentType, Long size) {
         FileInfo fileInfo = new FileInfo(
                 null,
                 originalFileName,
@@ -36,6 +40,7 @@ public class FilesServiceImpl implements FilesService {
         try {
             Files.copy(inputStream, Paths.get(path + fileInfo.getStorageFileName() + "." + fileInfo.getType().split("/")[1]));
             fileInfo = filesRepository.save(fileInfo);
+            usersRepository.updateAvatarForUser(user.getId(), fileInfo.getId());
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
@@ -44,7 +49,7 @@ public class FilesServiceImpl implements FilesService {
     }
 
     @Override
-    public void writeFileFromStorage(Long fileId, OutputStream outputStream) {
+    public void readFileFromStorage(Long fileId, OutputStream outputStream) {
         Optional<FileInfo> optionalFileInfo = filesRepository.findById(fileId);
         FileInfo fileInfo = optionalFileInfo.orElseThrow(() -> new NotFoundException("File not found"));
 
