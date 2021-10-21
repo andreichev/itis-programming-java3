@@ -89,7 +89,9 @@ public class UsersRepositoryImpl implements UsersRepository {
                 }
                 return statement;
             }, keyHolder);
-            item.setId(keyHolder.getKey().longValue());
+            if (keyHolder.getKey() != null) {
+                item.setId(keyHolder.getKey().longValue());
+            }
         } else {
             jdbcTemplate.update(SQL_UPDATE,
                     item.getFirstName(),

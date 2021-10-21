@@ -12,6 +12,7 @@ import ru.itis.servletsapp.model.User;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class PostsRepositoryImpl implements PostsRepository {
@@ -77,7 +78,9 @@ public class PostsRepositoryImpl implements PostsRepository {
                 statement.setTimestamp(3, item.getCreatedAt());
                 return statement;
             }, keyHolder);
-            item.setId(keyHolder.getKey().longValue());
+            if (keyHolder.getKey() != null) {
+                item.setId(keyHolder.getKey().longValue());
+            }
         } else {
             jdbcTemplate.update(SQL_UPDATE,
                     item.getAuthor().getId(),
