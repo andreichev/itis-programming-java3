@@ -11,6 +11,7 @@ import ru.itis.servletsapp.model.User;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.sql.ResultSetMetaData;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,27 +21,26 @@ public class PostsRepositoryImpl implements PostsRepository {
     private final static String SQL_INSERT = "insert into posts(author_id, content, created_at) " +
             "values (?, ?, ?)";
     private final static String SQL_UPDATE = "update posts set author_id = ?, content = ?, created_at = ? where id = ?";
-    private final static String SQL_SELECT_BY_ID = "select * from posts left join users on posts.author_id = users.id where posts.id = ?";
-    private final static String SQL_SELECT_ALL = "select * from posts left join users u on posts.author_id = u.id";
-    private final static String SQL_SELECT_BY_AUTHOR_ID = "select * from posts left join users u on posts.author_id = u.id where posts.author_id";
+    private final static String SQL_SELECT_BY_ID = "select posts.id as posts_id, author_id, created_at, content, users.id as users_id, first_name, last_name, age, password_hash, email, avatar_id from posts left join users on posts.author_id = users.id where posts.id = ?";
+    private final static String SQL_SELECT_ALL = "select posts.id as posts_id, author_id, created_at, content, users.id as users_id, first_name, last_name, age, password_hash, email, avatar_id from posts left join users on posts.author_id = users.id";
+    private final static String SQL_SELECT_BY_AUTHOR_ID = "select posts.id as posts_id, author_id, created_at, content, users.id as users_id, first_name, last_name, age, password_hash, email, avatar_id from posts left join users on posts.author_id = users.id where users.id = ?";
 
-    private final RowMapper<Post> rowMapper = (row, rowNumber) ->
-            Post.builder()
-                    .id(row.getLong("posts.id"))
-                    .author(
-                            User.builder()
-                                    .id(row.getLong("users.id"))
-                                    .firstName(row.getString("first_name"))
-                                    .lastName(row.getString("last_name"))
-                                    .age(row.getInt("age"))
-                                    .hashPassword(row.getString("password_hash"))
-                                    .email(row.getString("email"))
-                                    .avatarId(row.getLong("avatar_id"))
-                                    .build()
-                    )
-                    .content(row.getString("last_name"))
-                    .createdAt(row.getTimestamp("created_at"))
-                    .build();
+    private final RowMapper<Post> rowMapper = (row, rowNumber) ->Post.builder()
+                .id(row.getLong("posts_id"))
+                .author(
+                        User.builder()
+                                .id(row.getLong("users_id"))
+                                .firstName(row.getString("first_name"))
+                                .lastName(row.getString("last_name"))
+                                .age(row.getInt("age"))
+                                .hashPassword(row.getString("password_hash"))
+                                .email(row.getString("email"))
+                                .avatarId(row.getLong("avatar_id"))
+                                .build()
+                )
+                .content(row.getString("content"))
+                .createdAt(row.getTimestamp("created_at"))
+                .build();
 
     private final JdbcTemplate jdbcTemplate;
 
