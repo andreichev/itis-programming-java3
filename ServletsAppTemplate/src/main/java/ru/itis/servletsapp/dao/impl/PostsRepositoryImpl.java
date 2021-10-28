@@ -11,9 +11,7 @@ import ru.itis.servletsapp.model.User;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
-import java.sql.ResultSetMetaData;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class PostsRepositoryImpl implements PostsRepository {
@@ -22,8 +20,8 @@ public class PostsRepositoryImpl implements PostsRepository {
             "values (?, ?, ?)";
     private final static String SQL_UPDATE = "update posts set author_id = ?, content = ?, created_at = ? where id = ?";
     private final static String SQL_SELECT_BY_ID = "select posts.id as posts_id, author_id, created_at, content, users.id as users_id, first_name, last_name, age, password_hash, email, avatar_id from posts left join users on posts.author_id = users.id where posts.id = ?";
-    private final static String SQL_SELECT_ALL = "select posts.id as posts_id, author_id, created_at, content, users.id as users_id, first_name, last_name, age, password_hash, email, avatar_id from posts left join users on posts.author_id = users.id";
-    private final static String SQL_SELECT_BY_AUTHOR_ID = "select posts.id as posts_id, author_id, created_at, content, users.id as users_id, first_name, last_name, age, password_hash, email, avatar_id from posts left join users on posts.author_id = users.id where users.id = ?";
+    private final static String SQL_SELECT_ALL = "select posts.id as posts_id, author_id, created_at, content, users.id as users_id, first_name, last_name, age, password_hash, email, avatar_id from posts left join users on posts.author_id = users.id order by created_at desc";
+    private final static String SQL_SELECT_BY_AUTHOR_ID = "select posts.id as posts_id, author_id, created_at, content, users.id as users_id, first_name, last_name, age, password_hash, email, avatar_id from posts left join users on posts.author_id = users.id where users.id = ? order by created_at desc";
 
     private final RowMapper<Post> rowMapper = (row, rowNumber) ->Post.builder()
                 .id(row.getLong("posts_id"))

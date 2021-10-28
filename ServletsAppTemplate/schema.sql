@@ -1,4 +1,4 @@
-create table file_info
+create table if not exists file_info
 (
     id serial not null primary key,
     original_file_name varchar(100),
@@ -7,7 +7,7 @@ create table file_info
     type varchar(100)
 );
 
-create table users
+create table if not exists users
 (
     id serial not null primary key,
     first_name varchar(20),
@@ -18,10 +18,16 @@ create table users
     avatar_id integer references file_info
 );
 
-create table posts
+create table if not exists posts
 (
     id serial primary key,
     author_id int not null references users,
     created_at timestamp not null,
     content varchar(1000) not null
+);
+
+create table if not exists user_friends
+(
+    user_id integer not null references users,
+    friend_id integer not null references users
 );

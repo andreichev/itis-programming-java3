@@ -1,5 +1,6 @@
 package ru.itis.servletsapp.listeners;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.itis.servletsapp.dao.FilesRepository;
 import ru.itis.servletsapp.dao.PostsRepository;
@@ -42,11 +43,13 @@ public class CustomContextListener implements ServletContextListener {
         SignUpService signUpService = new SignUpServiceImpl(usersRepository, passwordEncoder, validator);
         PostsRepository postsRepository = new PostsRepositoryImpl(dataSource);
         PostsService postsService = new PostsServiceImpl(postsRepository);
+        ObjectMapper objectMapper = new ObjectMapper();
 
         servletContext.setAttribute("filesService", filesService);
         servletContext.setAttribute("signInService", signInService);
         servletContext.setAttribute("signUpService", signUpService);
         servletContext.setAttribute("postsService", postsService);
+        servletContext.setAttribute("objectMapper", objectMapper);
     }
 
     @Override

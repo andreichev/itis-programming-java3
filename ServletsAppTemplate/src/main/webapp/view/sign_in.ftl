@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <title>Sign In</title>
     <link rel="stylesheet" href="/resources/css/style.css">
+    <link rel="stylesheet" href="/resources/css/sign-in.css">
 </head>
 <body>
-<h1>Sign in</h1>
+<div class="container">
 
-<form method="post">
-    <label>Email
-        <input name="email" type="email">
+<form class="form-center-content" method="post">
+    <div class="form-signin-heading">Sign in</div>
+    <label>
+        <input class="form-control" name="email" type="email" placeholder="Email">
     </label>
-    <label>Password
-        <input name="password" type="password">
+    <label>
+        <input class="form-control" name="password" type="password" placeholder="Password">
     </label>
-    <input type="submit">
+    <input class="login-button" type="submit">
 </form>
 
+</div>
 </body>
 </html>
