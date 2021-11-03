@@ -1,6 +1,7 @@
 package ru.itis.servletsapp.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.itis.servletsapp.dao.FilesRepository;
 import ru.itis.servletsapp.dao.PostsRepository;
@@ -16,16 +17,34 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 @WebListener
 public class CustomContextListener implements ServletContextListener {
-    private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "123123";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/breakthrough";
-    private static final String DB_DRIVER = "org.postgresql.Driver";
-
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        String DB_USERNAME;
+        String DB_PASSWORD;
+        String DB_URL;
+        String DB_DRIVER;
+        String JWT_SECRET;
+        String IMAGES_STORAGE_PATH;
+        Properties properties = new Properties();
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application.properties");
+        try {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Требуется файл properties");
+        }
+        DB_USERNAME = (String) properties.get("spring.datasource.username");
+        DB_PASSWORD = (String) properties.get("spring.datasource.password");
+        DB_URL = (String) properties.get("spring.datasource.url");
+        DB_DRIVER = (String) properties.get("spring.datasource.driver-class-name");
+        JWT_SECRET = (String) properties.get("jwt.secret");
+        IMAGES_STORAGE_PATH = (String) properties.get("storage.images");
+
         ServletContext servletContext = servletContextEvent.getServletContext();
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -36,9 +55,9 @@ public class CustomContextListener implements ServletContextListener {
 
         FilesRepository filesRepository = new FilesRepositoryImpl(dataSource);
         UsersRepository usersRepository = new UsersRepositoryImpl(dataSource);
-        FilesService filesService = new FilesServiceImpl(filesRepository, usersRepository);
+        FilesService filesService = new FilesServiceImpl(IMAGES_STORAGE_PATH, filesRepository, usersRepository);
         PasswordEncoder passwordEncoder = new PasswordEncoderImpl();
-        SignInService signInService = new SignInServiceImpl(usersRepository, passwordEncoder);
+        SignInService signInService = new SignInServiceImpl(JWT_SECRET, usersRepository, passwordEncoder);
         Validator validator = new ValidatorImpl(usersRepository);
         SignUpService signUpService = new SignUpServiceImpl(usersRepository, passwordEncoder, validator);
         PostsRepository postsRepository = new PostsRepositoryImpl(dataSource);
@@ -49,9 +68,11 @@ public class CustomContextListener implements ServletContextListener {
         servletContext.setAttribute("signInService", signInService);
         servletContext.setAttribute("signUpService", signUpService);
         servletContext.setAttribute("postsService", postsService);
+        servletContext.setAttribute("passwordEncoder", passwordEncoder);
         servletContext.setAttribute("objectMapper", objectMapper);
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {}
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    }
 }

@@ -1,5 +1,8 @@
 package ru.itis.servletsapp.servlets;
 
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import ru.itis.servletsapp.dto.UserDto;
 import ru.itis.servletsapp.dto.UserForm;
 import ru.itis.servletsapp.exceptions.ValidationException;
@@ -9,10 +12,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/sign-in")
@@ -50,6 +50,8 @@ public class SignInServlet extends HttpServlet {
             response.sendRedirect("/sign-in");
             return;
         }
+
+        response.addCookie(new Cookie("token", userDto.getToken()));
         HttpSession session = request.getSession(true);
         session.setAttribute("user", userDto);
         response.sendRedirect("/profile");

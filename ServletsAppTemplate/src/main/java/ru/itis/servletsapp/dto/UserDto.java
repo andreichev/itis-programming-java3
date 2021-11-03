@@ -14,6 +14,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private Long avatarId;
+    private String token;
 
     public static UserDto from(User user) {
         return UserDto.builder()

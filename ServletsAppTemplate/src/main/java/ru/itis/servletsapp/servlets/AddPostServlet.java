@@ -34,6 +34,7 @@ public class AddPostServlet extends HttpServlet {
                 .author(userDto)
                 .build();
         PostDto createdPost = postsService.addPost(form);
-        objectMapper.writeValue(response.getWriter(), createdPost);
+        objectMapper.writeValue(response.getOutputStream(), createdPost);
+        response.setContentType("application/json");
     }
 }

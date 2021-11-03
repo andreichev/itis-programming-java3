@@ -25,7 +25,7 @@
     <div class="center-content">
         <div class="container">
             <div class="title">Профиль</div>
-            <div class="white-container">
+            <div id="profile" class="white-container">
 
                 <#if user.avatarId??>
                     <img class="user-avatar" alt="IMAGE" src="/files/${user.avatarId}"/>
@@ -44,9 +44,9 @@
             <form id="add-post-form" action="/add-post" method="post">
                 <label>
                     Ваша запись:
-                    <textarea class="input_green" required id="content" name="content"></textarea>
+                    <textarea id="content" class="input_green" required name="content"></textarea>
                 </label>
-                <input class="button1" type="submit">
+                <input class="button1" value="Отправить" type="submit">
             </form>
 
             <div class="divider"></div>
@@ -55,7 +55,7 @@
                 <#list posts as post>
                     <div>
                         <div class="light_blue text">${post.createdAt?string("dd MMMM yyyy 'г.,' HH:mm")}</div>
-                        <div class="text">Автор: ${post.author.firstName ! ""}</div>
+                        <div class="text">Автор: ${post.author.lastName ! " NO NAME"} ${post.author.firstName ! " NO NAME"}</div>
                         <div class="text">${post.content}</div>
 
                         <#if post_index < posts?size - 1>
