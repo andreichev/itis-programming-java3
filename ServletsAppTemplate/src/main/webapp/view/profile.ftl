@@ -53,7 +53,8 @@
 
             <div id="post-list">
                 <#list posts as post>
-                    <div>
+                    <div id="post${post.id}">
+                        <button value="X" onclick="deletePost('post${post.id}', '${post.id}')"></button>
                         <div class="light_blue text">${post.createdAt?string("dd MMMM yyyy 'г.,' HH:mm")}</div>
                         <div class="text">Автор: ${post.author.lastName ! " NO NAME"} ${post.author.firstName ! " NO NAME"}</div>
                         <div class="text">${post.content}</div>

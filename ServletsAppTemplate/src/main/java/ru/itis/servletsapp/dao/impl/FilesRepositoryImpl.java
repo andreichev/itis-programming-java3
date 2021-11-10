@@ -1,15 +1,14 @@
 package ru.itis.servletsapp.dao.impl;
 
-import ru.itis.servletsapp.dao.FilesRepository;
-import ru.itis.servletsapp.model.FileInfo;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import ru.itis.servletsapp.dao.FilesRepository;
+import ru.itis.servletsapp.model.FileInfo;
 
 import javax.sql.DataSource;
-import java.io.File;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
@@ -22,13 +21,13 @@ public class FilesRepositoryImpl implements FilesRepository {
     private final static String SQL_SELECT_BY_ID = "select * from file_info where id = ?";
     private final static String SQL_SELECT_ALL = "select * from file_info";
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public FilesRepositoryImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    private RowMapper<FileInfo> rowMapper = (row, rowNumber) ->
+    private final RowMapper<FileInfo> rowMapper = (row, rowNumber) ->
         FileInfo.builder()
                 .id(row.getLong("id"))
                 .originalFileName(row.getString("original_file_name"))

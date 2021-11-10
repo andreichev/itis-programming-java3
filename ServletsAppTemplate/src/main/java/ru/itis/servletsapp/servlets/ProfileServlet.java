@@ -1,6 +1,5 @@
 package ru.itis.servletsapp.servlets;
 
-import ru.itis.servletsapp.dto.PostDto;
 import ru.itis.servletsapp.dto.UserDto;
 import ru.itis.servletsapp.services.PostsService;
 
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {

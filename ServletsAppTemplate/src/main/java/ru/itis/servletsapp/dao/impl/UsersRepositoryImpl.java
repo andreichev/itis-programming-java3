@@ -20,8 +20,12 @@ public class UsersRepositoryImpl implements UsersRepository {
             "values (?, ?, ?, ?, ?, ?)";
     private final static String SQL_UPDATE = "update users set first_name = ?, last_name = ?, age = ?, password_hash = ?, email = ?, avatar_id = ? where id = ?";
     private final static String SQL_UPDATE_AVATAR = "update users set avatar_id = ? where id = ?";
+    private final static String SQL_UPDATE_TOKEN = "update user_token set token = ? where user_id = ?";
+    private final static String SQL_CREATE_TOKEN = "insert into user_token(user_id, token) VALUES (?, ?)";
     private final static String SQL_SELECT_BY_ID = "select * from users where id = ?";
+    private final static String SQL_SELECT_TOKEN_BY_USER_ID = "select * from user_token where user_id = ?";
     private final static String SQL_SELECT_BY_EMAIL = "select * from users where email = ?";
+    private final static String SQL_SELECT_BY_TOKEN = "select * from user_token join users  on user_token.user_id = users.id where token = ?";
     private final static String SQL_SELECT_ALL = "select * from users";
 
     private final RowMapper<User> rowMapper = (row, rowNumber) ->
@@ -51,10 +55,38 @@ public class UsersRepositoryImpl implements UsersRepository {
     }
 
     @Override
+    public Optional<User> findByToken(String token) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_TOKEN, rowMapper, token));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public void updateAvatarForUser(Long userId, Long fileId) {
-        jdbcTemplate.update(SQL_UPDATE_AVATAR,
-                fileId, userId
-        );
+        jdbcTemplate.update(SQL_UPDATE_AVATAR, fileId, userId);
+    }
+
+    @Override
+    public Optional<String> getTokenByUserId(Long userId) {
+        return jdbcTemplate.query(SQL_SELECT_TOKEN_BY_USER_ID, resultSet -> {
+           if (resultSet.next()) {
+               return Optional.of(resultSet.getString("token"));
+           } else {
+               return Optional.empty();
+           }
+        }, userId);
+    }
+
+    @Override
+    public void createTokenForUser(Long userId, String token) {
+        jdbcTemplate.update(SQL_CREATE_TOKEN, userId, token);
+    }
+
+    @Override
+    public void updateTokenForUser(Long userId, String token) {
+        jdbcTemplate.update(SQL_UPDATE_TOKEN, token, userId);
     }
 
     @Override

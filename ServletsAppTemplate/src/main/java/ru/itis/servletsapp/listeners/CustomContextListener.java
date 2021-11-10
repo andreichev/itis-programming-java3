@@ -1,7 +1,6 @@
 package ru.itis.servletsapp.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.itis.servletsapp.dao.FilesRepository;
 import ru.itis.servletsapp.dao.PostsRepository;
@@ -42,7 +41,6 @@ public class CustomContextListener implements ServletContextListener {
         DB_PASSWORD = (String) properties.get("spring.datasource.password");
         DB_URL = (String) properties.get("spring.datasource.url");
         DB_DRIVER = (String) properties.get("spring.datasource.driver-class-name");
-        JWT_SECRET = (String) properties.get("jwt.secret");
         IMAGES_STORAGE_PATH = (String) properties.get("storage.images");
 
         ServletContext servletContext = servletContextEvent.getServletContext();
@@ -57,7 +55,7 @@ public class CustomContextListener implements ServletContextListener {
         UsersRepository usersRepository = new UsersRepositoryImpl(dataSource);
         FilesService filesService = new FilesServiceImpl(IMAGES_STORAGE_PATH, filesRepository, usersRepository);
         PasswordEncoder passwordEncoder = new PasswordEncoderImpl();
-        SignInService signInService = new SignInServiceImpl(JWT_SECRET, usersRepository, passwordEncoder);
+        SignInService signInService = new SignInServiceImpl(usersRepository, passwordEncoder);
         Validator validator = new ValidatorImpl(usersRepository);
         SignUpService signUpService = new SignUpServiceImpl(usersRepository, passwordEncoder, validator);
         PostsRepository postsRepository = new PostsRepositoryImpl(dataSource);

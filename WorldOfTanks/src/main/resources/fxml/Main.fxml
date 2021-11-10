@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('images/background.jpg');" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itis.controller.GameController">
+   <Button fx:id="helloButton" layoutX="199.0" layoutY="20.0" mnemonicParsing="false" onAction="#startButtonTapped" prefHeight="67.0" prefWidth="202.0" text="Играть?" />
+   <Label fx:id="helloLabel" layoutX="120.0" layoutY="300.0" textAlignment="CENTER" textFill="RED">
+      <font>
+         <Font size="41.0" />
+      </font>
+   </Label>
+</AnchorPane>

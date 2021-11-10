@@ -18,6 +18,12 @@ create table if not exists users
     avatar_id integer references file_info
 );
 
+create table user_token
+(
+    user_id int primary key references users,
+    token varchar(200) not null
+);
+
 create table if not exists posts
 (
     id serial primary key,

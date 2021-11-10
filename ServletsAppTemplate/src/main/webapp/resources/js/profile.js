@@ -1,3 +1,7 @@
+function deletePost(tagId, postId) {
+
+}
+
 $(document).ready(function () {
     let form = $("#add-post-form")
     let postsList = $("#post-list")

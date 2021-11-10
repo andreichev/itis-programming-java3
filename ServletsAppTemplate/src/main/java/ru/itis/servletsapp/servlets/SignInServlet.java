@@ -1,8 +1,5 @@
 package ru.itis.servletsapp.servlets;
 
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import ru.itis.servletsapp.dto.UserDto;
 import ru.itis.servletsapp.dto.UserForm;
 import ru.itis.servletsapp.exceptions.ValidationException;

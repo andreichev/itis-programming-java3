@@ -1,10 +1,7 @@
 package ru.itis.servletsapp.filters;
 
-import org.springframework.boot.web.servlet.server.Session;
 import ru.itis.servletsapp.dto.UserDto;
-import ru.itis.servletsapp.dto.UserForm;
 import ru.itis.servletsapp.exceptions.ValidationException;
-import ru.itis.servletsapp.services.PasswordEncoder;
 import ru.itis.servletsapp.services.SignInService;
 
 import javax.servlet.*;
@@ -19,15 +16,12 @@ import java.util.Optional;
 
 @WebFilter("/*")
 public class AuthenticationFilter implements Filter {
-
-    private PasswordEncoder passwordEncoder;
     private SignInService signInService;
 
     @Override
     public void init(FilterConfig filterConfig) {
         ServletContext context = filterConfig.getServletContext();
         this.signInService = (SignInService) context.getAttribute("signInService");
-        this.passwordEncoder = (PasswordEncoder) context.getAttribute("passwordEncoder");
     }
 
     @Override
