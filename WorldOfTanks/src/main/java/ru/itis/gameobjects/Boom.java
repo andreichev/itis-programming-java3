@@ -1,8 +1,8 @@
 package ru.itis.gameobjects;
 
+import javafx.scene.image.Image;
 import ru.itis.base.Game;
 import ru.itis.base.GameObject;
-import javafx.scene.image.Image;
 
 public class Boom extends GameObject {
 

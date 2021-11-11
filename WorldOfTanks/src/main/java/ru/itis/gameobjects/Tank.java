@@ -1,5 +1,6 @@
 package ru.itis.gameobjects;
 
+import javafx.scene.image.Image;
 import ru.itis.Main;
 import ru.itis.base.Direction;
 import ru.itis.base.Game;
@@ -7,8 +8,6 @@ import ru.itis.base.GameObject;
 import ru.itis.base.KeyListener;
 import ru.itis.gameobjects.common.Destroyable;
 import ru.itis.utills.SceneEndChecker;
-import javafx.scene.image.Image;
-import ru.itis.gameobjects.common.Destroyable;
 
 
 public class Tank extends GameObject implements Destroyable {

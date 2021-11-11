@@ -1,10 +1,10 @@
 package ru.itis.utills;
 
+import javafx.geometry.Bounds;
 import ru.itis.base.Direction;
 import ru.itis.base.Game;
 import ru.itis.base.GameObject;
 import ru.itis.gameobjects.Tank;
-import javafx.geometry.Bounds;
 
 import java.util.List;
 

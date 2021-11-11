@@ -5,13 +5,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class JavaFxApplication extends Application {
 
     public EventHandler<KeyEvent> onKeyPressed = event -> {
-        System.out.println(event.getCode().getName());
+        if(event.getCode() == KeyCode.ESCAPE) {
+            System.exit(0);
+        }
     };
 
     @Override

@@ -1,9 +1,9 @@
 package ru.itis.gameobjects;
 
+import javafx.scene.image.Image;
 import ru.itis.base.Game;
 import ru.itis.base.GameObject;
 import ru.itis.gameobjects.common.Destroyable;
-import javafx.scene.image.Image;
 
 public class Wall extends GameObject implements Destroyable {
 

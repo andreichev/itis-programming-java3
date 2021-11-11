@@ -13,9 +13,15 @@ import java.util.stream.Collectors;
 
 public class Game {
 
-    private final List<GameObject> gameObjects = new ArrayList<>();
+    // MARK: - Singleton
 
     public static Game instance = new Game();
+
+    private Game() {}
+
+    // MARK: - Properties
+
+    private final List<GameObject> gameObjects = new ArrayList<>();
 
     private Pane pane;
 
@@ -23,7 +29,7 @@ public class Game {
 
     private long fps;
 
-    private Game() {}
+    // MARK: - Public
 
     public void play() {
         // client = new SocketClient("localhost", 7777);

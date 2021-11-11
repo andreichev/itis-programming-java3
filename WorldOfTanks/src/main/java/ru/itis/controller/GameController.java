@@ -33,7 +33,7 @@ public class GameController implements Initializable {
     private void startButtonTapped(ActionEvent event) {
         pane.getChildren().remove(helloButton);
         helloLabel.setText("ПОГНАЛИ Ё-МАЁ!!!");
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), animation -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.), animation -> {
             pane.getChildren().remove(helloLabel);
             startGame();
         }));
@@ -43,7 +43,7 @@ public class GameController implements Initializable {
 
     public void startGame() {
         Tank tank1 = new Tank("Player1", 1200, 700, "/images/tank1.png", true, Direction.LEFT);
-         Tank tank2 = new Tank("Player2", 100, 100, "/images/tank2.png", false, Direction.RIGHT);
+        Tank tank2 = new Tank("Player2", 100, 100, "/images/tank2.png", false, Direction.RIGHT);
         Game.instance.addGameObject(tank1);
         Game.instance.addGameObject(tank2);
         double value;

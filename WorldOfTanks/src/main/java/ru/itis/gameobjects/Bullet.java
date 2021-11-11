@@ -1,10 +1,10 @@
 package ru.itis.gameobjects;
 
+import javafx.scene.image.Image;
 import ru.itis.base.Direction;
 import ru.itis.base.Game;
 import ru.itis.base.GameObject;
 import ru.itis.gameobjects.common.Destroyable;
-import javafx.scene.image.Image;
 
 import java.util.List;
 
@@ -18,7 +18,8 @@ public class Bullet extends GameObject {
         super("bullet");
         isCollision = false;
         bulletLifeTime = System.currentTimeMillis();
-        Image image = new Image(getClass().getResourceAsStream("/images/kama.jpg"));
+        Image image = new Image(getClass().getResourceAsStream("/images/kama.png"));
+
         imageProperty().set(image);
         setFitHeight(50);
         setFitWidth(50);
