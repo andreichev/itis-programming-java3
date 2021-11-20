@@ -1,30 +1,30 @@
 package ru.itits.fxexample.application;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import ru.itits.fxexample.events.Events;
+import ru.itits.fxexample.engine.World;
 
 public class JavaFxApplication extends Application {
+    private static JavaFxApplication instance;
 
-    public EventHandler<KeyEvent> onKeyPressed = event -> {
-        if(event.getCode() == KeyCode.ESCAPE) {
-            System.exit(0);
-        }
-    };
+    private World world;
+    private Events events;
 
     @Override
     public void start(Stage stage) throws Exception {
+        instance = this;
+
         String fxmlFile = "/fxml/Main.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
         Parent parent = fxmlLoader.load();
-        Scene scene = new Scene(parent);
 
-        scene.setOnKeyPressed(onKeyPressed);
+        Scene scene = new Scene(parent);
+        events = new Events();
+        world = new World(events);
 
         stage.setScene(scene);
         stage.setTitle("World of Tanks бесплатно без смс и регистрации");
@@ -34,7 +34,17 @@ public class JavaFxApplication extends Application {
         stage.show();
     }
 
-    public void launchApp(String[] args) {
+    public void start(String[] args) {
         launch(args);
     }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public Events getEvents() {
+        return events;
+    }
+
+    public static JavaFxApplication getInstance() { return instance; }
 }
