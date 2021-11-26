@@ -8,9 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ru.itits.fxexample.application.JavaFxApplication;
+import ru.itits.fxexample.engine.server.Server;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,16 +24,18 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void startServerButtonTapped(ActionEvent event) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(16431);
-        System.out.println("SERVER STARTED!");
-        Socket socket = serverSocket.accept();
-        startGame(socket, true);
+        GameController gameController = startGame();
+        Server server = new Server();
+        JavaFxApplication.getInstance().setServer(server);
+        Socket socket = new Socket("127.0.0.1", 16431);
+        gameController.initializeGame(socket);
     }
 
     @FXML
     private void connectButtonTapped(ActionEvent event) throws IOException {
+        GameController gameController = startGame();
         Socket socket = new Socket("127.0.0.1", 16431);
-        startGame(socket, false);
+        gameController.initializeGame(socket);
     }
 
     @FXML
@@ -41,7 +43,7 @@ public class MainMenuController implements Initializable {
         System.exit(0);
     }
 
-    private void startGame(Socket socket, boolean isServer) throws IOException {
+    private GameController startGame() throws IOException {
         String fxmlFile = "/fxml/Game.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFile));
         fxmlLoader.load();
@@ -52,7 +54,6 @@ public class MainMenuController implements Initializable {
         Stage stage = (Stage) pane.getScene().getWindow();
         stage.setScene(scene);
 
-        gameController.isServer = isServer;
-        gameController.socket = socket;
+        return gameController;
     }
 }
