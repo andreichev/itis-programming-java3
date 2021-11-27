@@ -1,12 +1,12 @@
-package ru.itits.fxexample.events;
+package ru.itits.fxexample.input;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
-public class Events {
+public class Input {
     private final boolean[] keys;
 
-    public Events() {
+    public Input() {
         this.keys = new boolean[1032];
     }
 

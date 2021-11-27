@@ -6,18 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.itits.fxexample.engine.Level;
-import ru.itits.fxexample.engine.server.Server;
-import ru.itits.fxexample.engine.server.ServerClient;
-import ru.itits.fxexample.events.Events;
+import ru.itits.fxexample.engine.network.Server;
+import ru.itits.fxexample.input.Input;
 import ru.itits.fxexample.engine.World;
-
-import java.util.List;
 
 public class JavaFxApplication extends Application {
     private static JavaFxApplication instance;
 
     private World world;
-    private Events events;
+    private Input input;
     private Server server;
 
     @Override
@@ -29,8 +26,8 @@ public class JavaFxApplication extends Application {
         Parent parent = fxmlLoader.load();
 
         Scene scene = new Scene(parent);
-        events = new Events();
-        world = new World(events);
+        input = new Input();
+        world = new World(input);
 
         stage.setScene(scene);
         stage.setTitle("World of Tanks бесплатно без смс и регистрации");
@@ -48,8 +45,8 @@ public class JavaFxApplication extends Application {
         return world;
     }
 
-    public Events getEvents() {
-        return events;
+    public Input getInput() {
+        return input;
     }
 
     public void setServer(Server server) {
@@ -61,12 +58,8 @@ public class JavaFxApplication extends Application {
     }
 
     public void loadLevel(Level level) {
+        world.setLevel(level);
         level.initialize(world);
-        if (server == null) { return; }
-        List<ServerClient> clientList = server.getClients();
-        for(ServerClient client: clientList) {
-            level.playerConnected(client.getId());
-        }
     }
 
     public static JavaFxApplication getInstance() { return instance; }

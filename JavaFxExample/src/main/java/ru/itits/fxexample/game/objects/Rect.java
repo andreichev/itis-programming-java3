@@ -4,60 +4,64 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import ru.itits.fxexample.application.JavaFxApplication;
 import ru.itits.fxexample.engine.Entity;
-import ru.itits.fxexample.engine.Event;
+import ru.itits.fxexample.engine.network.NetworkEvent;
 import ru.itits.fxexample.engine.Replicable;
 import ru.itits.fxexample.engine.World;
-import ru.itits.fxexample.events.Events;
+import ru.itits.fxexample.game.network.NetworkEventType;
+import ru.itits.fxexample.input.Input;
 
 public class Rect extends Entity implements Replicable {
-    private final Events events;
+    private final Input input;
     private final World world;
     private final float speed = 100.f;
+    private final boolean currentPlayer;
 
-    public Rect(int id, float x, float y) {
-        super(id,true);
+    public Rect(int id, double x, double y, boolean currentPlayer) {
+        super(id);
+        this.currentPlayer = currentPlayer;
         Image image = new Image(getClass().getResourceAsStream("/images/kama.png"));
         imageProperty().set(image);
         setFitHeight(100);
         setFitWidth(100);
         setLayoutX(x);
         setLayoutY(y);
-        events = JavaFxApplication.getInstance().getEvents();
+        input = JavaFxApplication.getInstance().getInput();
         world = JavaFxApplication.getInstance().getWorld();
     }
 
     @Override
     public void update(float deltaTime) {
+        if(currentPlayer == false) { return; }
         boolean playerMoved = false;
-        int[] data = new int[10];
-        if(events.isKeyPressed(KeyCode.W)) {
-            data[1] = (int) (getLayoutY() - deltaTime * speed);
+        double[] data = new double[10];
+        data[0] = getLayoutX();
+        data[1] = getLayoutY();
+        if(input.isKeyPressed(KeyCode.W)) {
+            data[1] = getLayoutY() - deltaTime * speed;
             playerMoved = true;
         }
-        if(events.isKeyPressed(KeyCode.S)) {
-            data[1] = (int) (getLayoutY() + deltaTime * speed);
+        if(input.isKeyPressed(KeyCode.S)) {
+            data[1] = getLayoutY() + deltaTime * speed;
             playerMoved = true;
         }
-        if(events.isKeyPressed(KeyCode.A)) {
-            data[0] = (int) (getLayoutX() - deltaTime * speed);
+        if(input.isKeyPressed(KeyCode.A)) {
+            data[0] = getLayoutX() - deltaTime * speed;
             playerMoved = true;
         }
-        if(events.isKeyPressed(KeyCode.D)) {
-            data[0] = (int) (getLayoutX() + deltaTime * speed);
+        if(input.isKeyPressed(KeyCode.D)) {
+            data[0] = getLayoutX() + deltaTime * speed;
             playerMoved = true;
         }
         if(playerMoved) {
-            world.addEvent(new Event(1, id, data));
+            world.addEventToQueue(new NetworkEvent(NetworkEventType.PLAYER_MOVED.value, id, data));
         }
     }
 
     @Override
-    public void updateState(Event event) {
-        if(event.type == 1) {
-            int x = event.data[0];
-            int y = event.data[1];
-            setLayoutX(x);
-            setLayoutY(y);
+    public void updateState(NetworkEvent event) {
+        if(event.type == NetworkEventType.PLAYER_MOVED.value) {
+            setLayoutX(event.data[0]);
+            setLayoutY(event.data[1]);
         }
     }
 }

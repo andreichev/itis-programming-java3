@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ru.itits.fxexample.application.JavaFxApplication;
-import ru.itits.fxexample.engine.server.Server;
+import ru.itits.fxexample.engine.network.Server;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -50,7 +50,7 @@ public class MainMenuController implements Initializable {
         GameController gameController = fxmlLoader.getController();
 
         Scene scene = new Scene(gameController.pane);
-        JavaFxApplication.getInstance().getEvents().listenScene(scene);
+        JavaFxApplication.getInstance().getInput().listenScene(scene);
         Stage stage = (Stage) pane.getScene().getWindow();
         stage.setScene(scene);
 

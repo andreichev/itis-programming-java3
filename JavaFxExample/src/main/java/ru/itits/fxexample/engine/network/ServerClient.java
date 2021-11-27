@@ -1,6 +1,4 @@
-package ru.itits.fxexample.engine.server;
-
-import ru.itits.fxexample.engine.Event;
+package ru.itits.fxexample.engine.network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -13,7 +11,6 @@ public class ServerClient {
     private final Socket socket;
     private final Thread thread;
     private final int maximumFps;
-    private final Server server;
 
     private double lastTime;
 
@@ -21,7 +18,6 @@ public class ServerClient {
         maximumFps = 60;
         this.id = id;
         this.socket = socket;
-        this.server = server;
 
         lastTime = System.currentTimeMillis() / 1e3;
         thread = new Thread(() -> {
@@ -37,15 +33,15 @@ public class ServerClient {
                     DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                     DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-                    Event event;
-                    while ((event = Event.readEvent(dataInputStream)) != null) {
+                    NetworkEvent event;
+                    while ((event = NetworkEvent.readEvent(dataInputStream)) != null) {
                         server.addEvent(event);
                     }
 
-                    while ((event = server.getForClient(id)) != null) {
-                        Event.writeMessage(event, dataOutputStream);
+                    while ((event = server.getEventForClient(id)) != null) {
+                        NetworkEvent.writeEvent(event, dataOutputStream);
                     }
-                    dataOutputStream.writeInt(Event.END);
+                    dataOutputStream.writeInt(NetworkEvent.END);
                 } catch (Exception ignored) {}
             }
         });

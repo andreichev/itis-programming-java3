@@ -5,9 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import ru.itits.fxexample.application.JavaFxApplication;
-import ru.itits.fxexample.engine.Event;
+import ru.itits.fxexample.engine.network.NetworkEvent;
 import ru.itits.fxexample.engine.World;
 import ru.itits.fxexample.game.levels.Level1;
+import ru.itits.fxexample.game.network.NetworkEventType;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -67,14 +68,17 @@ public class GameController implements Initializable {
                 try {
                     DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                     DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                    List<Event> events = world.pollEvents();
-                    for(Event event: events) {
-                        Event.writeMessage(event, dataOutputStream);
+                    List<NetworkEvent> events = world.pollEvents();
+                    for(NetworkEvent event: events) {
+                        NetworkEvent.writeEvent(event, dataOutputStream);
                     }
-                    dataOutputStream.writeInt(Event.END);
-                    Event event;
-                    while ((event = Event.readEvent(dataInputStream)) != null) {
-                        world.updateEntity(event);
+                    dataOutputStream.writeInt(NetworkEvent.END);
+                    NetworkEvent event;
+                    while ((event = NetworkEvent.readEvent(dataInputStream)) != null) {
+                        if (event.type != NetworkEventType.PLAYER_MOVED.value) {
+                            System.out.println("EVENT FROM SERVER! " + event.type + ", objectId " + event.objectId);
+                        }
+                        world.processEventFromServer(event);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

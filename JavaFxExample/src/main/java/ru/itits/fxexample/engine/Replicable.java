@@ -1,5 +1,7 @@
 package ru.itits.fxexample.engine;
 
+import ru.itits.fxexample.engine.network.NetworkEvent;
+
 public interface Replicable {
-    void updateState(Event event);
+    void updateState(NetworkEvent event);
 }

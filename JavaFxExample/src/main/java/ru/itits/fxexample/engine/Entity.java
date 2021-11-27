@@ -4,11 +4,9 @@ import javafx.scene.image.ImageView;
 
 public abstract class Entity extends ImageView {
     public int id;
-    public boolean isReplicable;
 
-    public Entity(int id, boolean isReplicable) {
+    public Entity(int id) {
         this.id = id;
-        this.isReplicable = isReplicable;
     }
 
     public void update(float deltaTime) {}

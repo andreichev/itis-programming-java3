@@ -1,6 +1,6 @@
-package ru.itits.fxexample.engine.server;
+package ru.itits.fxexample.engine.network;
 
-import ru.itits.fxexample.engine.Event;
+import ru.itits.fxexample.game.network.NetworkEventType;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -8,15 +8,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class Server {
     private final List<ServerClient> clients;
-    private final List<ServerDelegate> delegates;
     private final List<ServerEvent> events;
 
     public Server() throws IOException {
         clients = new ArrayList<>();
-        delegates = new ArrayList<>();
         events = new ArrayList<>();
 
         ServerSocket serverSocket = new ServerSocket(16431);
@@ -34,31 +33,26 @@ public class Server {
         thread.start();
     }
 
-    public void addEvent(Event event) {
+    public void addEvent(NetworkEvent event) {
         events.add(new ServerEvent(event));
     }
 
-    public Event getForClient(int id) {
+    // TODO: - возвращать список сразу
+    public NetworkEvent getEventForClient(int id) {
         Optional<ServerEvent> optionalEvent = events.
                 stream()
-                .filter(item -> item.sentToClientsIds.contains(id) == false)
+                .filter(item -> item.sentToClientIds.contains(id) == false)
                 .findAny();
         if(optionalEvent.isPresent() == false) { return null; }
         ServerEvent serverEvent = optionalEvent.get();
-        serverEvent.sentToClientsIds.add(id);
+        serverEvent.sentToClientIds.add(id);
+        if(serverEvent.sentToClientIds.size() == clients.size()) {
+            events.remove(serverEvent);
+        }
         return serverEvent.event;
     }
 
-    public void addDelegate(ServerDelegate delegate) {
-        delegates.add(delegate);
-    }
-
-    public void removeDelegate(ServerDelegate delegate) {
-        delegates.add(delegate);
-    }
-
     public void clear() {
-        delegates.clear();
         for(ServerClient client: clients) {
             client.terminate();
         }
@@ -71,12 +65,30 @@ public class Server {
 
     private void clientConnected(Socket socket) {
         System.out.println("Client Connected!");
+        final Random random = new Random();
+        int newClientId = clients.size();
+        double[] buffer = new double[10];
 
-        ServerClient client = new ServerClient(clients.size(), socket, this);
-        clients.add(client);
+        buffer[0] = random.nextInt(200);
+        buffer[1] = random.nextInt(200);
+        ServerEvent serverEvent = new ServerEvent(
+                new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, newClientId, buffer)
+        );
+        events.add(serverEvent);
 
-        for(ServerDelegate delegate: delegates) {
-            delegate.playerConnected(client.getId());
+        buffer[0] = 0;
+        buffer[1] = 0;
+        for (ServerClient serverClient : clients) {
+            ServerEvent playerConnectedEvent = new ServerEvent(
+                    new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, serverClient.getId(), buffer)
+            );
+            for(ServerClient otherClient : clients) {
+                playerConnectedEvent.sentToClientIds.add(otherClient.getId());
+            }
+            events.add(playerConnectedEvent);
         }
+
+        ServerClient client = new ServerClient(newClientId, socket, this);
+        clients.add(client);
     }
 }

@@ -2,7 +2,9 @@ package ru.itits.fxexample.engine;
 
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
-import ru.itits.fxexample.events.Events;
+import ru.itits.fxexample.engine.network.NetworkEvent;
+import ru.itits.fxexample.game.network.NetworkEventType;
+import ru.itits.fxexample.input.Input;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +12,16 @@ import java.util.Optional;
 
 public class World {
     private final List<Entity> entities;
-    private final List<Event> events;
-    private final Events inputEvents;
+    private final List<NetworkEvent> eventsQueue;
+    private Level currentLevel;
+    private final Input input;
     private Pane pane;
+    private boolean firstPlayerConnection = true;
 
-    public World(Events inputEvents) {
+    public World(Input input) {
         this.entities = new ArrayList<>();
-        this.events = new ArrayList<>();
-        this.inputEvents = inputEvents;
+        this.eventsQueue = new ArrayList<>();
+        this.input = input;
     }
 
     public void setPane(Pane pane) {
@@ -31,7 +35,15 @@ public class World {
     }
 
     // Событие с сервера (обновить состояние объекта)
-    public void updateEntity(Event event) {
+    public void processEventFromServer(NetworkEvent event) {
+        if(event.type == NetworkEventType.PLAYER_CONNECTED.value) {
+            if(currentLevel != null) {
+                currentLevel.playerConnected(event.objectId, event.data[0], event.data[1], firstPlayerConnection);
+                firstPlayerConnection = false;
+            }
+            return;
+        }
+
         Optional<Entity> optionalEntity = entities.stream()
                 .filter(item -> item.id == event.objectId)
                 .findAny();
@@ -39,7 +51,7 @@ public class World {
         Entity entity = optionalEntity.get();
 
         if(entity instanceof Replicable) {
-            ((Replicable)entity).updateState(event);
+            ((Replicable) entity).updateState(event);
         }
     }
 
@@ -51,13 +63,13 @@ public class World {
     }
 
     // Событие, произошедшее со стороны клиента
-    public void addEvent(Event event) {
-        events.add(event);
+    public void addEventToQueue(NetworkEvent event) {
+        eventsQueue.add(event);
     }
 
-    public List<Event> pollEvents() {
-        List<Event> list = new ArrayList<>(events);
-        events.clear();
+    public List<NetworkEvent> pollEvents() {
+        List<NetworkEvent> list = new ArrayList<>(eventsQueue);
+        eventsQueue.clear();
         return list;
     }
 
@@ -66,6 +78,10 @@ public class World {
             pane.getChildren().remove(entity);
             entities.remove(entity);
         });
+    }
+
+    public void setLevel(Level level) {
+        currentLevel = level;
     }
 
     public void clear() {

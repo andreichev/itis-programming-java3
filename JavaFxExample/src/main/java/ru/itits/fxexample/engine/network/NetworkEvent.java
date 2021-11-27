@@ -1,38 +1,38 @@
-package ru.itits.fxexample.engine;
+package ru.itits.fxexample.engine.network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class Event {
+public class NetworkEvent {
     public int type;
     // Если собиые пришло с сервера - id объекта, к которому применить событие
     // Если собиые отправляется на сервев - id объекта источника события
     public int objectId;
-    public int[] data;
+    public double[] data;
 
-    public Event(int type, int objectId, int[] data) {
+    public NetworkEvent(int type, int objectId, double[] data) {
         this.type = type;
         this.objectId = objectId;
         this.data = data;
     }
 
-    public static Event readEvent(DataInputStream dataInputStream) throws IOException {
+    public static NetworkEvent readEvent(DataInputStream dataInputStream) throws IOException {
         int type = dataInputStream.readInt();
-        if(type == Event.END) { return null; }
+        if(type == NetworkEvent.END) { return null; }
         int objectId = dataInputStream.readInt();
-        int[] buffer = new int[10];
+        double[] buffer = new double[10];
         for(int i = 0; i < 10; i++) {
-            buffer[i] = dataInputStream.readInt();
+            buffer[i] = dataInputStream.readDouble();
         }
-        return new Event(type, objectId, buffer);
+        return new NetworkEvent(type, objectId, buffer);
     }
 
-    public static void writeMessage(Event event, DataOutputStream dataOutputStream) throws IOException {
+    public static void writeEvent(NetworkEvent event, DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeInt(event.type);
         dataOutputStream.writeInt(event.objectId);
         for(int i = 0; i < 10; i++) {
-            dataOutputStream.writeInt(event.data[i]);
+            dataOutputStream.writeDouble(event.data[i]);
         }
     }
 
