@@ -64,6 +64,12 @@ public class World {
 
     // Событие, произошедшее со стороны клиента
     public void addEventToQueue(NetworkEvent event) {
+        for(NetworkEvent queueEvent: eventsQueue) {
+            if(queueEvent.type == event.type && queueEvent.objectId == event.objectId) {
+                queueEvent.data = event.data;
+                return;
+            }
+        }
         eventsQueue.add(event);
     }
 

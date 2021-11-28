@@ -38,8 +38,8 @@ public class ServerClient {
                         server.addEvent(event);
                     }
 
-                    while ((event = server.getEventForClient(id)) != null) {
-                        NetworkEvent.writeEvent(event, dataOutputStream);
+                    for(NetworkEvent networkEvent: server.getEventsForClient(id)) {
+                        NetworkEvent.writeEvent(networkEvent, dataOutputStream);
                     }
                     dataOutputStream.writeInt(NetworkEvent.END);
                 } catch (Exception ignored) {}

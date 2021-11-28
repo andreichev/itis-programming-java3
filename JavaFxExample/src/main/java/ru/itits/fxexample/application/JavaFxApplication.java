@@ -6,9 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.itits.fxexample.engine.Level;
+import ru.itits.fxexample.engine.World;
 import ru.itits.fxexample.engine.network.Server;
 import ru.itits.fxexample.input.Input;
-import ru.itits.fxexample.engine.World;
 
 public class JavaFxApplication extends Application {
     private static JavaFxApplication instance;

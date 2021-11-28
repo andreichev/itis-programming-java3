@@ -4,9 +4,9 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import ru.itits.fxexample.application.JavaFxApplication;
 import ru.itits.fxexample.engine.Entity;
-import ru.itits.fxexample.engine.network.NetworkEvent;
 import ru.itits.fxexample.engine.Replicable;
 import ru.itits.fxexample.engine.World;
+import ru.itits.fxexample.engine.network.NetworkEvent;
 import ru.itits.fxexample.game.network.NetworkEventType;
 import ru.itits.fxexample.input.Input;
 
@@ -33,32 +33,33 @@ public class Rect extends Entity implements Replicable {
     public void update(float deltaTime) {
         if(currentPlayer == false) { return; }
         boolean playerMoved = false;
-        double[] data = new double[10];
-        data[0] = getLayoutX();
-        data[1] = getLayoutY();
         if(input.isKeyPressed(KeyCode.W)) {
-            data[1] = getLayoutY() - deltaTime * speed;
+            setLayoutY(getLayoutY() - deltaTime * speed);
             playerMoved = true;
         }
         if(input.isKeyPressed(KeyCode.S)) {
-            data[1] = getLayoutY() + deltaTime * speed;
+            setLayoutY(getLayoutY() + deltaTime * speed);
             playerMoved = true;
         }
         if(input.isKeyPressed(KeyCode.A)) {
-            data[0] = getLayoutX() - deltaTime * speed;
+            setLayoutX(getLayoutX() - deltaTime * speed);
             playerMoved = true;
         }
         if(input.isKeyPressed(KeyCode.D)) {
-            data[0] = getLayoutX() + deltaTime * speed;
+            setLayoutX(getLayoutX() + deltaTime * speed);
             playerMoved = true;
         }
         if(playerMoved) {
+            double[] data = new double[10];
+            data[0] = getLayoutX();
+            data[1] = getLayoutY();
             world.addEventToQueue(new NetworkEvent(NetworkEventType.PLAYER_MOVED.value, id, data));
         }
     }
 
     @Override
     public void updateState(NetworkEvent event) {
+        if(currentPlayer) { return; }
         if(event.type == NetworkEventType.PLAYER_MOVED.value) {
             setLayoutX(event.data[0]);
             setLayoutY(event.data[1]);

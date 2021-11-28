@@ -7,8 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Server {
     private final List<ServerClient> clients;
@@ -37,19 +37,22 @@ public class Server {
         events.add(new ServerEvent(event));
     }
 
-    // TODO: - возвращать список сразу
-    public NetworkEvent getEventForClient(int id) {
-        Optional<ServerEvent> optionalEvent = events.
-                stream()
+    public List<NetworkEvent> getEventsForClient(int id) {
+        List<ServerEvent> eventsForClient = events
+                .stream()
                 .filter(item -> item.sentToClientIds.contains(id) == false)
-                .findAny();
-        if(optionalEvent.isPresent() == false) { return null; }
-        ServerEvent serverEvent = optionalEvent.get();
-        serverEvent.sentToClientIds.add(id);
-        if(serverEvent.sentToClientIds.size() == clients.size()) {
-            events.remove(serverEvent);
-        }
-        return serverEvent.event;
+                .collect(Collectors.toList());
+        eventsForClient
+                .forEach(serverEvent -> {
+                    serverEvent.sentToClientIds.add(id);
+                    if(serverEvent.sentToClientIds.size() == clients.size()) {
+                        events.remove(serverEvent);
+                    }
+                });
+        return eventsForClient
+                .stream()
+                .map(serverEvent -> serverEvent.event)
+                .collect(Collectors.toList());
     }
 
     public void clear() {
