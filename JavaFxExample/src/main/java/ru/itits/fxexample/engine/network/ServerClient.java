@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 // Клиент для работы сервера
 public class ServerClient {
@@ -11,6 +13,8 @@ public class ServerClient {
     private final Socket socket;
     private final Thread thread;
     private final int maximumFps;
+    // список событий для отправки клиенту
+    private final List<NetworkEvent> events;
 
     private double lastTime;
 
@@ -18,6 +22,7 @@ public class ServerClient {
         maximumFps = 60;
         this.id = id;
         this.socket = socket;
+        events = new ArrayList<>();
 
         lastTime = System.currentTimeMillis() / 1e3;
         thread = new Thread(() -> {
@@ -38,14 +43,19 @@ public class ServerClient {
                         server.addEvent(event);
                     }
 
-                    for(NetworkEvent networkEvent: server.getEventsForClient(id)) {
+                    for(NetworkEvent networkEvent: events) {
                         NetworkEvent.writeEvent(networkEvent, dataOutputStream);
                     }
                     dataOutputStream.writeInt(NetworkEvent.END);
+                    events.clear();
                 } catch (Exception ignored) {}
             }
         });
         thread.start();
+    }
+
+    public void addEvent(NetworkEvent event) {
+        events.add(event);
     }
 
     public void terminate() {

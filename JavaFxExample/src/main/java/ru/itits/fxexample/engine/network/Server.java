@@ -8,15 +8,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class Server {
     private final List<ServerClient> clients;
-    private final List<ServerEvent> events;
 
     public Server() throws IOException {
         clients = new ArrayList<>();
-        events = new ArrayList<>();
 
         ServerSocket serverSocket = new ServerSocket(16431);
         System.out.println("SERVER STARTED!");
@@ -34,25 +31,9 @@ public class Server {
     }
 
     public void addEvent(NetworkEvent event) {
-        events.add(new ServerEvent(event));
-    }
-
-    public List<NetworkEvent> getEventsForClient(int id) {
-        List<ServerEvent> eventsForClient = events
-                .stream()
-                .filter(item -> item.sentToClientIds.contains(id) == false)
-                .collect(Collectors.toList());
-        eventsForClient
-                .forEach(serverEvent -> {
-                    serverEvent.sentToClientIds.add(id);
-                    if(serverEvent.sentToClientIds.size() == clients.size()) {
-                        events.remove(serverEvent);
-                    }
-                });
-        return eventsForClient
-                .stream()
-                .map(serverEvent -> serverEvent.event)
-                .collect(Collectors.toList());
+        for(ServerClient client: clients) {
+            client.addEvent(event);
+        }
     }
 
     public void clear() {
@@ -62,36 +43,27 @@ public class Server {
         clients.clear();
     }
 
-    public List<ServerClient> getClients() {
-        return clients;
-    }
-
     private void clientConnected(Socket socket) {
         System.out.println("Client Connected!");
         final Random random = new Random();
         int newClientId = clients.size();
         double[] buffer = new double[10];
 
+        ServerClient newClient = new ServerClient(newClientId, socket, this);
+
         buffer[0] = random.nextInt(200);
         buffer[1] = random.nextInt(200);
-        ServerEvent serverEvent = new ServerEvent(
-                new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, newClientId, buffer)
-        );
-        events.add(serverEvent);
+        newClient.addEvent(new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, newClientId, buffer));
+        for(ServerClient serverClient : clients) {
+            serverClient.addEvent(new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, newClientId, buffer));
+        }
 
         buffer[0] = 0;
         buffer[1] = 0;
         for (ServerClient serverClient : clients) {
-            ServerEvent playerConnectedEvent = new ServerEvent(
-                    new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, serverClient.getId(), buffer)
-            );
-            for(ServerClient otherClient : clients) {
-                playerConnectedEvent.sentToClientIds.add(otherClient.getId());
-            }
-            events.add(playerConnectedEvent);
+            NetworkEvent playerConnectedEvent = new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, serverClient.getId(), buffer);
+            newClient.addEvent(playerConnectedEvent);
         }
-
-        ServerClient client = new ServerClient(newClientId, socket, this);
-        clients.add(client);
+        clients.add(newClient);
     }
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            margin: 0 50px;
+        }
+        input {
+            font-size: 30px;
+            display: block;
+            margin-top: 30px;
+        }
+    </style>
+    <title>SignIn</title>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Sign In</h1>
+    <form action="/sign-in" method="post" enctype="application/x-www-form-urlencoded">
+        <label>
+            <input type="text" name="name" placeholder="NAME">
+        </label>
+        <label>
+            <input type="password" name="password" placeholder="PASSWORD">
+        </label>
+        <input type="submit">
+    </form>
+</div>
+
+</body>
+</html>
