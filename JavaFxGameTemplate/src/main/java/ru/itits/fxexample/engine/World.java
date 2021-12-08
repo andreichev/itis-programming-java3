@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class World {
     private final List<Entity> entities;
-    private final List<NetworkEvent> eventsQueue;
+    private final List<NetworkEvent> events;
     private Level currentLevel;
     private final Input input;
     private Pane pane;
@@ -20,7 +20,7 @@ public class World {
 
     public World(Input input) {
         this.entities = new ArrayList<>();
-        this.eventsQueue = new ArrayList<>();
+        this.events = new ArrayList<>();
         this.input = input;
     }
 
@@ -64,18 +64,18 @@ public class World {
 
     // Событие, произошедшее со стороны клиента
     public void addEventToQueue(NetworkEvent event) {
-        for(NetworkEvent queueEvent: eventsQueue) {
+        for(NetworkEvent queueEvent: events) {
             if(queueEvent.type == event.type && queueEvent.objectId == event.objectId) {
                 queueEvent.data = event.data;
                 return;
             }
         }
-        eventsQueue.add(event);
+        events.add(event);
     }
 
     public List<NetworkEvent> pollEvents() {
-        List<NetworkEvent> list = new ArrayList<>(eventsQueue);
-        eventsQueue.clear();
+        List<NetworkEvent> list = new ArrayList<>(events);
+        events.clear();
         return list;
     }
 
