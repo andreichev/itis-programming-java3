@@ -9,6 +9,7 @@ import ru.itits.fxexample.input.Input;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class World {
     private final List<Entity> entities;
@@ -28,10 +29,21 @@ public class World {
         this.pane = pane;
     }
 
+    public Pane getPane() {
+        return pane;
+    }
+
     public void update(float deltaTime) {
         for(Entity entity: entities) {
             entity.update(deltaTime);
         }
+    }
+
+    public List<Entity> getAllCollision() {
+        return entities
+                .stream()
+                .filter(item -> item.isCollision)
+                .collect(Collectors.toList());
     }
 
     // Событие с сервера (обновить состояние объекта)
