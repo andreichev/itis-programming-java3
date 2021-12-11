@@ -75,7 +75,7 @@ public class World {
     }
 
     // Событие, произошедшее со стороны клиента
-    public void addEventToQueue(NetworkEvent event) {
+    public synchronized void addEventToQueue(NetworkEvent event) {
         for(NetworkEvent queueEvent: events) {
             if(queueEvent.type == event.type && queueEvent.objectId == event.objectId) {
                 queueEvent.data = event.data;
@@ -85,7 +85,7 @@ public class World {
         events.add(event);
     }
 
-    public List<NetworkEvent> pollEvents() {
+    public synchronized List<NetworkEvent> pollEvents() {
         List<NetworkEvent> list = new ArrayList<>(events);
         events.clear();
         return list;

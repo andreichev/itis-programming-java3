@@ -43,18 +43,24 @@ public class ServerClient {
                         server.addEvent(event);
                     }
 
-                    for(NetworkEvent networkEvent: events) {
-                        NetworkEvent.writeEvent(networkEvent, dataOutputStream);
-                    }
-                    dataOutputStream.writeInt(NetworkEvent.END);
-                    events.clear();
-                } catch (Exception ignored) {}
+                    writeAllEvents(dataOutputStream);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         thread.start();
     }
 
-    public void addEvent(NetworkEvent event) {
+    private synchronized void writeAllEvents(DataOutputStream dataOutputStream) throws IOException {
+        for(NetworkEvent networkEvent: events) {
+            NetworkEvent.writeEvent(networkEvent, dataOutputStream);
+        }
+        dataOutputStream.writeInt(NetworkEvent.END);
+        events.clear();
+    }
+
+    public synchronized void addEvent(NetworkEvent event) {
         events.add(event);
     }
 

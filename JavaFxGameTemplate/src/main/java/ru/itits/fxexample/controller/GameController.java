@@ -37,9 +37,8 @@ public class GameController implements Initializable {
         world = application.getWorld();
         world.setPane(pane);
         startTimer();
-        communicateWithServer();
-
         application.loadLevel(new Level1());
+        communicateWithServer();
     }
 
     private void startTimer() {
@@ -76,7 +75,7 @@ public class GameController implements Initializable {
                     while ((event = NetworkEvent.readEvent(dataInputStream)) != null) {
                         world.processEventFromServer(event);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
