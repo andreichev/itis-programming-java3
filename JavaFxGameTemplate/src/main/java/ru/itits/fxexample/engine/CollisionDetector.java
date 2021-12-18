@@ -26,7 +26,7 @@ public class CollisionDetector {
             if (collision.equals(entity)) { continue; }
             Bounds collisionBounds = collision.getBoundsInParent();
             if (direction == Direction.UP
-                    && (objectBounds.getMinY() - amount > collisionBounds.getMaxY()
+                    && (objectBounds.getMinY() + amount < collisionBounds.getMaxY()
                     && objectBounds.getMaxY() > collisionBounds.getMinY()
                     )
                     && (objectBounds.getMaxX() > collisionBounds.getMinX()
