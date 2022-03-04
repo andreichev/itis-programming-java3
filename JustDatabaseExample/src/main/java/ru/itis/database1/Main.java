@@ -7,23 +7,25 @@ public class Main {
 
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "123123";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/drivers";
+    private static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/drivers";
 
     public static void main(String[] args) throws Exception {
-	    Connection connection =
+        Connection connection = null;
+
+            connection =
                 DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
-	    // Получение данных
-	    Statement statement = connection.createStatement();
-	    ResultSet result = statement.executeQuery("select * from driver");
+            // Получение данных
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("select * from driver");
 
-	    while (result.next()) {
-            System.out.println(
-                    result.getInt("id") +
-                    " " + result.getString("first_name"));
-        }
+            while (result.next()) {
+                System.out.println(
+                        result.getInt("id") +
+                                " " + result.getString("first_name"));
+            }
 
-	    // Запись данных в бд
+//	    // Запись данных в бд
 	    Scanner scanner = new Scanner(System.in);
 	    String firstName = scanner.nextLine();
 	    String lastName = scanner.nextLine();
