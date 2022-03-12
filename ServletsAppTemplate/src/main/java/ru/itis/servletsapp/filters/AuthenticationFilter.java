@@ -53,7 +53,7 @@ public class AuthenticationFilter implements Filter {
         }
 
         if(isAuthenticated == false) {
-            Optional<Cookie> optionalTokenCookie = Arrays.stream(request.getCookies())
+            Optional<Cookie> optionalTokenCookie = Arrays.stream(request.getCookies() == null ? new Cookie[] {} : request.getCookies())
                     .filter(item -> item.getName().equals("token"))
                     .findFirst();
             if(optionalTokenCookie.isPresent()) {
