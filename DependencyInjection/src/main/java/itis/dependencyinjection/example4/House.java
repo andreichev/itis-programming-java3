@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class House {
     private final Boiler b;
 
-    public House(@Qualifier("gasBoiler") Boiler b) {
+    public House(Boiler b) {
         System.out.println("HOUSE INITIALIZED");
         this.b = b;
     }

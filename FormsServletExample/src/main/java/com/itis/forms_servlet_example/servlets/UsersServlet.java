@@ -1,5 +1,6 @@
 package com.itis.forms_servlet_example.servlets;
 
+import com.itis.forms_servlet_example.context.AppContext;
 import com.itis.forms_servlet_example.dao.UsersRepository;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,7 @@ import java.io.IOException;
 public class UsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("usersForJsp", UsersRepository.shared.users);
+        request.setAttribute("usersForJsp", AppContext.usersRepository.getAll());
         request.getRequestDispatcher("/users.jsp").forward(request, response);
     }
 }

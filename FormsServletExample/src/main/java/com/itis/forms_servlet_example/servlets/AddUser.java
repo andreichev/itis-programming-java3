@@ -1,5 +1,6 @@
 package com.itis.forms_servlet_example.servlets;
 
+import com.itis.forms_servlet_example.context.AppContext;
 import com.itis.forms_servlet_example.dao.UsersRepository;
 import com.itis.forms_servlet_example.model.User;
 
@@ -20,13 +21,12 @@ public class AddUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = User.builder()
-                .id(UsersRepository.shared.users.size())
                 .firstName(request.getParameter("firstName"))
                 .lastName(request.getParameter("lastName"))
                 .courseName(request.getParameter("courseName"))
                 .age(Integer.valueOf(request.getParameter("age")))
                 .build();
-        UsersRepository.shared.users.add(user);
+        AppContext.usersRepository.save(user);
         response.sendRedirect("/users");
     }
 }
