@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <title>HELLO</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <style>
+        .rect {
+            position: absolute;
+            width: 500px;
+            height: auto;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <img class="rect"></div>
+    <script>
+        let flag = true
+        let memes = []
+        $.ajax({
+            url: "https://api.imgflip.com/get_memes",
+        })
+        .done((data) => {
+            memes = data.data.memes
+            console.log(memes.length)
+        })
+
+        $(document).ready(() => {
+            let img = $('.rect')
+            setInterval(() => {
+                let x = Math.random() * 512
+                let y = Math.random() * 512
+                flag = !flag
+                img.animate({
+                    top: y,
+                    left: x,
+                }, 1000)
+
+                
+                let index = Math.floor(Math.random() * memes.length)
+                console.log(memes[index].url)
+                img.attr('src', memes[index].url)
+            }, 1000)
+        })
+    </script>
+</body>
+
+</html>
