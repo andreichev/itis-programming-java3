@@ -1,3 +1,12 @@
+create table users
+(
+    id serial not null primary key,
+    first_name varchar(30),
+    last_name varchar(30),
+    course_name varchar(30),
+    age integer
+);
+
 create table driver
 (
     id         bigserial primary key,

@@ -13,7 +13,7 @@ public class Main {
         Connection connection =
                 DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
-        CrudRepository<Driver, Long> driversDao = new DriverRepository(connection);
+        CrudRepository<Driver, Long> driversDao = new UsersRepositoryDBImpl(connection);
         Optional<Driver> optionalDriver = driversDao.findById(0L);
 
         if (optionalDriver.isPresent()) {

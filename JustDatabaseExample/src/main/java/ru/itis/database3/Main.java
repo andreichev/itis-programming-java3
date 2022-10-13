@@ -17,7 +17,7 @@ public class Main {
         dataSource.setPassword(DB_PASSWORD);
         dataSource.setUrl(DB_URL);
 
-        CrudRepository<Driver, Long> driversDao = new DriverRepository(dataSource);
+        CrudRepository<Driver, Long> driversDao = new UsersRepositoryDBImpl(dataSource);
         Optional<Driver> optionalDriver = driversDao.findById(0L);
 
         if (optionalDriver.isPresent()) {

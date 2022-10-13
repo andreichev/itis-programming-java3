@@ -1,10 +1,12 @@
 package com.itis.forms_servlet_example.dao.impl;
 
+import com.itis.forms_servlet_example.dao.CrudRepository;
 import com.itis.forms_servlet_example.dao.UsersRepository;
 import com.itis.forms_servlet_example.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UsersRepositoryTempImpl implements UsersRepository {
     private final List<User> data = new ArrayList<>();
@@ -27,12 +29,12 @@ public class UsersRepositoryTempImpl implements UsersRepository {
     }
 
     @Override
-    public User getById(int id) {
-        return data.stream().filter(item -> item.getId() == id).findFirst().get();
+    public Optional<User> getById(Integer id) {
+        return data.stream().filter(item -> item.getId().equals(id)).findFirst();
     }
 
     @Override
-    public void delete(int id) {
-        data.removeIf(item -> item.getId() == id);
+    public void delete(Integer id) {
+        data.removeIf(item -> item.getId().equals(id));
     }
 }

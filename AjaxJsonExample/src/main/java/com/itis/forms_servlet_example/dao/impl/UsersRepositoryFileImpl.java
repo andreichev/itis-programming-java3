@@ -1,9 +1,11 @@
 package com.itis.forms_servlet_example.dao.impl;
 
+import com.itis.forms_servlet_example.dao.CrudRepository;
 import com.itis.forms_servlet_example.dao.UsersRepository;
 import com.itis.forms_servlet_example.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 // TODO: Implement
 public class UsersRepositoryFileImpl implements UsersRepository {
@@ -16,10 +18,10 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     }
 
     @Override
-    public User getById(int id) {
-        return null;
+    public Optional<User> getById(Integer id) {
+        return Optional.empty();
     }
 
     @Override
-    public void delete(int id) {}
+    public void delete(Integer id) {}
 }
