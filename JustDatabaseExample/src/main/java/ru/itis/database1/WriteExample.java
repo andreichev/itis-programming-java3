@@ -17,7 +17,7 @@ public class WriteExample {
 
         connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
-//	    // Запись данных в бд
+	    // Запись данных в бд
 	    Scanner scanner = new Scanner(System.in);
         System.out.print("FIRST NAME: ");
 	    String firstName = scanner.nextLine();

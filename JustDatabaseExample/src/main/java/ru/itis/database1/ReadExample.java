@@ -18,8 +18,9 @@ public class ReadExample {
 
         while (result.next()) {
             System.out.println(
-                    result.getInt("id") +
-                            " " + result.getString("first_name"));
+                    result.getInt("id")
+                            + " " + result.getString("first_name")
+                            + " " + result.getString("course_name"));
         }
     }
 }

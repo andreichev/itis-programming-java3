@@ -1,5 +1,7 @@
-package ru.itis.database3;
+package com.itis.forms_servlet_example.dao.impl;
 
+import com.itis.forms_servlet_example.dao.UsersRepository;
+import com.itis.forms_servlet_example.model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,7 +24,7 @@ public class UsersRepositoryDBImpl implements UsersRepository {
             .id(row.getInt("id"))
             .firstName(row.getString("first_name"))
             .lastName(row.getString("last_name"))
-            .lastName(row.getString("course_name"))
+            .courseName(row.getString("course_name"))
             .age(row.getInt("age"))
             .build();
 
@@ -31,7 +33,7 @@ public class UsersRepositoryDBImpl implements UsersRepository {
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public Optional<User> getById(Integer id) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, userRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
@@ -40,7 +42,7 @@ public class UsersRepositoryDBImpl implements UsersRepository {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> getAll() {
         return jdbcTemplate.query(SQL_SELECT_ALL, userRowMapper);
     }
 

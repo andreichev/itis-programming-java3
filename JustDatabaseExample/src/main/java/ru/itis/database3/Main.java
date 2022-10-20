@@ -7,7 +7,7 @@ import java.util.Optional;
 public class Main {
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "123123";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/drivers";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/first_lesson_database";
     private static final String DB_DRIVER = "org.postgresql.Driver";
 
     public static void main(String[] args) {
@@ -17,23 +17,24 @@ public class Main {
         dataSource.setPassword(DB_PASSWORD);
         dataSource.setUrl(DB_URL);
 
-        CrudRepository<Driver, Long> driversDao = new UsersRepositoryDBImpl(dataSource);
-        Optional<Driver> optionalDriver = driversDao.findById(0L);
+        UsersRepository usersDao = new UsersRepositoryDBImpl(dataSource);
+        Optional<User> optionalUser = usersDao.findById(1);
 
-        if (optionalDriver.isPresent()) {
-            Driver driver = optionalDriver.get();
-            System.out.println("Driver found! Name: " + driver.getFirstName());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            System.out.println("User found! Name: " + user.getFirstName());
         } else {
-            System.out.println("No drivers found!");
+            System.out.println("No users found!");
         }
 
-        Driver driver = Driver.builder()
-                .firstName("Ivan")
-                .lastName("Antonov")
-                .age(50)
+        User user =  User.builder()
+                .firstName("Vladimir")
+                .lastName("Nechaev")
+                .courseName("IOT")
+                .age(22)
                 .build();
 
-        Driver savedDriver = driversDao.save(driver);
-        System.out.println("Created driver with id = " + savedDriver.getId());
+        User savedUser = usersDao.save(user);
+        System.out.println("Created user with id = " + savedUser.getId());
     }
 }

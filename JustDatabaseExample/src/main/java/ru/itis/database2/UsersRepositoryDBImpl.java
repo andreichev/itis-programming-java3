@@ -25,7 +25,7 @@ public class UsersRepositoryDBImpl implements UsersRepository {
     public Optional<User> findById(Integer id) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID);
-            preparedStatement.setLong(1, id);
+            preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next() == false) {
@@ -79,7 +79,8 @@ public class UsersRepositoryDBImpl implements UsersRepository {
                 );
                 statement.setString(1, item.getFirstName());
                 statement.setString(2, item.getLastName());
-                statement.setInt(3, item.getAge());
+                statement.setString(3, item.getCourseName());
+                statement.setInt(4, item.getAge());
                 int affectedRows = statement.executeUpdate();
                 System.out.println(affectedRows + " rows affected");
                 ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -91,9 +92,15 @@ public class UsersRepositoryDBImpl implements UsersRepository {
             }
             return item;
         } else {
-            // TODO: - реализовать обновление
+            // TODO: - реализовать обновление update
             return null;
         }
+    }
+
+    // TODO: - реализовать
+    @Override
+    public List<User> getByCourseName(String courseName) {
+        return null;
     }
 
     // TODO: - реализовать
