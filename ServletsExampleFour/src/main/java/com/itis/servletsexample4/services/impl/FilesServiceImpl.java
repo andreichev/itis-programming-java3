@@ -27,7 +27,7 @@ public class FilesServiceImpl implements FilesService {
 
     @Override
     public FileInfo saveFileToStorage(InputStream inputStream, String originalFileName, String contentType, Long size) {
-        if(size > 10000) {
+        if(size > 10_000_000) {
             throw new FileSizeException("File is too large");
         }
         FileInfo fileInfo = new FileInfo(
@@ -63,5 +63,10 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public FileInfo getFileInfo(Long fileId) {
         return filesRepository.findById(fileId).orElseThrow(() -> new NotFoundException("File not found"));
+    }
+
+    @Override
+    public void delete(Long fileId) {
+        // TODO: - Реализовать
     }
 }
