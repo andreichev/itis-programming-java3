@@ -20,7 +20,7 @@ public class RegistrationServlet extends HttpServlet {
     UsersService usersService;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext context = config.getServletContext();
         usersService = (UsersService) context.getAttribute("usersService");
     }
@@ -35,9 +35,9 @@ public class RegistrationServlet extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
         RegistrationForm registrationForm = objectMapper.readValue(request.getReader(), RegistrationForm.class);
         UserDto profile = usersService.register(registrationForm);
-        response.setContentType("application/json");
-        objectMapper.writeValue(response.getWriter(), profile);
         HttpSession session = request.getSession(true);
         session.setAttribute("profile", profile);
+        response.setContentType("application/json");
+        objectMapper.writeValue(response.getWriter(), profile);
     }
 }

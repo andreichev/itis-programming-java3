@@ -19,6 +19,7 @@ public class UsersRepositoryDBImpl implements UsersRepository {
     private final static String SQL_SELECT_ALL = "select * from users;";
     private final static String SQL_INSERT = "insert into users (first_name, password, last_name, course_name, age) VALUES (?, ?, ?, ?, ?);";
     private final static String SQL_SELECT_BY_ID = "select * from users where id = ?;";
+    private final static String SQL_SELECT_BY_NAME = "select * from users where first_name = ?;";
 
     private final RowMapper<User> userRowMapper = (row, rowNumber) -> User.builder()
             .id(row.getInt("id"))
@@ -37,6 +38,15 @@ public class UsersRepositoryDBImpl implements UsersRepository {
     public Optional<User> getById(Integer id) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, userRowMapper, id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> getByName(String name) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_NAME, userRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

@@ -52,6 +52,8 @@
     </div>
 </form>
 
+<a href="/sign-in">SIGN IN</a>
+
 <script>
 
     $(document).ready(() => {

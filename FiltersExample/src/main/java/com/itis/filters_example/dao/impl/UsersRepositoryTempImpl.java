@@ -33,6 +33,11 @@ public class UsersRepositoryTempImpl implements UsersRepository {
     }
 
     @Override
+    public Optional<User> getByName(String name) {
+        return Optional.empty();
+    }
+
+    @Override
     public void delete(Integer id) {
         data.removeIf(item -> item.getId().equals(id));
     }

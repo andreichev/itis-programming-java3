@@ -2,7 +2,9 @@ package com.itis.filters_example.services.impl;
 
 import com.itis.filters_example.dao.UsersRepository;
 import com.itis.filters_example.dto.RegistrationForm;
+import com.itis.filters_example.dto.SignInForm;
 import com.itis.filters_example.dto.UserDto;
+import com.itis.filters_example.excepcions.IncorrectPasswordException;
 import com.itis.filters_example.excepcions.NotFoundException;
 import com.itis.filters_example.model.User;
 import com.itis.filters_example.services.HashService;
@@ -45,6 +47,25 @@ public class UsersServiceImpl implements UsersService {
             throw new NotFoundException("User with id " + id + " not found");
         }
         User user = optionalUser.get();
+        return UserDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .courseName(user.getCourseName())
+                .age(user.getAge())
+                .build();
+    }
+
+    @Override
+    public UserDto signIn(SignInForm form) {
+        Optional<User> optionalUser = usersRepository.getByName(form.getName());
+        if (!optionalUser.isPresent()) {
+            throw new NotFoundException("User with name " + form.getName() + " not found");
+        }
+        User user = optionalUser.get();
+        if(!hashService.matches(form.getPassword(), user.getPasswordHash())) {
+            throw new IncorrectPasswordException("Incorrect password");
+        }
         return UserDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())

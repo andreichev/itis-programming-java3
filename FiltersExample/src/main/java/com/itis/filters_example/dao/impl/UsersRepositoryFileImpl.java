@@ -22,5 +22,10 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     }
 
     @Override
+    public Optional<User> getByName(String name) {
+        return Optional.empty();
+    }
+
+    @Override
     public void delete(Integer id) {}
 }

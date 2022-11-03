@@ -1,4 +1,4 @@
-package ru.itis.servletsapp.filters;
+package com.itis.filters_example.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
