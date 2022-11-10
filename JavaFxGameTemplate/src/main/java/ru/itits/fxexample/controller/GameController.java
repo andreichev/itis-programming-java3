@@ -11,7 +11,6 @@ import ru.itits.fxexample.game.levels.Level1;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.List;
