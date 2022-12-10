@@ -77,6 +77,8 @@ public final class Application {
                 events.toggleCursorLock();
             }
 
+            renderer.updateResolution(window.getWindowSize());
+            renderer.updateTime(window.getTime());
             renderer.update();
 
             deltaTime = 0.f;
