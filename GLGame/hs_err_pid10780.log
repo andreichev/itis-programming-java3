@@ -34,9 +34,9 @@ j  org.lwjgl.system.JNI.callI(J)I+0
 j  org.lwjgl.opengl.GL.createCapabilities(ZLjava/util/function/IntFunction;)Lorg/lwjgl/opengl/GLCapabilities;+78
 j  org.lwjgl.opengl.GL.createCapabilities(Ljava/util/function/IntFunction;)Lorg/lwjgl/opengl/GLCapabilities;+2
 j  org.lwjgl.opengl.GL.createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;+1
-j  ru.itis.game.renderer.Renderer.initialize()V+0
-j  ru.itis.game.appliction.Application.initialize()V+63
-j  ru.itis.game.appliction.Application.run()V+1
+j  ru.itis.gengine.renderer.Renderer.initialize()V+0
+j  ru.itis.gengine.appliction.Application.initialize()V+63
+j  ru.itis.gengine.appliction.Application.run()V+1
 j  Main.main([Ljava/lang/String;)V+3
 v  ~StubRoutines::call_stub
 V  [libjvm.dylib+0x39b3e7]  JavaCalls::call_helper(JavaValue*, methodHandle const&, JavaCallArguments*, Thread*)+0x21d
@@ -64,9 +64,9 @@ j  org.lwjgl.system.JNI.callI(J)I+0
 j  org.lwjgl.opengl.GL.createCapabilities(ZLjava/util/function/IntFunction;)Lorg/lwjgl/opengl/GLCapabilities;+78
 j  org.lwjgl.opengl.GL.createCapabilities(Ljava/util/function/IntFunction;)Lorg/lwjgl/opengl/GLCapabilities;+2
 j  org.lwjgl.opengl.GL.createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;+1
-j  ru.itis.game.renderer.Renderer.initialize()V+0
-j  ru.itis.game.appliction.Application.initialize()V+63
-j  ru.itis.game.appliction.Application.run()V+1
+j  ru.itis.gengine.renderer.Renderer.initialize()V+0
+j  ru.itis.gengine.appliction.Application.initialize()V+63
+j  ru.itis.gengine.appliction.Application.run()V+1
 j  Main.main([Ljava/lang/String;)V+3
 v  ~StubRoutines::call_stub
 
