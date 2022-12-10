@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import ru.itis.gameobjects.Tank;
 import ru.itis.gameobjects.common.Destroyable;
-import ru.itis.sockets.SocketClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +23,6 @@ public class Game {
     private final List<GameObject> gameObjects = new ArrayList<>();
 
     private Pane pane;
-
-    SocketClient client;
 
     private long fps;
 
@@ -102,11 +99,6 @@ public class Game {
         if (System.currentTimeMillis() - fps > 32) {
             for (GameObject gameObject : gameObjects) {
                 gameObject.update();
-                if (gameObject instanceof Tank) {
-                    if(client != null) {
-                        client.sendTankPosition(gameObject.getLayoutX(), gameObject.getLayoutY());
-                    }
-                }
             }
             fps = System.currentTimeMillis();
         }

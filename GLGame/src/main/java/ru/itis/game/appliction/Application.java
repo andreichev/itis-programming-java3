@@ -4,6 +4,7 @@ import ru.itis.game.base.GSize;
 import ru.itis.game.events.Events;
 import ru.itis.game.events.Key;
 import ru.itis.game.events.impl.EventsGlfwImpl;
+import ru.itis.game.renderer.Renderer;
 import ru.itis.game.window.Window;
 import ru.itis.game.window.impl.WindowGlfwImpl;
 
@@ -23,6 +24,7 @@ public final class Application {
 
     private Window window;
     private Events events;
+    private Renderer renderer;
 
     private Application() {}
 
@@ -40,6 +42,8 @@ public final class Application {
         // Порядок важен
         window.initialize("ITIS", new GSize(620, 480), false);
         events.initialize();
+        renderer = new Renderer();
+        renderer.initialize();
         time = window.getTime();
         maximumFps = 1000;
     }
@@ -72,6 +76,8 @@ public final class Application {
             if(events.isKeyJustPressed(Key.TAB)) {
                 events.toggleCursorLock();
             }
+
+            renderer.update();
 
             deltaTime = 0.f;
             window.swapBuffers();
