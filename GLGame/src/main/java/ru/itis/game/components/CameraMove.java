@@ -41,11 +41,16 @@ public class CameraMove extends Component {
         if (events.isKeyPressed(Key.LEFT_SHIFT)) {
             transform.translate(Direction.Down, speed);
         }
+        if(events.isKeyJustPressed(Key.TAB)) {
+            events.toggleCursorLock();
+        }
 
-        transform.rotate(
-                events.getDeltaY() * mouseSpeed,
-                events.getDeltaX() * mouseSpeed,
-                0.f
-        );
+        if (events.isCursorLocked()) {
+            transform.rotate(
+                    events.getDeltaY() * mouseSpeed,
+                    events.getDeltaX() * mouseSpeed,
+                    0.f
+            );
+        }
     }
 }

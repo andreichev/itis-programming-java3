@@ -8,9 +8,9 @@ public class Main {
         Application.shared.run(
                 ApplicationStartupSettings.builder()
                         .name("GLGame")
-                        .windowTitle("World of Tanks")
+                        .windowTitle("Cats Catch")
                         .startupLevel(new FirstLevel())
-                        .windowSize(new GSize(800, 600))
+                        .windowSize(new GSize(700, 700))
                         .isFullScreen(false)
                         .build()
         );

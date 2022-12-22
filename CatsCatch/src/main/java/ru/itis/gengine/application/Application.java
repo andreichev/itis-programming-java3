@@ -6,6 +6,7 @@ import ru.itis.gengine.events.FrameBufferSizeListener;
 import ru.itis.gengine.events.Key;
 import ru.itis.gengine.events.impl.EventsGlfwImpl;
 import ru.itis.gengine.gamelogic.LevelBase;
+import ru.itis.gengine.gamelogic.Physics;
 import ru.itis.gengine.gamelogic.World;
 import ru.itis.gengine.renderer.Renderer;
 import ru.itis.gengine.window.Window;
@@ -18,6 +19,7 @@ public class Application implements FrameBufferSizeListener {
     private Window window;
     private Events events;
     private Renderer renderer;
+    private Physics physics;
     private World world;
     private LevelBase currentLevel;
     private double time;
@@ -48,6 +50,7 @@ public class Application implements FrameBufferSizeListener {
     private void initialize(ApplicationStartupSettings settings) {
         maximumFps = 60;
         renderer = new Renderer();
+        physics = new Physics();
         events = new EventsGlfwImpl();
         window = new WindowGlfwImpl();
         events.setWindow(window);
@@ -56,7 +59,7 @@ public class Application implements FrameBufferSizeListener {
         window.initialize(settings.getWindowTitle(), settings.getWindowSize(), settings.isFullScreen());
         events.initialize();
         renderer.initialize();
-        world = new World(window, events, renderer);
+        world = new World(window, events, renderer, physics);
         time = window.getTime();
         events.addFrameBufferSizeListener(this);
         settings.getStartupLevel().start(world);
@@ -81,8 +84,14 @@ public class Application implements FrameBufferSizeListener {
             }
 
             renderer.clear();
+            if(time == 300) {
+                window.setShouldClose(true);
+            }
             if(events.isKeyPressed(Key.ESCAPE)) {
                 window.setShouldClose(true);
+            }
+            if(events.isKeyJustPressed(Key.TAB)) {
+                events.toggleCursorLock();
             }
 
             world.update(deltaTime);

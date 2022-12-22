@@ -7,10 +7,9 @@ import java.net.Socket;
 
 public class Server {
     private ServerSocket serverSocket;
-    private int counter;
+    private int counter = 0;
 
-    Server() {
-        counter = 0;
+    public Server() {
         try {
             serverSocket = new ServerSocket(5678);
             System.out.println("SERVER: SERVER STARTED AT PORT 5678");
