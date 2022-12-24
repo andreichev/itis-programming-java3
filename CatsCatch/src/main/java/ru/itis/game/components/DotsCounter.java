@@ -1,10 +1,12 @@
 package ru.itis.game.components;
 
 import org.joml.Vector4f;
+import ru.itis.gengine.application.Application;
 import ru.itis.gengine.events.Events;
 import ru.itis.gengine.gamelogic.Component;
 import ru.itis.gengine.gamelogic.Entity;
 import ru.itis.gengine.gamelogic.Physics;
+import ru.itis.gengine.gamelogic.World;
 import ru.itis.gengine.gamelogic.components.Mesh;
 import ru.itis.gengine.gamelogic.components.Transform;
 import ru.itis.gengine.renderer.Texture;
@@ -33,9 +35,10 @@ public class DotsCounter extends Component {
             new Texture("resources/textures/10.png"),
     };
 
-    public DotsCounter(Entity dotEntity, Entity counterEntity) {
-        this.dotEntity = dotEntity;
-        this.counterEntity = counterEntity;
+    public DotsCounter(boolean isFirst) {
+        World world = Application.shared.getWorld();
+        this.dotEntity = world.findEntityByName("dot").get();
+        this.counterEntity = world.findEntityByName(isFirst ? "firstCounter" : "secondCounter").get();
     }
 
     @Override

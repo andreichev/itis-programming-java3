@@ -5,5 +5,8 @@ public class EmptyLevel extends LevelBase {
     public void start(World world) {}
 
     @Override
+    public void playerConnected(int id, double x, double y, boolean currentPlayer) {}
+
+    @Override
     public void terminate() {}
 }

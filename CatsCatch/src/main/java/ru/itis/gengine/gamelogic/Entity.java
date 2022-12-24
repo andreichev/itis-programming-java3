@@ -2,13 +2,17 @@ package ru.itis.gengine.gamelogic;
 
 import ru.itis.gengine.events.Events;
 import ru.itis.gengine.gamelogic.components.Transform;
+import ru.itis.gengine.network.client.Replicable;
+import ru.itis.gengine.network.server.NetworkEvent;
 import ru.itis.gengine.renderer.Renderer;
 import ru.itis.gengine.window.Window;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Entity {
+    private String name;
     private final List<Component> components;
     private final List<Entity> childEntities;
     private Entity parentEntity;
@@ -20,7 +24,8 @@ public class Entity {
 
     // MARK: - Init
 
-    Entity(Window window, Events events, Renderer renderer, Physics physics) {
+    Entity(String name, Window window, Events events, Renderer renderer, Physics physics) {
+        this.name = name;
         this.window = window;
         this.events = events;
         this.renderer = renderer;
@@ -101,6 +106,14 @@ public class Entity {
         childEntities.remove(entity);
     }
 
+    public List<Entity> getChildEntities() {
+        return childEntities;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public Entity getParent() {
         return parentEntity;
     }
@@ -119,5 +132,21 @@ public class Entity {
 
     public Physics getPhysics() {
         return physics;
+    }
+
+    // Событие с сервера (обновить состояние объекта)
+    public void processEventFromServer(NetworkEvent event) {
+        for (Entity entity : childEntities) {
+            entity.processEventFromServer(event);
+        }
+        Optional<Component> optionalComponent = components.stream()
+                .filter(item -> item.id == event.objectId)
+                .findAny();
+        if(optionalComponent.isPresent() == false) { return; }
+        Component component = optionalComponent.get();
+
+        if(component instanceof Replicable) {
+            ((Replicable) component).processEvent(event);
+        }
     }
 }

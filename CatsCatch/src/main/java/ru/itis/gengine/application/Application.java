@@ -8,9 +8,14 @@ import ru.itis.gengine.events.impl.EventsGlfwImpl;
 import ru.itis.gengine.gamelogic.LevelBase;
 import ru.itis.gengine.gamelogic.Physics;
 import ru.itis.gengine.gamelogic.World;
+import ru.itis.gengine.network.client.Client;
+import ru.itis.gengine.network.server.Server;
 import ru.itis.gengine.renderer.Renderer;
 import ru.itis.gengine.window.Window;
 import ru.itis.gengine.window.impl.WindowGlfwImpl;
+
+import java.io.IOException;
+import java.net.Socket;
 
 public class Application implements FrameBufferSizeListener {
     public static final Application shared = new Application();
@@ -20,6 +25,8 @@ public class Application implements FrameBufferSizeListener {
     private Events events;
     private Renderer renderer;
     private Physics physics;
+    private Server server;
+    private Client client;
     private World world;
     private LevelBase currentLevel;
     private double time;
@@ -35,6 +42,14 @@ public class Application implements FrameBufferSizeListener {
         initialize(applicationStartupSettings);
         loop();
         terminate();
+    }
+
+    public LevelBase getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     public void loadLevel(LevelBase level) {
@@ -62,6 +77,20 @@ public class Application implements FrameBufferSizeListener {
         world = new World(window, events, renderer, physics);
         time = window.getTime();
         events.addFrameBufferSizeListener(this);
+        if (settings.isServer()) {
+            try {
+                server = new Server();
+            } catch (IOException e) {
+                System.out.printf("SERVER FAILED TO START %s\n", e.getLocalizedMessage());
+            }
+        }
+        try {
+            Socket socket = new Socket("127.0.0.1", 16431);
+            client = new Client(world, socket);
+        } catch (IOException e) {
+            System.out.printf("CLIENT FAILED TO CONNECT %s\n", e.getLocalizedMessage());
+        }
+
         settings.getStartupLevel().start(world);
     }
 

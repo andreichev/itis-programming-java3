@@ -10,8 +10,9 @@ public class Main {
                         .name("GLGame")
                         .windowTitle("Cats Catch")
                         .startupLevel(new FirstLevel())
-                        .windowSize(new GSize(900, 900))
+                        .windowSize(new GSize(1200, 900))
                         .isFullScreen(false)
+                        .isServer(args.length > 0 && "start_server".equals(args[0]))
                         .build()
         );
     }

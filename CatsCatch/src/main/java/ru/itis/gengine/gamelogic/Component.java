@@ -1,6 +1,9 @@
 package ru.itis.gengine.gamelogic;
 
+import java.util.UUID;
+
 public abstract class Component {
+    public int id = UUID.randomUUID().hashCode();
     public boolean isActive = true;
     private Entity entity;
 

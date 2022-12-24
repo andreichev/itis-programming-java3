@@ -10,6 +10,7 @@ public class ApplicationStartupSettings {
     private GSize windowSize;
     private boolean isFullScreen;
     private LevelBase startupLevel;
+    private boolean isServer;
 
     public String getName() {
         if (name == null) { return "No name"; }
@@ -30,6 +31,10 @@ public class ApplicationStartupSettings {
         return isFullScreen;
     }
 
+    public boolean isServer() {
+        return isServer;
+    }
+
     public LevelBase getStartupLevel() {
         if (startupLevel == null) {
             startupLevel = new EmptyLevel();
@@ -37,12 +42,13 @@ public class ApplicationStartupSettings {
         return startupLevel;
     }
 
-    ApplicationStartupSettings(String name, String windowTitle, GSize windowSize, boolean isFullScreen, LevelBase startupLevel) {
+    ApplicationStartupSettings(String name, String windowTitle, GSize windowSize, boolean isFullScreen, LevelBase startupLevel, boolean isServer) {
         this.name = name;
         this.windowTitle = windowTitle;
         this.windowSize = windowSize;
         this.isFullScreen = isFullScreen;
         this.startupLevel = startupLevel;
+        this.isServer = isServer;
     }
 
     public static Builder builder() {
@@ -55,6 +61,7 @@ public class ApplicationStartupSettings {
         private GSize windowSize;
         private boolean isFullScreen;
         private LevelBase startupLevel;
+        private boolean isServer;
 
         private Builder() {}
 
@@ -83,8 +90,13 @@ public class ApplicationStartupSettings {
             return this;
         }
 
+        public Builder isServer(boolean isServer) {
+            this.isServer = isServer;
+            return this;
+        }
+
         public ApplicationStartupSettings build() {
-            return new ApplicationStartupSettings(name, windowTitle, windowSize, isFullScreen, startupLevel);
+            return new ApplicationStartupSettings(name, windowTitle, windowSize, isFullScreen, startupLevel, isServer);
         }
     }
 }

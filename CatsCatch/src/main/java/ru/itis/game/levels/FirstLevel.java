@@ -4,6 +4,7 @@ import ru.itis.game.components.DotsCounter;
 import ru.itis.game.components.Laser;
 import ru.itis.game.components.PlayerMove;
 import ru.itis.game.components.SecondPlayerMove;
+import ru.itis.gengine.application.Application;
 import ru.itis.gengine.base.GSize;
 import ru.itis.gengine.gamelogic.Entity;
 import ru.itis.gengine.gamelogic.LevelBase;
@@ -21,6 +22,35 @@ public class FirstLevel extends LevelBase {
     Shader baseShader;
 
     @Override
+    public void playerConnected(int id, double x, double y, boolean currentPlayer) {
+        World world = Application.shared.getWorld();
+        if (currentPlayer) {
+            Texture texture1 = new Texture("resources/textures/cat.png");
+            MeshData meshData1 = Primitives.createSquare(1);
+            Mesh mesh1 = new Mesh(meshData1, false, texture1, baseShader);
+            Entity catPlayer1Entity = world.instantiateEntity("player1");
+            catPlayer1Entity.addComponent(mesh1);
+            catPlayer1Entity.getTransform().setPosition(-5.f, 0.f, 0);
+            catPlayer1Entity.addComponent(new BoxCollider());
+            catPlayer1Entity.addComponent(new PlayerMove());
+            catPlayer1Entity.getRenderer().setViewportSize(new GSize(2.f, 2.f));
+            catPlayer1Entity.addComponent(new DotsCounter(true));
+        } else {
+            Texture texture2 = new Texture("resources/textures/cat2.png");
+            MeshData meshData2 = Primitives.createSquare(1);
+            Mesh mesh2 = new Mesh(meshData2, false, texture2, baseShader);
+
+            Entity catPlayer2Entity = world.instantiateEntity("player2");
+            catPlayer2Entity.addComponent(mesh2);
+            catPlayer2Entity.getTransform().setPosition(5.f, 0.f, 0);
+            catPlayer2Entity.addComponent(new BoxCollider());
+            catPlayer2Entity.addComponent(new SecondPlayerMove());
+            catPlayer2Entity.getRenderer().setViewportSize(new GSize(2.f, 2.f));
+            catPlayer2Entity.addComponent(new DotsCounter(false));
+        }
+    }
+
+    @Override
     public void start(World world) {
         world.getRenderer().setClearColor(0.65f, 0.75f, 0.81f, 1.0f);
         baseShader = new Shader(
@@ -28,7 +58,7 @@ public class FirstLevel extends LevelBase {
                 "resources/shaders/fragment_shader.glsl"
         );
 
-        Entity cameraEntity = world.instantiateEntity();
+        Entity cameraEntity = world.instantiateEntity("camera");
         Camera camera = new Camera();
         cameraEntity.addComponent(camera);
 
@@ -36,7 +66,7 @@ public class FirstLevel extends LevelBase {
         camera.setShader(baseShader);
         cameraEntity.getTransform().setPosition(0.f, 0.f, 10.f);
 
-        Entity dotEntity = world.instantiateEntity();
+        Entity dotEntity = world.instantiateEntity("dot");
         Texture textureDot = new Texture("resources/textures/dot.png");
         MeshData dotMeshData = Primitives.createSquare(1.f);
         Mesh dotMesh = new Mesh(dotMeshData, false, textureDot, baseShader);
@@ -47,46 +77,21 @@ public class FirstLevel extends LevelBase {
         dotEntity.addComponent(new Laser());
         dotEntity.getTransform().setPosition(0,0,0);
 
-        Texture texture1 = new Texture("resources/textures/cat.png");
-        MeshData meshData1 = Primitives.createSquare(1);
-        Mesh mesh1 = new Mesh(meshData1, false, texture1, baseShader);
-
-        Texture texture2 = new Texture("resources/textures/cat2.png");
-        MeshData meshData2 = Primitives.createSquare(1);
-        Mesh mesh2 = new Mesh(meshData2, false, texture2, baseShader);
-
         MeshData meshDataCounter1 = Primitives.createSquare(1.0f);
         Mesh meshCounter1 = new Mesh(meshDataCounter1, false, DotsCounter.digitsTextures[0], baseShader);
 
         MeshData meshDataCounter2 = Primitives.createSquare(1.0f);
         Mesh meshCounter2 = new Mesh(meshDataCounter2, false, DotsCounter.digitsTextures[0], baseShader);
 
-        Entity firstCounter = world.instantiateEntity();
+        Entity firstCounter = world.instantiateEntity("firstCounter");
         firstCounter.addComponent(meshCounter1);
         firstCounter.getTransform().setPosition(-6, 5, 0);
 
-        Entity catPlayer1Entity = world.instantiateEntity();
-        catPlayer1Entity.addComponent(mesh1);
-        catPlayer1Entity.getTransform().setPosition(-5.f, 0.f, 0);
-        catPlayer1Entity.addComponent(new BoxCollider());
-        catPlayer1Entity.addComponent(new PlayerMove());
-        catPlayer1Entity.getRenderer().setViewportSize(new GSize(2.f, 2.f));
-        catPlayer1Entity.addComponent(new DotsCounter(dotEntity, firstCounter));
-
-        Entity secondCounter = world.instantiateEntity();
+        Entity secondCounter = world.instantiateEntity("secondCounter");
         secondCounter.addComponent(meshCounter2);
         secondCounter.getTransform().setPosition(6, 5, 0);
 
-        Entity catPlayer2Entity = world.instantiateEntity();
-        catPlayer2Entity.addComponent(mesh2);
-        catPlayer2Entity.getTransform().setPosition(5.f, 0.f, 0);
-        catPlayer2Entity.addComponent(new BoxCollider());
-        catPlayer2Entity.addComponent(new SecondPlayerMove());
-        catPlayer2Entity.getRenderer().setViewportSize(new GSize(2.f, 2.f));
-        catPlayer2Entity.addComponent(new DotsCounter(dotEntity, secondCounter));
-
         createBlocks(world);
-
     }
 
     @Override
@@ -98,7 +103,7 @@ public class FirstLevel extends LevelBase {
         Texture textureBlock = new Texture("resources/textures/block.png");
 
         for (int i = 0; i < 6; i++) {
-            Entity block = world.instantiateEntity();
+            Entity block = world.instantiateEntity("block" + i);
             MeshData meshData = Primitives.createSquare(1.0f);
             Mesh mesh = new Mesh(meshData, false, textureBlock, baseShader);
 
