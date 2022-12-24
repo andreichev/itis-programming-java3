@@ -8,7 +8,7 @@ import ru.itis.gengine.gamelogic.primitives.MeshData;
 import ru.itis.gengine.renderer.*;
 
 public class Mesh extends Component implements TransformDelegate {
-    private final Texture texture;
+    private Texture texture;
     private final Shader shader;
     private final Matrix4f model;
     private IndexBuffer indexBuffer;
@@ -111,5 +111,13 @@ public class Mesh extends Component implements TransformDelegate {
     @Override
     public void transformChanged(Vector4f position, Vector3f rotation) {
         updateModelMatrix();
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 }

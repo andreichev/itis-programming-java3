@@ -5,7 +5,9 @@ import ru.itis.gengine.events.Events;
 import ru.itis.gengine.gamelogic.Component;
 import ru.itis.gengine.gamelogic.Entity;
 import ru.itis.gengine.gamelogic.Physics;
+import ru.itis.gengine.gamelogic.components.Mesh;
 import ru.itis.gengine.gamelogic.components.Transform;
+import ru.itis.gengine.renderer.Texture;
 
 import java.util.Random;
 
@@ -14,11 +16,26 @@ public class DotsCounter extends Component {
     private Events events;
     private int count;
     private Entity dotEntity;
+    private Entity counterEntity;
     private float lastCaughtTime = 0.f;
     private float time = 0.f;
+    public static final Texture[] digitsTextures = {
+            new Texture("resources/textures/0.png"),
+            new Texture("resources/textures/1.png"),
+            new Texture("resources/textures/2.png"),
+            new Texture("resources/textures/3.png"),
+            new Texture("resources/textures/4.png"),
+            new Texture("resources/textures/5.png"),
+            new Texture("resources/textures/6.png"),
+            new Texture("resources/textures/7.png"),
+            new Texture("resources/textures/8.png"),
+            new Texture("resources/textures/9.png"),
+            new Texture("resources/textures/10.png"),
+    };
 
-    public DotsCounter(Entity dotEntity) {
+    public DotsCounter(Entity dotEntity, Entity counterEntity) {
         this.dotEntity = dotEntity;
+        this.counterEntity = counterEntity;
     }
 
     @Override
@@ -26,6 +43,13 @@ public class DotsCounter extends Component {
         transform = getEntity().getTransform();
         events = getEntity().getEvents();
         count = 0;
+    }
+
+    @Override
+    public void terminate() {
+        for(Texture texture: digitsTextures) {
+            texture.delete();
+        }
     }
 
     @Override
@@ -41,5 +65,14 @@ public class DotsCounter extends Component {
             Laser laser = dotEntity.getComponentWithType(Laser.class);
             laser.setTarget(new Vector4f(random.nextInt(10) - 5, random.nextInt(10) - 5, 0, 0));
         }
+        showCounter(counterEntity);
+    }
+
+    private void showCounter(Entity counterEntity) {
+        if(count == 0 || count > 10){
+            return;
+        }
+        Texture textureCounter = DotsCounter.digitsTextures[count];
+        counterEntity.getComponentWithType(Mesh.class).setTexture(textureCounter);
     }
 }

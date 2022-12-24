@@ -55,6 +55,15 @@ public class FirstLevel extends LevelBase {
         MeshData meshData2 = Primitives.createSquare(1);
         Mesh mesh2 = new Mesh(meshData2, false, texture2, baseShader);
 
+        MeshData meshDataCounter1 = Primitives.createSquare(1.0f);
+        Mesh meshCounter1 = new Mesh(meshDataCounter1, false, DotsCounter.digitsTextures[0], baseShader);
+
+        MeshData meshDataCounter2 = Primitives.createSquare(1.0f);
+        Mesh meshCounter2 = new Mesh(meshDataCounter2, false, DotsCounter.digitsTextures[0], baseShader);
+
+        Entity firstCounter = world.instantiateEntity();
+        firstCounter.addComponent(meshCounter1);
+        firstCounter.getTransform().setPosition(-6, 5, 0);
 
         Entity catPlayer1Entity = world.instantiateEntity();
         catPlayer1Entity.addComponent(mesh1);
@@ -62,7 +71,11 @@ public class FirstLevel extends LevelBase {
         catPlayer1Entity.addComponent(new BoxCollider());
         catPlayer1Entity.addComponent(new PlayerMove());
         catPlayer1Entity.getRenderer().setViewportSize(new GSize(2.f, 2.f));
-        catPlayer1Entity.addComponent(new DotsCounter(dotEntity));
+        catPlayer1Entity.addComponent(new DotsCounter(dotEntity, firstCounter));
+
+        Entity secondCounter = world.instantiateEntity();
+        secondCounter.addComponent(meshCounter2);
+        secondCounter.getTransform().setPosition(6, 5, 0);
 
         Entity catPlayer2Entity = world.instantiateEntity();
         catPlayer2Entity.addComponent(mesh2);
@@ -70,9 +83,10 @@ public class FirstLevel extends LevelBase {
         catPlayer2Entity.addComponent(new BoxCollider());
         catPlayer2Entity.addComponent(new SecondPlayerMove());
         catPlayer2Entity.getRenderer().setViewportSize(new GSize(2.f, 2.f));
-        catPlayer2Entity.addComponent(new DotsCounter(dotEntity));
+        catPlayer2Entity.addComponent(new DotsCounter(dotEntity, secondCounter));
 
         createBlocks(world);
+
     }
 
     @Override
@@ -83,7 +97,7 @@ public class FirstLevel extends LevelBase {
     private void createBlocks(World world) {
         Texture textureBlock = new Texture("resources/textures/block.png");
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             Entity block = world.instantiateEntity();
             MeshData meshData = Primitives.createSquare(1.0f);
             Mesh mesh = new Mesh(meshData, false, textureBlock, baseShader);
@@ -91,8 +105,8 @@ public class FirstLevel extends LevelBase {
             block.addComponent(mesh);
             block.addComponent(new BoxCollider());
 
-            float x = (float) (Math.random() * 8) - 4;
-            float y = (float) (Math.random() * 8) - 4;
+            float x = (float) (Math.random() * 9) - 4.5F;
+            float y = (float) (Math.random() * 9) - 4.5F;
             block.getTransform().setPosition(x, y, 0);
         }
     }
