@@ -90,6 +90,7 @@ public class World {
     private boolean firstPlayerConnection = true;
     // Событие с сервера (обновить состояние объекта)
     public void processEventFromServer(NetworkEvent event) {
+        System.out.println("EVENT FROM SERVER!");
         if(event.type == NetworkEventType.PLAYER_CONNECTED.value) {
             LevelBase level = Application.shared.getCurrentLevel();
             if(level != null) {

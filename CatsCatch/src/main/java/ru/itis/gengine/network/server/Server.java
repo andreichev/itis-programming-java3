@@ -1,5 +1,7 @@
 package ru.itis.gengine.network.server;
 
+import ru.itis.game.network.NetworkEventType;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -44,6 +46,9 @@ public class Server {
         System.out.println("Client Connected!");
         int newClientId = clients.size();
         ServerClient newClient = new ServerClient(newClientId, socket, this);
+        double[] data = new double[10];
         clients.add(newClient);
+        NetworkEvent clientConnectedEvent = new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, clients.size(), data);
+        addEvent(clientConnectedEvent);
     }
 }

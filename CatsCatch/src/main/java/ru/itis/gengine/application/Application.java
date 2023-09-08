@@ -84,14 +84,15 @@ public class Application implements FrameBufferSizeListener {
                 System.out.printf("SERVER FAILED TO START %s\n", e.getLocalizedMessage());
             }
         }
+        currentLevel = settings.getStartupLevel();
+        currentLevel.start(world);
         try {
             Socket socket = new Socket("127.0.0.1", 16431);
             client = new Client(world, socket);
+            client.initialize();
         } catch (IOException e) {
             System.out.printf("CLIENT FAILED TO CONNECT %s\n", e.getLocalizedMessage());
         }
-
-        settings.getStartupLevel().start(world);
     }
 
     private void loop() {

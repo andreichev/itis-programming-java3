@@ -23,6 +23,7 @@ public class FirstLevel extends LevelBase {
 
     @Override
     public void playerConnected(int id, double x, double y, boolean currentPlayer) {
+        System.out.printf("PLAYER %d connected\n", id);
         World world = Application.shared.getWorld();
         if (currentPlayer) {
             Texture texture1 = new Texture("resources/textures/cat.png");
