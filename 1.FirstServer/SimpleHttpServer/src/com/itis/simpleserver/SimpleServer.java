@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 public class SimpleServer {
     public static void main(String[] args) throws IOException {
         final int port = 8080;
+        int x = 0;
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Сервер запущен! порт: " + port);
 
@@ -33,11 +34,15 @@ public class SimpleServer {
                 System.out.println(input.readLine());
             }
 
+            String body = "HELLO " + x;
+            x++;
             // отправляем ответ
             output.println("HTTP/1.1 200 OK");
             output.println("Content-Type: text/html; charset=utf-8");
+            output.println("Content-Length: " + body.length());
             output.println();
-            output.println("<p>Привет всем!</p>");
+            output.println(body);
+            output.println();
             output.flush();
 
             output.close();
