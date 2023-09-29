@@ -9,49 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd6da9de-2b84-4149-be31-3bc4bd511a5a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/CookiesAndSession.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/Readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/src/main/java/com/itis/servletsexample/cookiesexample/AddCookieServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/src/main/java/com/itis/servletsexample/cookiesexample/ReadCookieServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/src/main/java/com/itis/servletsexample/sessionexample/ProfileServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/src/main/java/com/itis/servletsexample/sessionexample/SignIn.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/src/main/java/com/itis/servletsexample/sessionexample/SignOutServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/src/main/webapp/WEB-INF/web.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/src/main/webapp/view/profile.ftl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CookiesAndSession/src/main/webapp/view/signIn.ftl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/.idea/dictionaries/admin.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/JustDatabaseExample.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/Readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/queries.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database1/ReadExample.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database1/WriteExample.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database2/CrudRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database2/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database2/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database2/UsersRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database2/UsersRepositoryDBImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database3/CrudRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database3/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database3/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database3/UsersRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../JustDatabaseExample/src/main/java/ru/itis/database3/UsersRepositoryDBImpl.java" beforeDir="false" />
-    </list>
+    <list default="true" id="bd6da9de-2b84-4149-be31-3bc4bd511a5a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -191,7 +149,7 @@
       <updated>1695388480678</updated>
       <workItem from="1695388481701" duration="16000" />
       <workItem from="1695454005779" duration="1000" />
-      <workItem from="1695979627433" duration="786000" />
+      <workItem from="1695979627433" duration="1246000" />
     </task>
     <servers />
   </component>
