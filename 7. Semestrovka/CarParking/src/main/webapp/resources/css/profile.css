@@ -1,0 +1,23 @@
+.user-info{
+    font-size: 20px;
+    margin: 10px;
+    width: auto;
+}
+
+.user-avatar{
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    overflow: visible;
+    z-index: 500;
+    /*clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);*/
+    clip-path: circle(50.0% at 50% 50%);
+}
+
+.under-photo{
+    width: 80%;
+    margin-left: 0;
+}

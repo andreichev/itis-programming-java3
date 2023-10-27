@@ -15,6 +15,7 @@ public class UsersRepositoryDBImpl implements UsersRepository {
 
     private final static String SQL_SELECT_ALL = "select * from users;";
     private final static String SQL_INSERT = "insert into users (first_name, last_name, course_name, age) VALUES (?, ?, ?, ?);";
+    private final static String SQL_UPDATE = "update users set first_name = ?, last_name = ?, course_name = ?, age = ? where id = ?;";
     private final static String SQL_SELECT_BY_ID = "select * from users where id = ?;";
 
     public UsersRepositoryDBImpl(Connection connection) {
@@ -92,8 +93,22 @@ public class UsersRepositoryDBImpl implements UsersRepository {
             }
             return item;
         } else {
-            // TODO: - реализовать обновление update
-            return null;
+            try {
+                PreparedStatement statement = connection.prepareStatement(
+                        SQL_UPDATE
+                );
+                statement.setString(1, item.getFirstName());
+                statement.setString(2, item.getLastName());
+                statement.setString(3, item.getCourseName());
+                statement.setInt(4, item.getAge());
+                statement.setInt(5, item.getId());
+                int affectedRows = statement.executeUpdate();
+                System.out.println(affectedRows + " rows affected");
+                return item;
+            } catch (SQLException throwable) {
+                System.out.println("SQL Exception: " + throwable.getLocalizedMessage());
+            }
+            return item;
         }
     }
 

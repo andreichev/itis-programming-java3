@@ -1,0 +1,28 @@
+#add_point_form{
+    background: rgba(255,255,255,0.7);
+    /*box-shadow: 0 0 40px 40px rgba(255, 255, 255, 0.8);*/
+    border: solid rgba(55, 29, 93, 0.8) 1px;
+
+    width: 300px;
+    height: 370px;
+    position: fixed;
+    right: 50px;
+    top: 20%;
+}
+
+#add_point_form .title{
+
+    font-size: 25px;
+    text-align: center;
+    margin: 10px auto 0;
+}
+
+#add_point_form input {
+    height: 30px;
+    width: 80%;
+    display: block; margin: 3px auto;
+}
+
+#add_point_form label{
+    padding-left: 10%;
+}
