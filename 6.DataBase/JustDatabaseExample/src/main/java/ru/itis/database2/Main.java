@@ -7,14 +7,14 @@ import java.util.Optional;
 public class Main {
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "123123";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/first_lesson_database";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/first_webapp_database";
 
     public static void main(String[] args) throws Exception {
         Connection connection =
                 DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
         UsersRepository usersDao = new UsersRepositoryDBImpl(connection);
-        Optional<User> optionalUser = usersDao.findById(3);
+        Optional<User> optionalUser = usersDao.findById(2);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -24,10 +24,10 @@ public class Main {
         }
 
         User user = User.builder()
-                .firstName("Lera")
-                .lastName("Slobodchikova")
-                .courseName("Frontend")
-                .age(20)
+                .firstName("Ilusha")
+                .lastName("Mihailov")
+                .courseName("RUBY")
+                .age(18)
                 .build();
 
         User savedUser = usersDao.save(user);

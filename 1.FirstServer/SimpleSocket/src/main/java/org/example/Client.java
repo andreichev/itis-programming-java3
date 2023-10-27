@@ -12,7 +12,7 @@ public class Client {
         OutputStream outputStream = socket.getOutputStream();
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
         BufferedWriter writer = new BufferedWriter(outputStreamWriter);
-        writer.write("HELLO, 203\n");
+        writer.write("HELLO, 210\n");
         writer.write("BYE BYE");
         writer.flush();
         outputStream.close();

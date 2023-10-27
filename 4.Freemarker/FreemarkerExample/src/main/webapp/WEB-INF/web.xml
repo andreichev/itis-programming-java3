@@ -41,4 +41,19 @@
         <url-pattern>*.ftl</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>OIERIOWEOIWOI</servlet-name>
+        <servlet-class>ru.itis.webdev.servlets.TestServlet</servlet-class>
+
+        <init-param>
+            <param-name>ABCD</param-name>
+            <param-value>ТЫ ЛОХ</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OIERIOWEOIWOI</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+
 </web-app>

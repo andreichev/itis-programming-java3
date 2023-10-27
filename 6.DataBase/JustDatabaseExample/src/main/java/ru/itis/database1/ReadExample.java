@@ -1,11 +1,12 @@
 package ru.itis.database1;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 public class ReadExample {
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "123123";
-    private static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/first_lesson_database";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/first_webapp_database";
 
     public static void main(String[] args) throws SQLException {
         Connection connection = null;

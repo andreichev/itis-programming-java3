@@ -10,7 +10,7 @@ public class WriteExample {
 
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "123123";
-    private static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/first_lesson_database";
+    private static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/first_webapp_database";
 
     public static void main(String[] args) throws Exception {
         Connection connection = null;
@@ -29,20 +29,19 @@ public class WriteExample {
 	    int age = scanner.nextInt();
 
         // Плохой вариант формирования запроса т. к. возможна SQL иньекция
-        {
-            String sqlInsertUser = "insert into users(first_name, last_name, course_name, age) values ('" +
-                    firstName + "','" + lastName + "', '" + courseName + "', " + age + ");";
-            System.out.println(sqlInsertUser);
-
-            Statement statement = connection.createStatement();
-            int affectedRows = statement.executeUpdate(sqlInsertUser);
-            System.out.println("Было добавлено " + affectedRows + " строк");
-        }
+//        {
+//            String sqlInsertUser = "insert into users(first_name, last_name, course_name, age) values ('" +
+//                    firstName + "','" + lastName + "', '" + courseName + "', " + age + ");";
+//            System.out.println(sqlInsertUser);
+//
+//            Statement statement = connection.createStatement();
+//            int affectedRows = statement.executeUpdate(sqlInsertUser);
+//            System.out.println("Было добавлено " + affectedRows + " строк");
+//        }
 
         // Правильный вариант формирования запроса
         {
-            String sqlInsertUser = "insert into users(first_name, last_name, course_name, age) " +
-                    "values (?, ?, ?, ?)";
+            String sqlInsertUser = "insert into users(first_name, last_name, course_name, age) values (?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInsertUser);
             preparedStatement.setString(1, firstName);
