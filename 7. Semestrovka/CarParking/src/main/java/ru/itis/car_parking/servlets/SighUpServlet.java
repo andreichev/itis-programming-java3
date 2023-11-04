@@ -1,6 +1,7 @@
 package ru.itis.car_parking.servlets;
 
 import ru.itis.car_parking.dto.SignUpForm;
+import ru.itis.car_parking.dto.UserDto;
 import ru.itis.car_parking.exceptions.ParkingException;
 import ru.itis.car_parking.model.User;
 import ru.itis.car_parking.services.AuthorizationService;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -45,7 +45,7 @@ public class SighUpServlet extends HttpServlet {
                         birthdate.atStartOfDay(ZoneId.systemDefault()).toInstant()
                 )
                 .build();
-        User user;
+        UserDto user;
         try {
             user = authorizationService.signUp(form);
         } catch (ParkingException e) {

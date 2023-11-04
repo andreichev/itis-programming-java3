@@ -17,6 +17,9 @@
         <label>
             <input class="form-control" name="password" type="password" placeholder="Password">
         </label>
+        <#if errorMessage??>
+            <div class="error_message">${errorMessage}</div>
+        </#if>
         <input class="login-button" type="submit">
     </form>
 

@@ -25,6 +25,9 @@
     <label>Birthdate
         <input class="form-control" name="birthdate" type="date">
     </label>
+    <#if errorMessage??>
+        <div class="error_message">${errorMessage}</div>
+    </#if>
     <input class="login-button" type="submit">
 </form>
 

@@ -4,7 +4,11 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.itis.car_parking.repositories.UsersRepository;
 import ru.itis.car_parking.repositories.impl.UsersRepositoryImpl;
 import ru.itis.car_parking.services.AuthorizationService;
+import ru.itis.car_parking.services.PasswordEncoder;
+import ru.itis.car_parking.services.UserMapper;
 import ru.itis.car_parking.services.impl.AuthorizationServiceImpl;
+import ru.itis.car_parking.services.impl.PasswordEncoderImpl;
+import ru.itis.car_parking.services.impl.UserMapperImpl;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -32,8 +36,10 @@ public class InitListener implements ServletContextListener {
         dataSource.setPassword(DB_PASSWORD);
         dataSource.setUrl(DB_URL);
 
+        PasswordEncoder passwordEncoder = new PasswordEncoderImpl();
+        UserMapper userMapper = new UserMapperImpl();
         UsersRepository usersRepository = new UsersRepositoryImpl(dataSource);
-        AuthorizationService authorizationService = new AuthorizationServiceImpl(usersRepository);
+        AuthorizationService authorizationService = new AuthorizationServiceImpl(usersRepository, userMapper, passwordEncoder);
 
         ServletContext servletContext = sce.getServletContext();
         servletContext.setAttribute("usersRepository", usersRepository);
