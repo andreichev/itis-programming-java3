@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="breakthrough@localhost" uuid="cd33b2a8-356d-4ece-a9a4-99bbe1f35739">
+    <data-source source="LOCAL" name="semestrovka@localhost" uuid="f73e9353-e3ec-4cf4-8845-f677a62fc57b">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/breakthrough</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/semestrovka</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
 </project>

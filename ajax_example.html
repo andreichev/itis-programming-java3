@@ -22,8 +22,8 @@
         $.ajax({
             url: "https://api.imgflip.com/get_memes",
         })
-        .done((data) => {
-            memes = data.data.memes
+        .done((responseBody) => {
+            memes = responseBody.data.memes
             console.log(memes.length)
         })
 

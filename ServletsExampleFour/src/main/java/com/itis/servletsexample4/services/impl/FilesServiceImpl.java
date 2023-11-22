@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class FilesServiceImpl implements FilesService {
 
-    String path = "/Users/admin/Documents/uploads/images/";
+    String path = "/Users/andreichev/Documents/server_files/";
 
     private final FilesRepository filesRepository;
 

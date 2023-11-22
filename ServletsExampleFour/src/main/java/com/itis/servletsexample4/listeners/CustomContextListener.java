@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebListener;
 public class CustomContextListener implements ServletContextListener {
     private static final String DB_USERNAME = "postgres";
     private static final String DB_PASSWORD = "123123";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/breakthrough";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/semestrovka";
     private static final String DB_DRIVER = "org.postgresql.Driver";
 
     @Override

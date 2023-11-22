@@ -9,7 +9,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd6da9de-2b84-4149-be31-3bc4bd511a5a" name="Changes" comment="" />
+    <list default="true" id="bd6da9de-2b84-4149-be31-3bc4bd511a5a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../7. Semestrovka/CarParking/src/main/java/ru/itis/car_parking/model/Car.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../4.Freemarker/FreemarkerConsoleExample/src/main/java/ru/itis/freemarker_example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../4.Freemarker/FreemarkerConsoleExample/src/main/java/ru/itis/freemarker_example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../AjaxJsonExample/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../AjaxJsonExample/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../AjaxJsonExample/src/main/java/com/itis/forms_servlet_example/context/AppContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../AjaxJsonExample/src/main/java/com/itis/forms_servlet_example/context/AppContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../AjaxJsonExample/src/main/java/com/itis/forms_servlet_example/dao/impl/UsersRepositoryTempImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../AjaxJsonExample/src/main/java/com/itis/forms_servlet_example/dao/impl/UsersRepositoryTempImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ServletsAppTemplate/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ServletsAppTemplate/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ServletsAppTemplate/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../ServletsAppTemplate/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ServletsExampleFour/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ServletsExampleFour/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ServletsExampleFour/src/main/java/com/itis/servletsexample4/listeners/CustomContextListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../ServletsExampleFour/src/main/java/com/itis/servletsexample4/listeners/CustomContextListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ServletsExampleFour/src/main/java/com/itis/servletsexample4/services/impl/FilesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../ServletsExampleFour/src/main/java/com/itis/servletsexample4/services/impl/FilesServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ajax_example.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../ajax_example.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,6 +54,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/andreichev/ITIS/itis-programming-java3/3.Forms/ThirdServer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -150,6 +163,7 @@
       <workItem from="1695388481701" duration="16000" />
       <workItem from="1695454005779" duration="1000" />
       <workItem from="1695979627433" duration="1246000" />
+      <workItem from="1700049410889" duration="917000" />
     </task>
     <servers />
   </component>

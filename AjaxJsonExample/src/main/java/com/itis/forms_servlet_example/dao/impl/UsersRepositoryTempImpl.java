@@ -1,6 +1,5 @@
 package com.itis.forms_servlet_example.dao.impl;
 
-import com.itis.forms_servlet_example.dao.CrudRepository;
 import com.itis.forms_servlet_example.dao.UsersRepository;
 import com.itis.forms_servlet_example.model.User;
 
