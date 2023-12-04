@@ -5,7 +5,7 @@ import ru.itis.gengine.application.Application;
 import ru.itis.gengine.events.Events;
 import ru.itis.gengine.gamelogic.ui.UINode;
 import ru.itis.gengine.network.server.NetworkEvent;
-import ru.itis.gengine.renderer.Renderer;
+import ru.itis.gengine.opengl.Renderer;
 import ru.itis.gengine.window.Window;
 
 import java.util.ArrayList;

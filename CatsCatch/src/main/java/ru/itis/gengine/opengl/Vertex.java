@@ -1,4 +1,4 @@
-package ru.itis.gengine.renderer;
+package ru.itis.gengine.opengl;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;

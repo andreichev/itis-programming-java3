@@ -1,6 +1,6 @@
 package ru.itis.gengine.gamelogic.primitives;
 
-import ru.itis.gengine.renderer.Vertex;
+import ru.itis.gengine.opengl.Vertex;
 
 public class Primitives {
     public static MeshData createSquare(float SIZE){

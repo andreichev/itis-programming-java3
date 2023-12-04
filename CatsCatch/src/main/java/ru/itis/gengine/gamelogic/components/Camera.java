@@ -7,7 +7,7 @@ import org.joml.Vector4f;
 import ru.itis.gengine.base.GSize;
 import ru.itis.gengine.events.WindowSizeListener;
 import ru.itis.gengine.gamelogic.Component;
-import ru.itis.gengine.renderer.Shader;
+import ru.itis.gengine.opengl.Shader;
 
 public class Camera extends Component implements WindowSizeListener, TransformDelegate {
     private Vector4f target;

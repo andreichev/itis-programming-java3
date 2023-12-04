@@ -3,7 +3,7 @@ package ru.itis.gengine.gamelogic.ui;
 import ru.itis.gengine.base.GSize;
 import ru.itis.gengine.events.Events;
 import ru.itis.gengine.events.WindowSizeListener;
-import ru.itis.gengine.renderer.Renderer;
+import ru.itis.gengine.opengl.Renderer;
 import ru.itis.gengine.window.Window;
 
 import java.util.ArrayList;

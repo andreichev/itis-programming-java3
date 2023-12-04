@@ -14,8 +14,8 @@ import ru.itis.gengine.gamelogic.components.Camera;
 import ru.itis.gengine.gamelogic.components.Mesh;
 import ru.itis.gengine.gamelogic.primitives.MeshData;
 import ru.itis.gengine.gamelogic.primitives.Primitives;
-import ru.itis.gengine.renderer.Shader;
-import ru.itis.gengine.renderer.Texture;
+import ru.itis.gengine.opengl.Shader;
+import ru.itis.gengine.opengl.Texture;
 
 
 public class FirstLevel extends LevelBase {

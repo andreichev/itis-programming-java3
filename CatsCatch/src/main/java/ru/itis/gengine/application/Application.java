@@ -10,7 +10,8 @@ import ru.itis.gengine.gamelogic.Physics;
 import ru.itis.gengine.gamelogic.World;
 import ru.itis.gengine.network.client.Client;
 import ru.itis.gengine.network.server.Server;
-import ru.itis.gengine.renderer.Renderer;
+import ru.itis.gengine.opengl.CommandBuffer;
+import ru.itis.gengine.opengl.Renderer;
 import ru.itis.gengine.window.Window;
 import ru.itis.gengine.window.impl.WindowGlfwImpl;
 
@@ -123,8 +124,8 @@ public class Application implements FrameBufferSizeListener {
             if(events.isKeyJustPressed(Key.TAB)) {
                 events.toggleCursorLock();
             }
-
             world.update(deltaTime);
+            CommandBuffer.shared.executeAll();
             deltaTime = 0.f;
             renderer.checkForErrors();
             window.swapBuffers();
