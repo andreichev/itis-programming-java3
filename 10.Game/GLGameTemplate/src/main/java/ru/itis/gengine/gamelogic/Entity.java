@@ -13,15 +13,13 @@ public class Entity {
     private final List<Entity> childEntities;
     private Entity parentEntity;
     private final Transform transform;
-    private final Window window;
     private final Events events;
     private final Renderer renderer;
     private final World world;
 
     // MARK: - Init
 
-    Entity(Window window, Events events, Renderer renderer, World world) {
-        this.window = window;
+    Entity(Events events, Renderer renderer, World world) {
         this.events = events;
         this.renderer = renderer;
         this.world = world;
@@ -108,10 +106,6 @@ public class Entity {
 
     public Renderer getRenderer() {
         return renderer;
-    }
-
-    public Window getWindow() {
-        return window;
     }
 
     public Events getEvents() {

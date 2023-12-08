@@ -5,7 +5,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import ru.itis.gengine.gamelogic.Component;
 import ru.itis.gengine.gamelogic.primitives.MeshData;
-import ru.itis.gengine.opengl.*;
+import ru.itis.gengine.renderer.*;
 
 public class Mesh extends Component implements TransformDelegate {
     private Texture texture;

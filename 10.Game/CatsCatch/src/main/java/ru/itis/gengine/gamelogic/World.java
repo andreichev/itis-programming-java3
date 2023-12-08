@@ -5,7 +5,7 @@ import ru.itis.gengine.application.Application;
 import ru.itis.gengine.events.Events;
 import ru.itis.gengine.gamelogic.ui.UINode;
 import ru.itis.gengine.network.server.NetworkEvent;
-import ru.itis.gengine.opengl.Renderer;
+import ru.itis.gengine.renderer.Renderer;
 import ru.itis.gengine.window.Window;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class World {
         this.networkEvents = new ArrayList<>();
         uiRoot = new UINode();
         uiRoot.configure(renderer, window, events);
-        root = new Entity("root", window, events, renderer, physics);
+        root = new Entity("root", events, renderer, physics);
     }
 
     // MARK: - Public methods
@@ -65,7 +65,7 @@ public class World {
     }
 
     public Entity instantiateEntity(String name) {
-        Entity entity = new Entity(name, window, events, renderer, physics);
+        Entity entity = new Entity(name, events, renderer, physics);
         root.addChildEntity(entity);
         return entity;
     }
@@ -88,9 +88,9 @@ public class World {
     }
 
     private boolean firstPlayerConnection = true;
+
     // Событие с сервера (обновить состояние объекта)
     public void processEventFromServer(NetworkEvent event) {
-        System.out.println("EVENT FROM SERVER!");
         if(event.type == NetworkEventType.PLAYER_CONNECTED.value) {
             LevelBase level = Application.shared.getCurrentLevel();
             if(level != null) {

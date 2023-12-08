@@ -10,8 +10,8 @@ import ru.itis.gengine.gamelogic.Physics;
 import ru.itis.gengine.gamelogic.World;
 import ru.itis.gengine.network.client.Client;
 import ru.itis.gengine.network.server.Server;
-import ru.itis.gengine.opengl.CommandBuffer;
-import ru.itis.gengine.opengl.Renderer;
+import ru.itis.gengine.renderer.CommandBuffer;
+import ru.itis.gengine.renderer.Renderer;
 import ru.itis.gengine.window.Window;
 import ru.itis.gengine.window.impl.WindowGlfwImpl;
 
@@ -26,6 +26,7 @@ public class Application implements FrameBufferSizeListener {
     private Events events;
     private Renderer renderer;
     private Physics physics;
+    private boolean isRunning;
     private Server server;
     private Client client;
     private World world;
@@ -40,8 +41,10 @@ public class Application implements FrameBufferSizeListener {
     private float deltaTime;
 
     public void run(ApplicationStartupSettings applicationStartupSettings) {
+        isRunning = true;
         initialize(applicationStartupSettings);
         loop();
+        isRunning = false;
         terminate();
     }
 
@@ -78,6 +81,8 @@ public class Application implements FrameBufferSizeListener {
         world = new World(window, events, renderer, physics);
         time = window.getTime();
         events.addFrameBufferSizeListener(this);
+        currentLevel = settings.getStartupLevel();
+        currentLevel.start(world);
         if (settings.isServer()) {
             try {
                 server = new Server();
@@ -85,8 +90,6 @@ public class Application implements FrameBufferSizeListener {
                 System.out.printf("SERVER FAILED TO START %s\n", e.getLocalizedMessage());
             }
         }
-        currentLevel = settings.getStartupLevel();
-        currentLevel.start(world);
         try {
             Socket socket = new Socket("127.0.0.1", 16431);
             client = new Client(world, socket);
@@ -115,9 +118,6 @@ public class Application implements FrameBufferSizeListener {
             }
 
             renderer.clear();
-            if(time == 300) {
-                window.setShouldClose(true);
-            }
             if(events.isKeyPressed(Key.ESCAPE)) {
                 window.setShouldClose(true);
             }
@@ -140,9 +140,23 @@ public class Application implements FrameBufferSizeListener {
         world.terminate();
         window.terminate();
         renderer.terminate();
+        if(client != null) {
+            client.terminate();
+        }
+        if(server != null) {
+            server.terminate();
+        }
     }
 
-    // MARK: - Frame buffer size listener
+    public Window getWindow() {
+        return window;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    // MARK: - Window size listener
 
     @Override
     public void sizeChanged(GSize size) {

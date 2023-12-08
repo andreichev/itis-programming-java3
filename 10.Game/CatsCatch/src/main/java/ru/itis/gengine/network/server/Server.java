@@ -1,6 +1,7 @@
 package ru.itis.gengine.network.server;
 
 import ru.itis.game.network.NetworkEventType;
+import ru.itis.gengine.application.Application;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,19 +11,23 @@ import java.util.List;
 
 public class Server {
     private final List<ServerClient> clients;
+    private final ServerSocket serverSocket;
+    private final Thread thread;
 
     public Server() throws IOException {
         clients = new ArrayList<>();
 
-        ServerSocket serverSocket = new ServerSocket(16431);
+        serverSocket = new ServerSocket(16431);
         System.out.println("SERVER STARTED!");
-        Thread thread = new Thread(() -> {
-            while (true) {
+        thread = new Thread(() -> {
+            while (Application.shared.isRunning()) {
                 try {
                     Socket socket = serverSocket.accept();
                     clientConnected(socket);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    if (Application.shared.isRunning()) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -50,5 +55,13 @@ public class Server {
         clients.add(newClient);
         NetworkEvent clientConnectedEvent = new NetworkEvent(NetworkEventType.PLAYER_CONNECTED.value, clients.size(), data);
         addEvent(clientConnectedEvent);
+    }
+
+    public void terminate() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

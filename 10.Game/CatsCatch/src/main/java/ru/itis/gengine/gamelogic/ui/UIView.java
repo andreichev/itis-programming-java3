@@ -1,9 +1,9 @@
 package ru.itis.gengine.gamelogic.ui;
 
 import ru.itis.gengine.base.GRect;
-import ru.itis.gengine.opengl.Shader;
-import ru.itis.gengine.opengl.VertexBuffer;
-import ru.itis.gengine.opengl.VertexBufferLayout;
+import ru.itis.gengine.renderer.Shader;
+import ru.itis.gengine.renderer.VertexBuffer;
+import ru.itis.gengine.renderer.VertexBufferLayout;
 
 public class UIView extends UINode {
     // TODO: - Один шейдер на все вьюхи

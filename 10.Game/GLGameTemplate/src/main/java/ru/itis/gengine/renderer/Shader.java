@@ -12,101 +12,120 @@ import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL20.*;
 
 public class Shader {
-    private final int programId;
-
-    private final Map<String, Integer> uniformLocationCache;
+    private int programId;
+    private final Map<String, Integer> uniformLocationCache = new HashMap<>();
 
     public Shader(String vertexPath, String fragmentPath) {
-        String vertexCode = Utils.readFromFile(vertexPath);
-        String fragmentCode = Utils.readFromFile(fragmentPath);
+        CommandBuffer.shared.addCommand(() -> {
+            String vertexCode = Utils.readFromFile(vertexPath);
+            String fragmentCode = Utils.readFromFile(fragmentPath);
 
-        int vertexHandle, fragmentHandle;
+            int vertexHandle, fragmentHandle;
 
-        vertexHandle = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexHandle, vertexCode);
-        glCompileShader(vertexHandle);
-        checkCompileErrors(vertexHandle, false);
+            vertexHandle = glCreateShader(GL_VERTEX_SHADER);
+            glShaderSource(vertexHandle, vertexCode);
+            glCompileShader(vertexHandle);
+            checkCompileErrors(vertexHandle, false);
 
-        fragmentHandle = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentHandle, fragmentCode);
-        glCompileShader(fragmentHandle);
-        checkCompileErrors(fragmentHandle, false);
+            fragmentHandle = glCreateShader(GL_FRAGMENT_SHADER);
+            glShaderSource(fragmentHandle, fragmentCode);
+            glCompileShader(fragmentHandle);
+            checkCompileErrors(fragmentHandle, false);
 
-        programId = glCreateProgram();
-        glAttachShader(programId, vertexHandle);
-        glAttachShader(programId, fragmentHandle);
+            programId = glCreateProgram();
+            glAttachShader(programId, vertexHandle);
+            glAttachShader(programId, fragmentHandle);
 
-        glLinkProgram(programId);
-        checkCompileErrors(programId, true);
+            glLinkProgram(programId);
+            checkCompileErrors(programId, true);
 
-        glDeleteShader(vertexHandle);
-        glDeleteShader(fragmentHandle);
-
-        uniformLocationCache = new HashMap<>();
+            glDeleteShader(vertexHandle);
+            glDeleteShader(fragmentHandle);
+        });
     }
 
     public void delete() {
-        glDeleteProgram(programId);
+        CommandBuffer.shared.addCommand(() -> {
+            glDeleteProgram(programId);
+        });
     }
 
     public void use() {
-        glUseProgram(programId);
+        CommandBuffer.shared.addCommand(() -> {
+            glUseProgram(programId);
+        });
     }
 
     public void setUniform(String name, int value) {
-        glUniform1i(getUniformLocation(name), value);
+        CommandBuffer.shared.addCommand(() -> {
+            glUniform1i(getUniformLocation(name), value);
+        });
     }
 
     public void setUniform(String name, float value) {
-        glUniform1f(getUniformLocation(name), value);
+        CommandBuffer.shared.addCommand(() -> {
+            glUniform1f(getUniformLocation(name), value);
+        });
     }
 
     public void setUniform(String name, Vector2f value) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer buffer = stack.mallocFloat(2);
-            value.get(buffer);
-            glUniform2fv(getUniformLocation(name), buffer);
-        }
+        CommandBuffer.shared.addCommand(() -> {
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                FloatBuffer buffer = stack.mallocFloat(2);
+                value.get(buffer);
+                glUniform2fv(getUniformLocation(name), buffer);
+            }
+        });
     }
 
     public void setUniform(String name, Vector3f value) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer buffer = stack.mallocFloat(3);
-            value.get(buffer);
-            glUniform3fv(getUniformLocation(name), buffer);
-        }
+        CommandBuffer.shared.addCommand(() -> {
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                FloatBuffer buffer = stack.mallocFloat(3);
+                value.get(buffer);
+                glUniform3fv(getUniformLocation(name), buffer);
+            }
+        });
     }
 
     public void setUniform(String name, Vector4f value) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer buffer = stack.mallocFloat(4);
-            value.get(buffer);
-            glUniform4fv(getUniformLocation(name), buffer);
-        }
+        CommandBuffer.shared.addCommand(() -> {
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                FloatBuffer buffer = stack.mallocFloat(4);
+                value.get(buffer);
+                glUniform4fv(getUniformLocation(name), buffer);
+            }
+        });
     }
 
     public void setUniform(String name, Matrix2f value) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer buffer = stack.mallocFloat(2 * 2);
-            value.get(buffer);
-            glUniformMatrix2fv(getUniformLocation(name), false, buffer);
-        }
+        CommandBuffer.shared.addCommand(() -> {
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                FloatBuffer buffer = stack.mallocFloat(2 * 2);
+                value.get(buffer);
+                glUniformMatrix2fv(getUniformLocation(name), false, buffer);
+            }
+        });
     }
 
     public void setUniform(String name, Matrix3f value) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer buffer = stack.mallocFloat(3 * 3);
-            value.get(buffer);
-            glUniformMatrix3fv(getUniformLocation(name), false, buffer);
-        }
+        CommandBuffer.shared.addCommand(() -> {
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                FloatBuffer buffer = stack.mallocFloat(3 * 3);
+                value.get(buffer);
+                glUniformMatrix3fv(getUniformLocation(name), false, buffer);
+            }
+        });
     }
 
     public void setUniform(String name, Matrix4f value) {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            FloatBuffer buffer = stack.mallocFloat(4 * 4);
-            value.get(buffer);
-            glUniformMatrix4fv(getUniformLocation(name), false, buffer);
-        }
+        CommandBuffer.shared.addCommand(() -> {
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                FloatBuffer buffer = stack.mallocFloat(4 * 4);
+                value.get(buffer);
+                glUniformMatrix4fv(getUniformLocation(name), false, buffer);
+            }
+        });
     }
 
     private int getUniformLocation(String name) {

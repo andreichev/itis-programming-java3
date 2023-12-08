@@ -17,9 +17,6 @@ public class Laser extends Component {
     }
 
     @Override
-    public void terminate() {}
-
-    @Override
     public void update(float deltaTime) {
         Transform transform = getEntity().getTransform();
         transform.rotate(0.f, 2.0f * deltaTime, 0.f);

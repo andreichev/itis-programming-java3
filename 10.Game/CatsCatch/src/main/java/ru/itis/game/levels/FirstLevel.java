@@ -5,7 +5,6 @@ import ru.itis.game.components.Laser;
 import ru.itis.game.components.PlayerMove;
 import ru.itis.game.components.SecondPlayerMove;
 import ru.itis.gengine.application.Application;
-import ru.itis.gengine.base.GSize;
 import ru.itis.gengine.gamelogic.Entity;
 import ru.itis.gengine.gamelogic.LevelBase;
 import ru.itis.gengine.gamelogic.World;
@@ -14,8 +13,8 @@ import ru.itis.gengine.gamelogic.components.Camera;
 import ru.itis.gengine.gamelogic.components.Mesh;
 import ru.itis.gengine.gamelogic.primitives.MeshData;
 import ru.itis.gengine.gamelogic.primitives.Primitives;
-import ru.itis.gengine.opengl.Shader;
-import ru.itis.gengine.opengl.Texture;
+import ru.itis.gengine.renderer.Shader;
+import ru.itis.gengine.renderer.Texture;
 
 
 public class FirstLevel extends LevelBase {
@@ -34,19 +33,16 @@ public class FirstLevel extends LevelBase {
             catPlayer1Entity.getTransform().setPosition(-5.f, 0.f, 0);
             catPlayer1Entity.addComponent(new BoxCollider());
             catPlayer1Entity.addComponent(new PlayerMove());
-            catPlayer1Entity.getRenderer().setViewportSize(new GSize(2.f, 2.f));
             catPlayer1Entity.addComponent(new DotsCounter(true));
         } else {
             Texture texture2 = new Texture("resources/textures/cat2.png");
             MeshData meshData2 = Primitives.createSquare(1);
             Mesh mesh2 = new Mesh(meshData2, false, texture2, baseShader);
-
             Entity catPlayer2Entity = world.instantiateEntity("player2");
             catPlayer2Entity.addComponent(mesh2);
             catPlayer2Entity.getTransform().setPosition(5.f, 0.f, 0);
             catPlayer2Entity.addComponent(new BoxCollider());
             catPlayer2Entity.addComponent(new SecondPlayerMove());
-            catPlayer2Entity.getRenderer().setViewportSize(new GSize(2.f, 2.f));
             catPlayer2Entity.addComponent(new DotsCounter(false));
         }
     }

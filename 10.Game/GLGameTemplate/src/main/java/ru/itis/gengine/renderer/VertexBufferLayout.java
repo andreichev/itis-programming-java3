@@ -54,7 +54,7 @@ public class VertexBufferLayout {
         id = glGenVertexArrays();
         glBindVertexArray(id);
         int pointer = 0;
-        for(int i = 0; i < elements.size(); i++) {
+        for (int i = 0; i < elements.size(); i++) {
             glEnableVertexAttribArray(i);
             glVertexAttribPointer(i, elements.get(i).count, elements.get(i).type, false, stride, pointer);
             pointer += elements.get(i).count * Element.getSizeOfType(elements.get(i).type);

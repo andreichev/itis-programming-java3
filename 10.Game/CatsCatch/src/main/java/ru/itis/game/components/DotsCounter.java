@@ -9,7 +9,7 @@ import ru.itis.gengine.gamelogic.Physics;
 import ru.itis.gengine.gamelogic.World;
 import ru.itis.gengine.gamelogic.components.Mesh;
 import ru.itis.gengine.gamelogic.components.Transform;
-import ru.itis.gengine.opengl.Texture;
+import ru.itis.gengine.renderer.Texture;
 
 import java.util.Random;
 

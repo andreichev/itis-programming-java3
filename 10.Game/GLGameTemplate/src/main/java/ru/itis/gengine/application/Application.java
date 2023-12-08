@@ -7,6 +7,7 @@ import ru.itis.gengine.events.Key;
 import ru.itis.gengine.events.impl.EventsGlfwImpl;
 import ru.itis.gengine.gamelogic.LevelBase;
 import ru.itis.gengine.gamelogic.World;
+import ru.itis.gengine.renderer.CommandBuffer;
 import ru.itis.gengine.renderer.Renderer;
 import ru.itis.gengine.window.Window;
 import ru.itis.gengine.window.impl.WindowGlfwImpl;
@@ -84,8 +85,8 @@ public class Application implements FrameBufferSizeListener {
             if(events.isKeyPressed(Key.ESCAPE)) {
                 window.setShouldClose(true);
             }
-
             world.update(deltaTime);
+            CommandBuffer.shared.executeAll();
             deltaTime = 0.f;
             renderer.checkForErrors();
             window.swapBuffers();
@@ -100,6 +101,10 @@ public class Application implements FrameBufferSizeListener {
         world.terminate();
         window.terminate();
         renderer.terminate();
+    }
+
+    public Window getWindow() {
+        return window;
     }
 
     // MARK: - Frame buffer size listener

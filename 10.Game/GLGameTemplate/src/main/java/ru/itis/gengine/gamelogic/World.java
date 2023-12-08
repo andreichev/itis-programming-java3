@@ -5,9 +5,6 @@ import ru.itis.gengine.gamelogic.ui.UINode;
 import ru.itis.gengine.renderer.Renderer;
 import ru.itis.gengine.window.Window;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class World {
     private final Entity root;
     private final UINode uiRoot;
@@ -23,7 +20,7 @@ public class World {
         this.renderer = renderer;
         uiRoot = new UINode();
         uiRoot.configure(renderer, window, events);
-        root = new Entity(window, events, renderer, this);
+        root = new Entity(events, renderer, this);
     }
 
     // MARK: - Public methods
@@ -51,7 +48,7 @@ public class World {
     }
 
     public Entity instantiateEntity() {
-        Entity entity = new Entity(window, events, renderer, this);
+        Entity entity = new Entity(events, renderer, this);
         root.addChildEntity(entity);
         return entity;
     }

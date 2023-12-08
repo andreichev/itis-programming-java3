@@ -7,7 +7,7 @@ import ru.itis.gengine.gamelogic.Component;
 import ru.itis.gengine.gamelogic.Physics;
 import ru.itis.gengine.gamelogic.components.Transform;
 
-public class SecondPlayerMove extends Component{
+public class SecondPlayerMove extends Component {
     public float moveSpeed = 8.0f;
     private Transform transform;
     private Events events;

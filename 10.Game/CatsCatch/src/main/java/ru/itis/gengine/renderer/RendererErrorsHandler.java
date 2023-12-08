@@ -1,4 +1,4 @@
-package ru.itis.gengine.opengl;
+package ru.itis.gengine.renderer;
 
 import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
 import static org.lwjgl.opengl.GL11.glGetError;

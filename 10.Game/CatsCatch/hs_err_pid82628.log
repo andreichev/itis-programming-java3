@@ -29,9 +29,9 @@ Current thread (0x00007f881700fa00):  JavaThread "main" [_thread_in_native, id=2
 
 Stack: [0x0000000308915000,0x0000000309115000],  sp=0x0000000309110b68,  free space=8174k
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
-j  ru.itis.gengine.opengl.Renderer.lambda$initialize$0()V+7
-j  ru.itis.gengine.opengl.Renderer$$Lambda$44+0x000000012dc1fdd8.execute()V+4
-j  ru.itis.gengine.opengl.CommandBuffer.executeAll()V+26
+j  ru.itis.gengine.renderer.Renderer.lambda$initialize$0()V+7
+j  ru.itis.gengine.renderer.Renderer$$Lambda$44+0x000000012dc1fdd8.execute()V+4
+j  ru.itis.gengine.renderer.CommandBuffer.executeAll()V+26
 j  ru.itis.gengine.application.Application.loop()V+213
 j  ru.itis.gengine.application.Application.run(Lru/itis/gengine/application/ApplicationStartupSettings;)V+6
 j  Main.main([Ljava/lang/String;)V+71

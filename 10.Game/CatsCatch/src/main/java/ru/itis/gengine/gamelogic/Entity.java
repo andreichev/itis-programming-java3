@@ -2,9 +2,9 @@ package ru.itis.gengine.gamelogic;
 
 import ru.itis.gengine.events.Events;
 import ru.itis.gengine.gamelogic.components.Transform;
-import ru.itis.gengine.network.client.Replicable;
+import ru.itis.gengine.network.client.NetworkEventsReceiver;
 import ru.itis.gengine.network.server.NetworkEvent;
-import ru.itis.gengine.opengl.Renderer;
+import ru.itis.gengine.renderer.Renderer;
 import ru.itis.gengine.window.Window;
 
 import java.util.ArrayList;
@@ -17,16 +17,14 @@ public class Entity {
     private final List<Entity> childEntities;
     private Entity parentEntity;
     private final Transform transform;
-    private final Window window;
     private final Events events;
     private final Renderer renderer;
     private final Physics physics;
 
     // MARK: - Init
 
-    Entity(String name, Window window, Events events, Renderer renderer, Physics physics) {
+    Entity(String name, Events events, Renderer renderer, Physics physics) {
         this.name = name;
-        this.window = window;
         this.events = events;
         this.renderer = renderer;
         this.physics = physics;
@@ -122,10 +120,6 @@ public class Entity {
         return renderer;
     }
 
-    public Window getWindow() {
-        return window;
-    }
-
     public Events getEvents() {
         return events;
     }
@@ -145,8 +139,8 @@ public class Entity {
         if(optionalComponent.isPresent() == false) { return; }
         Component component = optionalComponent.get();
 
-        if(component instanceof Replicable) {
-            ((Replicable) component).processEvent(event);
+        if(component instanceof NetworkEventsReceiver) {
+            ((NetworkEventsReceiver) component).processEvent(event);
         }
     }
 }

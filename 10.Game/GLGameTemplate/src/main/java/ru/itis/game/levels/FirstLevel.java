@@ -7,7 +7,6 @@ import ru.itis.gengine.gamelogic.LevelBase;
 import ru.itis.gengine.gamelogic.World;
 import ru.itis.gengine.gamelogic.components.Camera;
 import ru.itis.gengine.gamelogic.components.Mesh;
-import ru.itis.gengine.gamelogic.components.Transform;
 import ru.itis.gengine.gamelogic.primitives.MeshData;
 import ru.itis.gengine.gamelogic.primitives.Primitives;
 import ru.itis.gengine.renderer.Shader;

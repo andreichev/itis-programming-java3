@@ -1,5 +1,7 @@
 package ru.itis.gengine.network.server;
 
+import ru.itis.gengine.application.Application;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -26,7 +28,7 @@ public class ServerClient {
 
         lastTime = System.currentTimeMillis() / 1e3;
         thread = new Thread(() -> {
-            while (true) {
+            while (Application.shared.isRunning()) {
                 double time = System.currentTimeMillis() / 1e3;
                 double deltaTime = time - lastTime;
                 if(deltaTime < 1.0 / maximumFps) {
@@ -45,7 +47,9 @@ public class ServerClient {
 
                     writeAllEvents(dataOutputStream);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    if (Application.shared.isRunning()) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -65,7 +69,6 @@ public class ServerClient {
     }
 
     public void terminate() {
-        thread.interrupt();
         try {
             socket.close();
         } catch (IOException e) {

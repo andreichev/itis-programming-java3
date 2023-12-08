@@ -1,4 +1,4 @@
-package ru.itis.gengine.opengl;
+package ru.itis.gengine.renderer;
 
 import org.lwjgl.opengl.GL;
 import ru.itis.gengine.base.GSize;
