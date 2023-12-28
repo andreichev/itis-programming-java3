@@ -20,6 +20,7 @@ public class Transform extends Component {
     private final Vector4f right;
 
     public Transform() {
+        super(-1, false);
         delegates = new HashSet<>();
         position = new Vector4f();
         rotation = new Vector3f();

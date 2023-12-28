@@ -19,6 +19,10 @@ public class Camera extends Component implements WindowSizeListener, TransformDe
     private GSize windowSize;
     private Transform transform;
 
+    public Camera() {
+        super(-3, false);
+    }
+
     // MARK: - Overridden methods
 
     @Override

@@ -1,16 +1,23 @@
 package ru.itis.game.components;
 
+import org.joml.Vector4f;
+import ru.itis.game.network.PlayerPosition;
 import ru.itis.gengine.base.Direction;
 import ru.itis.gengine.events.Events;
 import ru.itis.gengine.events.Key;
 import ru.itis.gengine.gamelogic.Component;
 import ru.itis.gengine.gamelogic.Physics;
 import ru.itis.gengine.gamelogic.components.Transform;
+import ru.itis.gengine.network.model.NetworkComponentState;
 
 public class PlayerMove extends Component {
     public float moveSpeed = 8.0f;
     private Transform transform;
     private Events events;
+
+    public PlayerMove(int id) {
+        super(id, true);
+    }
 
     @Override
     public void initialize() {
@@ -24,6 +31,7 @@ public class PlayerMove extends Component {
 
         Direction direction = null;
         float speed = moveSpeed * deltaTime;
+        boolean playerMoved = false;
 
         if (events.isKeyPressed(Key.W) ) {
             direction = Direction.Up;
@@ -40,6 +48,17 @@ public class PlayerMove extends Component {
 
         if (direction != null && physics.moveAcceptable(getEntity(), speed, direction)) {
             transform.translate(direction, speed);
+            playerMoved = true;
         }
+
+        if(playerMoved) {
+            sendCurrentState();
+        }
+    }
+
+    @Override
+    public NetworkComponentState getState() {
+        Vector4f coordinates = transform.getPosition();
+        return new PlayerPosition(coordinates.x, coordinates.y);
     }
 }

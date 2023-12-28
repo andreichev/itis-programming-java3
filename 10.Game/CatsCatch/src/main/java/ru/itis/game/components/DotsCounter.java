@@ -35,7 +35,8 @@ public class DotsCounter extends Component {
             new Texture("resources/textures/10.png"),
     };
 
-    public DotsCounter(boolean isFirst) {
+    public DotsCounter(int id, boolean isFirst) {
+        super(id, false);
         World world = Application.shared.getWorld();
         this.dotEntity = world.findEntityByName("dot").get();
         this.counterEntity = world.findEntityByName(isFirst ? "firstCounter" : "secondCounter").get();

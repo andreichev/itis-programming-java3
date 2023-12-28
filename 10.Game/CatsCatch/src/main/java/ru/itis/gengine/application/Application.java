@@ -56,14 +56,6 @@ public class Application implements FrameBufferSizeListener {
         return world;
     }
 
-    public void loadLevel(LevelBase level) {
-        if(currentLevel != null) {
-            currentLevel.terminate();
-        }
-        currentLevel = level;
-        currentLevel.start(world);
-    }
-
     private Application() {}
 
     private void initialize(ApplicationStartupSettings settings) {
@@ -78,11 +70,10 @@ public class Application implements FrameBufferSizeListener {
         window.initialize(settings.getWindowTitle(), settings.getWindowSize(), settings.isFullScreen());
         events.initialize();
         renderer.initialize();
-        world = new World(window, events, renderer, physics);
+        world = new World(events, renderer, physics);
         time = window.getTime();
         events.addFrameBufferSizeListener(this);
         currentLevel = settings.getStartupLevel();
-        currentLevel.start(world);
         if (settings.isServer()) {
             try {
                 server = new Server();

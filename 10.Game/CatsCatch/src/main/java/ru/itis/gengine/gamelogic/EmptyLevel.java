@@ -1,11 +1,16 @@
 package ru.itis.gengine.gamelogic;
 
+import ru.itis.gengine.network.model.NetworkEntity;
+
 public class EmptyLevel extends LevelBase {
     @Override
-    public void start(World world) {}
+    public void startServer(World world) {}
 
     @Override
-    public void playerConnected(int id, double x, double y, boolean currentPlayer) {}
+    public void startClient(World world) {}
+
+    @Override
+    public void createEntityNetworkEvent(NetworkEntity entity) {}
 
     @Override
     public void terminate() {}

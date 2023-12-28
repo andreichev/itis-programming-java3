@@ -1,10 +1,12 @@
 package ru.itis.gengine.network.server;
 
 import ru.itis.gengine.application.Application;
+import ru.itis.gengine.network.model.NetworkPacket;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +15,9 @@ import java.util.List;
 public class ServerClient {
     private final int id;
     private final Socket socket;
-    private final Thread thread;
     private final int maximumFps;
-    // список событий для отправки клиенту
-    private final List<NetworkEvent> events;
+    // список событий для отправки этому клиенту
+    private final List<NetworkPacket> events;
 
     private double lastTime;
 
@@ -27,11 +28,11 @@ public class ServerClient {
         events = new ArrayList<>();
 
         lastTime = System.currentTimeMillis() / 1e3;
-        thread = new Thread(() -> {
+        Thread thread = new Thread(() -> {
             while (Application.shared.isRunning()) {
                 double time = System.currentTimeMillis() / 1e3;
                 double deltaTime = time - lastTime;
-                if(deltaTime < 1.0 / maximumFps) {
+                if (deltaTime < 1.0 / maximumFps) {
                     continue;
                 }
                 lastTime = time;
@@ -40,15 +41,17 @@ public class ServerClient {
                     DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                     DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-                    NetworkEvent event;
-                    while ((event = NetworkEvent.readEvent(dataInputStream)) != null) {
-                        server.addEvent(event);
+                    NetworkPacket event;
+                    while ((event = NetworkPacket.readEvent(dataInputStream)) != null) {
+                        server.addEventExceptClient(event, this);
                     }
 
                     writeAllEvents(dataOutputStream);
                 } catch (Exception e) {
                     if (Application.shared.isRunning()) {
-                        e.printStackTrace();
+                        System.out.println("CLIENT ERROR: " + e.getMessage());
+                        server.removeClient(this);
+                        return;
                     }
                 }
             }
@@ -56,15 +59,15 @@ public class ServerClient {
         thread.start();
     }
 
-    private synchronized void writeAllEvents(DataOutputStream dataOutputStream) throws IOException {
-        for(NetworkEvent networkEvent: events) {
-            NetworkEvent.writeEvent(networkEvent, dataOutputStream);
+    private synchronized void writeAllEvents(OutputStream outputStream) throws Exception {
+        for(NetworkPacket networkPacket : events) {
+            NetworkPacket.writeEvent(networkPacket, outputStream);
         }
-        dataOutputStream.writeInt(NetworkEvent.END);
+        NetworkPacket.writeEvent(NetworkPacket.END, outputStream);
         events.clear();
     }
 
-    public synchronized void addEvent(NetworkEvent event) {
+    public synchronized void addEvent(NetworkPacket event) {
         events.add(event);
     }
 
@@ -78,5 +81,13 @@ public class ServerClient {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ServerClient that = (ServerClient) o;
+        return id == that.id;
     }
 }

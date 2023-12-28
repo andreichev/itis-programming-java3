@@ -9,8 +9,5 @@
         <module name="WorldOfTanks" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="WorldOfTanks" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

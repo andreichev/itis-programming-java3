@@ -7,6 +7,10 @@ import ru.itis.gengine.gamelogic.components.Transform;
 public class Laser extends Component {
     private Vector4f target = new Vector4f();
 
+    public Laser(int id) {
+        super(id, false);
+    }
+
     public void setTarget(Vector4f target) {
         this.target = target;
     }

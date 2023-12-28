@@ -20,6 +20,7 @@ public class Mesh extends Component implements TransformDelegate {
     // MARK: - Init
 
     public Mesh(MeshData primitiveMeshData, boolean isDynamic, Texture texture, Shader shader) {
+        super(-5, false);
         this.isDynamic = isDynamic;
         this.texture = texture;
         this.shader = shader;
@@ -29,6 +30,7 @@ public class Mesh extends Component implements TransformDelegate {
     }
 
     public Mesh(Vertex[] vertices, int[] indices, boolean isDynamic, Texture texture, Shader shader) {
+        super(-5, false);
         this.isDynamic = isDynamic;
         this.texture = texture;
         this.shader = shader;

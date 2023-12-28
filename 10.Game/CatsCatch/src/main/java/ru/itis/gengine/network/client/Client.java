@@ -2,18 +2,18 @@ package ru.itis.gengine.network.client;
 
 import ru.itis.gengine.application.Application;
 import ru.itis.gengine.gamelogic.World;
-import ru.itis.gengine.network.server.NetworkEvent;
+import ru.itis.gengine.network.model.NetworkPacket;
+import ru.itis.gengine.network.model.NetworkWorld;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.List;
 
 public class Client {
     private final World world;
     private final Socket socket;
-    private Thread thread;
 
     public Client(World world, Socket socket) {
         this.world = world;
@@ -21,23 +21,46 @@ public class Client {
     }
 
     public void initialize() {
-        thread = new Thread(() -> {
+        Thread thread = new Thread(() -> {
             while (Application.shared.isRunning()) {
                 try {
-                    DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-                    DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                    List<NetworkEvent> events = world.pollEvents();
-                    for(NetworkEvent event: events) {
-                        NetworkEvent.writeEvent(event, dataOutputStream);
+                    InputStream inputStream = socket.getInputStream();
+                    OutputStream outputStream = socket.getOutputStream();
+                    List<NetworkPacket> events = world.pollEvents();
+                    for(NetworkPacket event: events) {
+                        NetworkPacket.writeEvent(event, outputStream);
                     }
-                    dataOutputStream.writeInt(NetworkEvent.END);
-                    NetworkEvent event;
-                    while ((event = NetworkEvent.readEvent(dataInputStream)) != null) {
-                        world.processEventFromServer(event);
+                    NetworkPacket.writeEvent(NetworkPacket.END, outputStream);
+                    NetworkPacket event;
+                    while ((event = NetworkPacket.readEvent(inputStream)) != null) {
+                        switch (event.type) {
+                            case COMPONENT_STATE:
+                                world.updateComponentState(event);
+                                break;
+                            case ENTITY_STATE:
+                                world.updateEntityState(event);
+                                break;
+                            case WORLD_SNAPSHOT:
+                                NetworkWorld snapshot = (NetworkWorld) event.data;
+                                world.applySnapshot(snapshot);
+                                break;
+                            case INITIALIZE_WORLD_HOST:
+                                Application.shared.getCurrentLevel().startServer(world);
+                                break;
+                            case INITIALIZE_WORLD_CLIENT:
+                                Application.shared.getCurrentLevel().startClient(world);
+                                break;
+                            case DESTROY_ENTITY:
+                                world.destroy(event.objectId);
+                                break;
+                            case END:
+                                break;
+                        }
                     }
                 } catch (Exception e) {
                     if (Application.shared.isRunning()) {
                         e.printStackTrace();
+                        Application.shared.getWindow().setShouldClose(true);
                     }
                 }
             }

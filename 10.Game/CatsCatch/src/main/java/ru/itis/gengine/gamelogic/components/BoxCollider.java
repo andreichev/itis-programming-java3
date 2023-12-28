@@ -9,11 +9,13 @@ public class BoxCollider extends Component {
     private boolean isTrigger;
 
     public BoxCollider() {
+        super(-2, false);
         size = new GSize(1.0f, 1.0f);
         isTrigger = false;
     }
 
     public BoxCollider(GSize size) {
+        super(-2, false);
         this.size = size;
         isTrigger = false;
     }
