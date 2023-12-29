@@ -1,10 +1,7 @@
 package ru.itis.game.levels;
 
 import ru.itis.game.Entities;
-import ru.itis.game.components.DotsCounter;
-import ru.itis.game.components.Laser;
-import ru.itis.game.components.PlayerMove;
-import ru.itis.game.components.SecondPlayerMove;
+import ru.itis.game.components.*;
 import ru.itis.gengine.application.Application;
 import ru.itis.gengine.gamelogic.Entity;
 import ru.itis.gengine.gamelogic.LevelBase;
@@ -33,17 +30,7 @@ public class FirstLevel extends LevelBase {
 
         createCamera(world);
 
-        Entity dotEntity = world.instantiateEntity(101, true, "dot");
-        Texture textureDot = new Texture("resources/textures/dot.png");
-        MeshData dotMeshData = Primitives.createSquare(1.f);
-        Mesh dotMesh = new Mesh(dotMeshData, false, textureDot, baseShader);
-        dotEntity.addComponent(dotMesh);
-        BoxCollider dotTrigger = new BoxCollider();
-        dotTrigger.setIsTrigger(true);
-        dotEntity.addComponent(dotTrigger);
-        dotEntity.addComponent(new Laser(0));
-        dotEntity.getTransform().setPosition(0,0,0);
-        dotEntity.sendCurrentState();
+        createLaserServer(world);
 
         MeshData meshDataCounter1 = Primitives.createSquare(1.0f);
         Mesh meshCounter1 = new Mesh(meshDataCounter1, false, DotsCounter.digitsTextures[0], baseShader);
@@ -51,17 +38,17 @@ public class FirstLevel extends LevelBase {
         MeshData meshDataCounter2 = Primitives.createSquare(1.0f);
         Mesh meshCounter2 = new Mesh(meshDataCounter2, false, DotsCounter.digitsTextures[0], baseShader);
 
-        Entity firstCounter = world.instantiateEntity(102, true, "firstCounter");
+        Entity firstCounter = world.instantiateEntity(Entities.FIRST_COUNT_LABEL.id, true, "firstCounter");
         firstCounter.addComponent(meshCounter1);
         firstCounter.getTransform().setPosition(-6, 5, 0);
         firstCounter.sendCurrentState();
 
-        Entity secondCounter = world.instantiateEntity(103, true, "secondCounter");
+        Entity secondCounter = world.instantiateEntity(Entities.SECOND_COUNT_LABEL.id, true, "secondCounter");
         secondCounter.addComponent(meshCounter2);
         secondCounter.getTransform().setPosition(6, 5, 0);
         secondCounter.sendCurrentState();
 
-        createBlocks(world);
+        createBlocksServer(world);
 
         Texture texture1 = new Texture("resources/textures/cat.png");
         MeshData meshData1 = Primitives.createSquare(1);
@@ -71,7 +58,7 @@ public class FirstLevel extends LevelBase {
         catPlayer1Entity.getTransform().setPosition(-5.f, 0.f, 0);
         catPlayer1Entity.addComponent(new BoxCollider());
         catPlayer1Entity.addComponent(new PlayerMove(5));
-        catPlayer1Entity.addComponent(new DotsCounter(1, true));
+        catPlayer1Entity.addComponent(new DotsCounter(11, Entities.FIRST_CAT.id, true));
         catPlayer1Entity.sendCurrentState();
     }
 
@@ -94,6 +81,7 @@ public class FirstLevel extends LevelBase {
         catPlayerEntity.getTransform().setPosition(5.f, 0.f, 0);
         catPlayerEntity.addComponent(new BoxCollider());
         catPlayerEntity.addComponent(new PlayerMove(5));
+        catPlayerEntity.addComponent(new DotsCounter(11, Entities.SECOND_CAT.id, false));
         catPlayerEntity.sendCurrentState();
     }
 
@@ -115,8 +103,8 @@ public class FirstLevel extends LevelBase {
             catPlayer1Entity.getTransform().setPosition(5.f, 0.f, 0);
             catPlayer1Entity.addComponent(new BoxCollider());
             catPlayer1Entity.addComponent(new SecondPlayerMove(5));
+            catPlayer1Entity.addComponent(new DotsCounterReceiver(11, true));
             catPlayer1Entity.applyEntity(entity);
-            // catPlayer1Entity.addComponent(new DotsCounter(false));
         } else if(id == Entities.SECOND_CAT.id) {
             Texture texture = new Texture("resources/textures/cat2.png");
             MeshData meshData = Primitives.createSquare(1);
@@ -126,8 +114,24 @@ public class FirstLevel extends LevelBase {
             catPlayer2Entity.getTransform().setPosition(5.f, 0.f, 0);
             catPlayer2Entity.addComponent(new BoxCollider());
             catPlayer2Entity.addComponent(new SecondPlayerMove(5));
+            catPlayer2Entity.addComponent(new DotsCounterReceiver(11, false));
             catPlayer2Entity.applyEntity(entity);
-            // catPlayer2Entity.addComponent(new DotsCounter(false));
+        } else if(id >= Entities.BLOCK_1.id && id <= Entities.BLOCK_6.id) {
+            createBlockClient(world, entity);
+        } else if(id == Entities.LASER.id) {
+            createLaserClient(world, entity);
+        } else if(id == Entities.FIRST_COUNT_LABEL.id) {
+            MeshData meshDataCounter1 = Primitives.createSquare(1.0f);
+            Mesh meshCounter1 = new Mesh(meshDataCounter1, false, DotsCounter.digitsTextures[0], baseShader);
+            Entity firstCounter = world.instantiateEntity(Entities.FIRST_COUNT_LABEL.id, true, "firstCounter");
+            firstCounter.addComponent(meshCounter1);
+            firstCounter.getTransform().setPosition(-6, 5, 0);
+        } else if(id == Entities.SECOND_COUNT_LABEL.id) {
+            MeshData meshDataCounter2 = Primitives.createSquare(1.0f);
+            Mesh meshCounter2 = new Mesh(meshDataCounter2, false, DotsCounter.digitsTextures[0], baseShader);
+            Entity secondCounter = world.instantiateEntity(Entities.SECOND_COUNT_LABEL.id, true, "secondCounter");
+            secondCounter.addComponent(meshCounter2);
+            secondCounter.getTransform().setPosition(6, 5, 0);
         }
     }
 
@@ -146,20 +150,64 @@ public class FirstLevel extends LevelBase {
         cameraEntity.getTransform().setPosition(0.f, 0.f, 10.f);
     }
 
-    private void createBlocks(World world) {
+    private void createBlocksServer(World world) {
         Texture textureBlock = new Texture("resources/textures/block.png");
 
-        for (int i = 0; i < 6; i++) {
-            Entity block = world.instantiateEntity(105 + i, true, "block" + i);
+        for (int number = 0; number < 6; number++) {
+            Entity block = world.instantiateEntity(Entities.BLOCK_1.id + number, true, "block" + number);
             MeshData meshData = Primitives.createSquare(1.0f);
             Mesh mesh = new Mesh(meshData, false, textureBlock, baseShader);
 
             block.addComponent(mesh);
             block.addComponent(new BoxCollider());
+            block.addComponent(new BlockPosition(1));
 
             float x = (float) (Math.random() * 9) - 4.5F;
             float y = (float) (Math.random() * 9) - 4.5F;
             block.getTransform().setPosition(x, y, 0);
+            block.sendCurrentState();
         }
+    }
+
+    private void createBlockClient(World world, NetworkEntity entity) {
+        int number = (entity.getId() - Entities.BLOCK_1.id);
+        Texture textureBlock = new Texture("resources/textures/block.png");
+
+        Entity block = world.instantiateEntity(entity.getId(), true, "block" + number);
+        MeshData meshData = Primitives.createSquare(1.0f);
+        Mesh mesh = new Mesh(meshData, false, textureBlock, baseShader);
+
+        block.addComponent(mesh);
+        block.addComponent(new BoxCollider());
+        block.addComponent(new BlockPosition(1));
+        block.applyEntity(entity);
+    }
+
+    private void createLaserServer(World world) {
+        Entity dotEntity = world.instantiateEntity(Entities.LASER.id, true, "dot");
+        Texture textureDot = new Texture("resources/textures/dot.png");
+        MeshData dotMeshData = Primitives.createSquare(1.f);
+        Mesh dotMesh = new Mesh(dotMeshData, false, textureDot, baseShader);
+        dotEntity.addComponent(dotMesh);
+        BoxCollider dotTrigger = new BoxCollider();
+        dotTrigger.setIsTrigger(true);
+        dotEntity.addComponent(dotTrigger);
+        dotEntity.addComponent(new Laser(Entities.LASER.id, true));
+        dotEntity.getTransform().setPosition(0,0,0);
+        dotEntity.sendCurrentState();
+    }
+
+    private void createLaserClient(World world, NetworkEntity entity) {
+        Entity dotEntity = world.instantiateEntity(Entities.LASER.id, true, "dot");
+        Texture textureDot = new Texture("resources/textures/dot.png");
+        MeshData dotMeshData = Primitives.createSquare(1.f);
+        Mesh dotMesh = new Mesh(dotMeshData, false, textureDot, baseShader);
+        dotEntity.addComponent(dotMesh);
+        BoxCollider dotTrigger = new BoxCollider();
+        dotTrigger.setIsTrigger(true);
+        dotEntity.addComponent(dotTrigger);
+        dotEntity.addComponent(new Laser(Entities.LASER.id, false));
+        dotEntity.getTransform().setPosition(0,0,0);
+        dotEntity.applyEntity(entity);
     }
 }

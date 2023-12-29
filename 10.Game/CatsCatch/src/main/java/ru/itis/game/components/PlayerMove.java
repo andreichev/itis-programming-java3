@@ -1,7 +1,7 @@
 package ru.itis.game.components;
 
 import org.joml.Vector4f;
-import ru.itis.game.network.PlayerPosition;
+import ru.itis.game.network.ObjectPosition;
 import ru.itis.gengine.base.Direction;
 import ru.itis.gengine.events.Events;
 import ru.itis.gengine.events.Key;
@@ -59,6 +59,6 @@ public class PlayerMove extends Component {
     @Override
     public NetworkComponentState getState() {
         Vector4f coordinates = transform.getPosition();
-        return new PlayerPosition(coordinates.x, coordinates.y);
+        return new ObjectPosition(coordinates.x, coordinates.y);
     }
 }

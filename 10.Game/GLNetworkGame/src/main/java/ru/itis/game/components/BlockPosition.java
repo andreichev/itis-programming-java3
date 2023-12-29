@@ -1,20 +1,27 @@
 package ru.itis.game.components;
 
+import org.joml.Vector4f;
 import ru.itis.game.network.ObjectPosition;
 import ru.itis.gengine.gamelogic.Component;
 import ru.itis.gengine.gamelogic.components.Transform;
 import ru.itis.gengine.network.model.NetworkComponentState;
 
-public class SecondPlayerMove extends Component {
-    private Transform transform;
+public class BlockPosition extends Component {
+    Transform transform;
 
-    public SecondPlayerMove(int id) {
+    public BlockPosition(int id) {
         super(id, true);
     }
 
     @Override
     public void initialize() {
         transform = getEntity().getTransform();
+    }
+
+    @Override
+    public NetworkComponentState getState() {
+        Vector4f coordinates = transform.getPosition();
+        return new ObjectPosition(coordinates.x, coordinates.y);
     }
 
     @Override
