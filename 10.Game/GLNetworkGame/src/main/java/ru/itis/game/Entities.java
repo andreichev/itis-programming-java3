@@ -1,7 +1,7 @@
 package ru.itis.game;
 
 public enum Entities {
-    FIRST_CAT(0)
+    PLAYER(0),
     ;
 
     public final int id;

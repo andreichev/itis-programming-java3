@@ -3,13 +3,13 @@ package ru.itis.gengine.gamelogic.primitives;
 import ru.itis.gengine.renderer.Vertex;
 
 public class Primitives {
-    public static MeshData createSquare(float SIZE){
+    public static MeshData createSquare(float WIDTH, float HEIGHT){
         Vertex[] vertices = {
                 // Front
-                new Vertex(-SIZE / 2.0f, -SIZE / 2.0f, 0.f, 0.0f, 1.0f, 1.f), // 0
-                new Vertex(SIZE / 2.0f, -SIZE / 2.0f, 0.f, 1.0f, 1.0f, 1.f),  // 1
-                new Vertex(SIZE / 2.0f, SIZE / 2.0f, 0.f, 1.0f, 0.0f, 1.f),   // 2
-                new Vertex(-SIZE / 2.0f, SIZE / 2.0f, 0.f, 0.0f, 0.0f, 1.f),  // 3
+                new Vertex(-WIDTH / 2.0f, -HEIGHT / 2.0f, 0.f, 0.0f, 1.0f, 1.f), // 0
+                new Vertex(WIDTH / 2.0f, -HEIGHT / 2.0f, 0.f, 1.0f, 1.0f, 1.f),  // 1
+                new Vertex(WIDTH / 2.0f, HEIGHT / 2.0f, 0.f, 1.0f, 0.0f, 1.f),   // 2
+                new Vertex(-WIDTH / 2.0f, HEIGHT / 2.0f, 0.f, 0.0f, 0.0f, 1.f),  // 3
         };
 
         int[] indices = {

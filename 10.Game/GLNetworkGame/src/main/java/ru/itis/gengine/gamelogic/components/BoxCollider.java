@@ -8,9 +8,9 @@ public class BoxCollider extends Component {
     private final GSize size;
     private boolean isTrigger;
 
-    public BoxCollider() {
+    public BoxCollider(float width, float height) {
         super(-2, false);
-        size = new GSize(1.0f, 1.0f);
+        size = new GSize(width, height);
         isTrigger = false;
     }
 

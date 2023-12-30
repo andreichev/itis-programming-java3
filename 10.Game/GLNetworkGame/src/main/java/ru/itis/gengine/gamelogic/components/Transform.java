@@ -40,6 +40,14 @@ public class Transform extends Component {
         transformUpdated();
     }
 
+    public void setRotation(float x, float y, float z) {
+        rotation.x = x;
+        rotation.y = y;
+        rotation.z = z;
+        updateVectors();
+        transformUpdated();
+    }
+
     // Сдвиг объекта относительно себя в заданном направлении
     public void translate(Direction direction, float units) {
         if(units == 0) { return; }
@@ -76,6 +84,14 @@ public class Transform extends Component {
         position.y = y;
         position.z = z;
         position.w = 1.f;
+        transformUpdated();
+    }
+
+    public void setPosition(Vector4f position) {
+        this.position.x = position.x;
+        this.position.y = position.y;
+        this.position.z = position.z;
+        this.position.w = position.w;
         transformUpdated();
     }
 
